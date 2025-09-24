@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MyTutor — Online tutoring that releases potential{% endblock %}
+
+{% block body %}
+<header class="site-header">
+    <div class="container header-inner">
+        <a class="brand" href="/">
+            <img src="{{ asset('img/tmMainlogo.png') }}" alt="Teach Me logo" />
+        </a>
+        <nav class="main-nav">
+            <a href="#find">Find a tutor</a>
+            <a href="#how">How it works</a>
+            <a href="#prices">Prices</a>
+            <a href="#resources">Resources</a>
+            <a href="#schools">For schools</a>
+            <a href="#tutor">Become a tutor</a>
+        </nav>
+        <div class="auth-actions">
+            <a class="btn btn-ghost" href="#login">Log in</a>
+            <a class="btn btn-primary" href="#signup">Sign up</a>
+        </div>
+    </div>
+    <div class="contact">+44 (0) 203 773 6024</div>
+    <hr class="divider" />
+</header>
+
+<main>
+    <section class="hero">
+        <div class="container hero-grid">
+            <div class="hero-copy">
+                <h1>Online tutoring that
+                    <br />
+                    releases potential</h1>
+                <p>We can't stop you worrying about your child. But our expert tutors can help their grades and confidence soar — and help you worry a little less.</p>
+                <form class="search" action="#search">
+                    <input aria-label="Search a lesson" placeholder="Search a lesson" />
+                    <button class="btn btn-primary" type="submit">Get Started</button>
+                </form>
+                <div class="stats">
+                    <div class="stat"><strong>426,535+</strong><span>5-star reviews</span></div>
+                    <div class="stat"><strong>1500</strong><span>schools trust us</span></div>
+                    <div class="stat"><strong>30+</strong><span>lesson available</span></div>
+                    <div class="stat"><strong>255,203+</strong><span>students</span></div>
+                </div>
+            </div>
+            <div class="hero-art">
+                <div class="art-shape circle"></div>
+                <div class="art-shape grid"></div>
+                <div class="photo-card">
+                    <div class="photo" role="img" aria-label="Student learning online"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="container">© {{ "now"|date("Y") }} MyTutor (demo)</div>
+    <div class="corner-chat" title="Chat"></div>
+    <div class="dock"></div>
+</footer>
+{% endblock %}
+
+
