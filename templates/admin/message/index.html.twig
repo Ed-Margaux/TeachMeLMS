@@ -1,0 +1,157 @@
+{% extends 'admin/_layout.html.twig' %}
+
+{% block title %}Messages{% endblock %}
+{% block admin_title %}Messages{% endblock %}
+
+{% block admin_content %}
+<style>
+    .message-tabs {
+        border-bottom: 2px solid #e0e0e0;
+        margin-bottom: 1.5rem;
+    }
+    .message-tab {
+        padding: 12px 24px;
+        border: none;
+        background: none;
+        color: #666;
+        font-weight: 500;
+        cursor: pointer;
+        border-bottom: 3px solid transparent;
+        transition: all 0.2s;
+        position: relative;
+        bottom: -2px;
+    }
+    .message-tab:hover {
+        color: #ED64A6;
+    }
+    .message-tab.active {
+        color: #ED64A6;
+        border-bottom-color: #ED64A6;
+    }
+    .message-item {
+        background: var(--bg-card);
+        border-radius: 8px;
+        padding: 1rem 1.25rem;
+        margin-bottom: 0.75rem;
+        border-left: 3px solid var(--border-color);
+        transition: all 0.2s;
+        cursor: pointer;
+    }
+    .message-item:hover {
+        border-left-color: var(--pink-primary);
+        box-shadow: var(--shadow-sm);
+        transform: translateX(4px);
+    }
+    .message-item.unread {
+        background: var(--pink-light);
+        border-left-color: var(--pink-primary);
+        font-weight: 600;
+    }
+    [data-theme="dark"] .message-item.unread {
+        background: var(--bg-tertiary);
+    }
+    .message-item.unread .message-subject {
+        color: var(--text-primary);
+    }
+    .message-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+    .message-subject {
+        font-size: 15px;
+        color: var(--text-primary);
+        margin-bottom: 0.25rem;
+    }
+    .message-preview {
+        font-size: 13px;
+        color: var(--text-secondary);
+        margin-bottom: 0.5rem;
+    }
+    .message-info {
+        font-size: 12px;
+        color: var(--text-muted);
+    }
+    .badge-unread {
+        background: #ED64A6;
+        color: white;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 600;
+    }
+</style>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="h4 mb-0"> </h2>
+    <a href="{{ path('app_message_compose') }}" class="btn btn-brand">
+        <i class="bi bi-plus-circle me-2"></i>Compose
+    </a>
+</div>
+
+<div class="message-tabs">
+    <a href="{{ path('app_message_index') }}" class="message-tab {% if activeTab == 'inbox' %}active{% endif %}">
+        <i class="bi bi-inbox me-2"></i>Inbox
+        {% if unreadCount > 0 %}
+            <span class="badge-unread ms-2">{{ unreadCount }}</span>
+        {% endif %}
+    </a>
+    <a href="{{ path('app_message_sent') }}" class="message-tab {% if activeTab == 'sent' %}active{% endif %}">
+        <i class="bi bi-send me-2"></i>Sent
+    </a>
+</div>
+
+{% if messages|length > 0 %}
+    <div class="card shadow-sm">
+        <div class="card-body p-0">
+            {% for message in messages %}
+                <a href="{{ path('app_message_show', {'id': message.id}) }}" class="text-decoration-none">
+                    <div class="message-item {% if activeTab == 'inbox' and not message.isRead %}unread{% endif %}">
+                        <div class="message-meta">
+                            <div>
+                                <div class="message-subject">
+                                    {% if activeTab == 'inbox' %}
+                                        From: <strong>{{ message.sender.fullName }}</strong>
+                                    {% else %}
+                                        To: <strong>{{ message.recipient.fullName }}</strong>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="text-end">
+                                <div class="message-info">
+                                    {{ message.createdAt ? message.createdAt|date('M d, Y') : '' }}
+                                </div>
+                                <div class="message-info">
+                                    {{ message.createdAt ? message.createdAt|date('H:i') : '' }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="message-subject">{{ message.subject }}</div>
+                        <div class="message-preview">
+                            {{ message.content|slice(0, 100) }}{% if message.content|length > 100 %}...{% endif %}
+                        </div>
+                        {% if activeTab == 'inbox' and not message.isRead %}
+                            <span class="badge-unread">New</span>
+                        {% endif %}
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    </div>
+{% else %}
+    <div class="card shadow-sm">
+        <div class="card-body text-center py-5">
+            <i class="bi bi-inbox text-muted" style="font-size: 3rem;"></i>
+            <p class="text-muted mt-3">
+                {% if activeTab == 'inbox' %}
+                    No messages in your inbox.
+                {% else %}
+                    No sent messages.
+                {% endif %}
+            </p>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}
+

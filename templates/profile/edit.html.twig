@@ -1,0 +1,72 @@
+{% extends 'admin/_layout.html.twig' %}
+
+{% block title %}Edit Profile{% endblock %}
+{% block admin_title %}Edit Profile{% endblock %}
+
+{% block admin_content %}
+<div class="card shadow-sm">
+    <div class="card-body p-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="h4 mb-0" style="color: var(--text-primary); font-weight: 600; border-bottom: 2px solid var(--pink-primary); padding-bottom: 12px;">Edit Profile</h2>
+            <a href="{{ path('app_profile') }}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-2"></i>Back to Profile
+            </a>
+        </div>
+        
+        {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': true}}) }}
+
+        <div class="row mb-3">
+            <div class="col-md-6">
+                {{ form_label(form.firstName, 'First Name', {'class': 'form-label'}) }}
+                {{ form_widget(form.firstName, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.firstName) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_label(form.lastName, 'Last Name', {'class': 'form-label'}) }}
+                {{ form_widget(form.lastName, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.lastName) }}
+            </div>
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.email, 'Email', {'class': 'form-label'}) }}
+            {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.email) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.imageFile, 'Profile Picture', {'class': 'form-label'}) }}
+            {{ form_widget(form.imageFile, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.imageFile) }}
+            {% if user.image %}
+                <div class="mt-2">
+                    <small class="text-muted">Current image: {{ user.image }}</small>
+                    <div class="mt-2">
+                        <img src="{{ asset('uploads/users/' ~ user.image) }}" alt="Profile image" class="img-thumbnail" style="max-width: 200px; border-radius: 8px;">
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.plainPassword.first, 'New Password (leave blank to keep current)', {'class': 'form-label'}) }}
+            {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.plainPassword.first) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(form.plainPassword.second, 'Repeat Password', {'class': 'form-label'}) }}
+            {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.plainPassword.second) }}
+        </div>
+
+        <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-brand">Update Profile</button>
+            <a href="{{ path('app_profile') }}" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,67 @@
+{% extends 'admin/_layout.html.twig' %}
+
+{% block title %}Course Details{% endblock %}
+{% block admin_title %}Course Details{% endblock %}
+
+{% block admin_content %}
+<div class="card shadow-sm p-4">
+    <div class="d-flex justify-content-between align-items-start mb-4">
+        <h2 class="h4 mb-0">{{ course.title }}</h2>
+        <div class="d-flex gap-2">
+            <a href="{{ path('app_course_edit', {'id': course.id}) }}" class="btn btn-brand">Edit</a>
+            <a href="{{ path('app_course_index') }}" class="btn btn-outline-secondary">Back to List</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            {% if course.image %}
+                <img src="{{ asset('uploads/courses/' ~ course.image) }}" alt="{{ course.title }}" class="img-fluid rounded shadow-sm">
+            {% else %}
+                <div class="d-flex align-items-center justify-content-center rounded" style="height: 300px; background: var(--bg-secondary);">
+                    <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-md-8">
+            <div class="mb-3">
+                <strong>Title:</strong>
+                <p class="mb-0">{{ course.title }}</p>
+            </div>
+            <div class="mb-3">
+                <strong>Slug:</strong>
+                <p class="mb-0"><code>{{ course.slug }}</code></p>
+            </div>
+            <div class="mb-3">
+                <strong>Level:</strong>
+                <p class="mb-0">
+                    {% if course.level %}
+                        <span class="badge bg-info">{{ course.level }}</span>
+                    {% else %}
+                        <span class="text-muted">Not specified</span>
+                    {% endif %}
+                </p>
+            </div>
+            <div class="mb-3">
+                <strong>Description:</strong>
+                <p class="mb-0">{{ course.description ?: 'No description provided' }}</p>
+            </div>
+            <div class="mb-3">
+                <strong>Created By:</strong>
+                <p class="mb-0">{{ course.createdBy ? course.createdBy.fullName : 'N/A' }}</p>
+            </div>
+            <div class="mb-3">
+                <strong>Created At:</strong>
+                <p class="mb-0">{{ course.createdAt ? course.createdAt|date('Y-m-d H:i:s') : 'N/A' }}</p>
+            </div>
+            {% if course.updatedAt %}
+            <div class="mb-3">
+                <strong>Updated At:</strong>
+                <p class="mb-0">{{ course.updatedAt|date('Y-m-d H:i:s') }}</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+

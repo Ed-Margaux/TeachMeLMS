@@ -1,0 +1,556 @@
+{% extends 'admin/_layout.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+{% block admin_title %}Dashboard{% endblock %}
+
+{% block admin_content %}
+<style>
+    .stat-card {
+        background: rgb(238, 207, 219);
+        border-radius: 10px;
+        padding: 14px 18px;
+        box-shadow: 0 1px 4px rgba(237, 100, 166, 0.1);
+        transition: all 0.3s ease;
+        border-left: 3px solid;
+        height: auto;
+        max-width: 280px;
+        margin: 0 auto;
+    }
+    
+    [data-theme="dark"] .stat-card {
+        background: var(--bg-tertiary);
+        box-shadow: var(--shadow-sm);
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 2px 8px rgba(237, 100, 166, 0.2);
+        background: #ffeef5;
+    }
+    
+    [data-theme="dark"] .stat-card:hover {
+        background: var(--bg-hover);
+        box-shadow: var(--shadow-md);
+    }
+    .stat-card.users {
+        border-left-color: #ED64A6;
+    }
+    .stat-card.staff {
+        border-left-color: #C53678;
+    }
+    .stat-card.records {
+        border-left-color: #6c5ce7;
+    }
+    .stat-card.active {
+        border-left-color: #00b894;
+    }
+    .stat-card.courses {
+        border-left-color: #0984e3;
+    }
+    .stat-card.students {
+        border-left-color: #fdcb6e;
+    }
+    .stat-card.tutors {
+        border-left-color: #e17055;
+    }
+    .stat-card.activities {
+        border-left-color: #a29bfe;
+    }
+    .stat-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+    .stat-card.users .stat-icon {
+        background: rgba(237, 100, 166, 0.1);
+        color: #ED64A6;
+    }
+    .stat-card.staff .stat-icon {
+        background: rgba(197, 54, 120, 0.1);
+        color: #C53678;
+    }
+    .stat-card.records .stat-icon {
+        background: rgba(108, 92, 231, 0.1);
+        color: #6c5ce7;
+    }
+    .stat-card.active .stat-icon {
+        background: rgba(0, 184, 148, 0.1);
+        color: #00b894;
+    }
+    .stat-card.courses .stat-icon {
+        background: rgba(9, 132, 227, 0.1);
+        color: #0984e3;
+    }
+    .stat-card.students .stat-icon {
+        background: rgba(253, 203, 110, 0.1);
+        color: #fdcb6e;
+    }
+    .stat-card.tutors .stat-icon {
+        background: rgba(225, 112, 85, 0.1);
+        color: #e17055;
+    }
+    .stat-card.activities .stat-icon {
+        background: rgba(162, 155, 254, 0.1);
+        color: #a29bfe;
+    }
+    .stat-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+    }
+    .stat-value {
+        font-size: 26px;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin: 0;
+        line-height: 1;
+        white-space: nowrap;
+    }
+    .stat-label {
+        font-size: 12px;
+        color: var(--text-secondary);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 0;
+        flex: 1;
+    }
+    .quick-actions {
+        background: var(--bg-card);
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: var(--shadow-sm);
+        transition: background-color 0.3s ease;
+    }
+    .quick-action-btn {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px 20px;
+        border-radius: 10px;
+        text-decoration: none;
+        color: var(--text-primary);
+        background: var(--bg-secondary);
+        transition: all 0.2s ease;
+        border: 1px solid var(--border-color);
+    }
+    .quick-action-btn:hover {
+        background: linear-gradient(135deg, #C53678, #ED64A6);
+        color: white;
+        transform: translateX(4px);
+        border-color: transparent;
+    }
+    .quick-action-btn i {
+        font-size: 20px;
+        width: 24px;
+    }
+    .activity-item {
+        padding: 16px;
+        border-bottom: 1px solid var(--border-light);
+        transition: background 0.2s;
+        background: var(--bg-card);
+    }
+    .activity-item:last-child {
+        border-bottom: none;
+    }
+    .activity-item:hover {
+        background: var(--bg-hover);
+    }
+    .activity-time {
+        font-size: 12px;
+        color: var(--text-muted);
+    }
+    .activity-badge {
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+    .badge-login { background: #d4edda; color: #155724; }
+    .badge-logout { background: #f8d7da; color: #721c24; }
+    .badge-create { background: #d1ecf1; color: #0c5460; }
+    .badge-update { background: #fff3cd; color: #856404; }
+    .badge-delete { background: #f8d7da; color: #721c24; }
+    .chart-container {
+        background: var(--bg-card);
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: var(--shadow-sm);
+        margin-bottom: 1.5rem;
+        transition: background-color 0.3s ease;
+    }
+    .chart-container h5 {
+        color: var(--text-primary);
+        font-weight: 600;
+        margin-bottom: 20px;
+        font-size: 18px;
+    }
+    #chart {
+        min-height: 350px;
+    }
+</style>
+
+<!-- ApexCharts Library -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+<div class="row g-3 mb-3 justify-content-center">
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="stat-card users">
+            <div class="stat-icon">
+                <i class="bi bi-people-fill"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-label">Total Users</div>
+                <div class="stat-value">{{ totalUsers }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="stat-card staff">
+            <div class="stat-icon">
+                <i class="bi bi-person-badge-fill"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-label">Total Staff</div>
+                <div class="stat-value">{{ totalStaff }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="stat-card active">
+            <div class="stat-icon">
+                <i class="bi bi-check-circle-fill"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-label">Active Users</div>
+                <div class="stat-value">{{ activeUsers }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="stat-card records">
+            <div class="stat-icon">
+                <i class="bi bi-database-fill"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-label">Total Records</div>
+                <div class="stat-value">{{ totalRecords }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mb-3 justify-content-center">
+    <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="stat-card courses">
+            <div class="stat-icon">
+                <i class="bi bi-book-fill"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-label">Courses</div>
+                <div class="stat-value">{{ totalCourses }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="stat-card students">
+            <div class="stat-icon">
+                <i class="bi bi-people"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-label">Students</div>
+                <div class="stat-value">{{ totalStudents }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="stat-card tutors">
+            <div class="stat-icon">
+                <i class="bi bi-person-badge"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-label">Tutors</div>
+                <div class="stat-value">{{ totalTutors }}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6">
+        <div class="stat-card activities">
+            <div class="stat-icon">
+                <i class="bi bi-activity"></i>
+            </div>
+            <div class="stat-content">
+                <div class="stat-label">Today's Activities</div>
+                <div class="stat-value">{{ todayActivities }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Activity Timeline Chart -->
+<div class="row g-4 mb-4">
+    <div class="col-12">
+        <div class="chart-container">
+            <h5 class="mb-3">
+                <i class="bi bi-graph-up me-2" style="color: #ED64A6;"></i>
+                Students & Tutors Added
+            </h5>
+            <div id="chart"></div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-lg-4">
+        <div class="quick-actions">
+            <h5 class="mb-3 fw-semibold" style="color: var(--text-primary);">Quick Actions</h5>
+            <div class="d-flex flex-column gap-2">
+                <a href="{{ path('app_course_new') }}" class="quick-action-btn">
+                    <i class="bi bi-plus-circle"></i>
+                    <span>Add New Course</span>
+                </a>
+                <a href="{{ path('app_student_new') }}" class="quick-action-btn">
+                    <i class="bi bi-person-plus"></i>
+                    <span>Add New Student</span>
+                </a>
+                <a href="{{ path('app_tutor_new') }}" class="quick-action-btn">
+                    <i class="bi bi-person-badge"></i>
+                    <span>Add New Tutor</span>
+                </a>
+                {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('app_admin_user_new') }}" class="quick-action-btn">
+                    <i class="bi bi-person-plus-fill"></i>
+                    <span>Add New User</span>
+                </a>
+                <a href="{{ path('app_admin_logs') }}" class="quick-action-btn">
+                    <i class="bi bi-clipboard-data"></i>
+                    <span>View Activity Logs</span>
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-header border-bottom" style="background: var(--bg-card); border-color: var(--border-light);">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0 fw-semibold" style="color: var(--text-primary);">Recent Activity</h5>
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <a href="{{ path('app_admin_logs') }}" class="btn btn-sm btn-outline-primary">View All</a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="card-body p-0">
+                {% if recentActivities|length > 0 %}
+                    {% for activity in recentActivities %}
+                        <div class="activity-item">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="flex-grow-1">
+                                    <div class="d-flex align-items-center gap-2 mb-2">
+                                        <span class="activity-badge badge-{{ activity.action|lower }}">
+                                            {{ activity.action }}
+                                        </span>
+                                        <span class="text-muted small">
+                                            {% if activity.user %}
+                                                {{ activity.user.fullName }}
+                                            {% else %}
+                                                System
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                    <div class="fw-semibold text-capitalize mb-1">{{ activity.targetType }}</div>
+                                    <div class="text-muted small">{{ activity.targetLabel ?? 'n/a' }}</div>
+                                </div>
+                                <div class="text-end">
+                                    <div class="activity-time">
+                                        {{ activity.createdAt ? activity.createdAt|date('M d, Y') : '' }}
+                                    </div>
+                                    <div class="activity-time">
+                                        {{ activity.createdAt ? activity.createdAt|date('H:i') : '' }} <small class="text-muted">({{ activity.createdAt|date('T') }})</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="p-4 text-center text-muted">
+                        <i class="bi bi-inbox" style="font-size: 48px; opacity: 0.3;"></i>
+                        <p class="mt-3 mb-0">No recent activity</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get current theme
+    const isDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
+    const textPrimary = getComputedStyle(document.documentElement).getPropertyValue('--text-primary').trim() || (isDarkMode ? '#e8e8e8' : '#2c2c2c');
+    const textSecondary = getComputedStyle(document.documentElement).getPropertyValue('--text-secondary').trim() || (isDarkMode ? '#b8b8b8' : '#666');
+    const borderLight = getComputedStyle(document.documentElement).getPropertyValue('--border-light').trim() || (isDarkMode ? '#333' : '#f0f0f0');
+    
+    // Get timeline data from server
+    const timelineData = {{ timelineData|json_encode|raw }};
+    const categories = timelineData.categories || [];
+    const studentsData = timelineData.studentsData || [];
+    const tutorsData = timelineData.tutorsData || [];
+    
+    var options = {
+        series: [{
+            name: 'Students Added',
+            data: studentsData.length > 0 ? studentsData : [0, 0, 0, 0, 0, 0, 0]
+        }, {
+            name: 'Tutors Added',
+            data: tutorsData.length > 0 ? tutorsData : [0, 0, 0, 0, 0, 0, 0]
+        }],
+        chart: {
+            height: 350,
+            type: 'area',
+            toolbar: {
+                show: true,
+                tools: {
+                    zoom: true,
+                    zoomin: true,
+                    zoomout: true,
+                    pan: true,
+                    reset: true,
+                    download: false
+                }
+            },
+            fontFamily: 'inherit'
+        },
+        colors: ['#fdcb6e', '#e17055'],
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            curve: 'smooth',
+            width: 2
+        },
+        fill: {
+            type: 'gradient',
+            gradient: {
+                shadeIntensity: 1,
+                opacityFrom: 0.7,
+                opacityTo: 0.3,
+                stops: [0, 90, 100]
+            }
+        },
+        xaxis: {
+            type: 'datetime',
+            categories: categories.length > 0 ? categories : ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"],
+            labels: {
+                style: {
+                    colors: textSecondary,
+                    fontSize: '12px'
+                },
+                datetimeUTC: false,
+                format: 'HH:mm'
+            }
+        },
+        yaxis: {
+            labels: {
+                style: {
+                    colors: textSecondary,
+                    fontSize: '12px'
+                }
+            }
+        },
+        tooltip: {
+            x: {
+                format: 'dd/MM/yy HH:mm'
+            },
+            style: {
+                fontSize: '12px'
+            }
+        },
+        legend: {
+            position: 'bottom',
+            horizontalAlign: 'center',
+            fontSize: '14px',
+            fontFamily: 'inherit',
+            labels: {
+                colors: textPrimary
+            }
+        },
+        grid: {
+            borderColor: borderLight,
+            strokeDashArray: 4,
+            xaxis: {
+                lines: {
+                    show: true
+                }
+            },
+            yaxis: {
+                lines: {
+                    show: true
+                }
+            },
+            padding: {
+                top: 0,
+                right: 0,
+                bottom: 0,
+                left: 0
+            }
+        }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
+    
+    // Update chart theme when dark mode is toggled
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'data-theme') {
+                const newIsDarkMode = document.documentElement.getAttribute('data-theme') === 'dark';
+                const newTextPrimary = getComputedStyle(document.documentElement).getPropertyValue('--text-primary').trim() || (newIsDarkMode ? '#e8e8e8' : '#2c2c2c');
+                const newTextSecondary = getComputedStyle(document.documentElement).getPropertyValue('--text-secondary').trim() || (newIsDarkMode ? '#b8b8b8' : '#666');
+                const newBorderLight = getComputedStyle(document.documentElement).getPropertyValue('--border-light').trim() || (newIsDarkMode ? '#333' : '#f0f0f0');
+                
+                chart.updateOptions({
+                    theme: {
+                        mode: newIsDarkMode ? 'dark' : 'light'
+                    },
+                    xaxis: {
+                        labels: {
+                            style: {
+                                colors: newTextSecondary
+                            }
+                        }
+                    },
+                    yaxis: {
+                        labels: {
+                            style: {
+                                colors: newTextSecondary
+                            }
+                        }
+                    },
+                    legend: {
+                        labels: {
+                            colors: newTextPrimary
+                        }
+                    },
+                    grid: {
+                        borderColor: newBorderLight
+                    }
+                });
+            }
+        });
+    });
+    
+    observer.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['data-theme']
+    });
+});
+</script>
+{% endblock %}

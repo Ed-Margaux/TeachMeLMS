@@ -1,0 +1,77 @@
+/* CSS Variables for Light Mode (Default) */
+:root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --bg-tertiary: #ffffff;
+    --bg-hover: #f8f9fa;
+    --bg-card: #ffffff;
+    --bg-sidebar: #ffffff;
+    --bg-topbar: #ffffff;
+    --bg-form: #ffffff;
+    --bg-input: #ffffff;
+    --bg-table-header: linear-gradient(135deg, #f8f9fa, #ffffff);
+    
+    --text-primary: #2c2c2c;
+    --text-secondary: #666;
+    --text-muted: #999;
+    --text-light: #6c757d;
+    
+    --border-color: #e0e0e0;
+    --border-light: #f0f0f0;
+    --border-hover: #d0d0d0;
+    
+    --pink-primary: #ED64A6;
+    --pink-secondary: #C53678;
+    --pink-dark: #B02D6B;
+    --pink-light: #fff5f9;
+    --pink-hover: rgba(237, 100, 166, 0.15);
+    --pink-shadow: rgba(237, 100, 166, 0.3);
+    
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+    --shadow-lg: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* CSS Variables for Dark Mode */
+[data-theme="dark"] {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #242424;
+    --bg-tertiary: #2a2a2a;
+    --bg-hover: #2f2f2f;
+    --bg-card: #242424;
+    --bg-sidebar: #1e1e1e;
+    --bg-topbar: #242424;
+    --bg-form: #2a2a2a;
+    --bg-input: #2a2a2a;
+    --bg-table-header: linear-gradient(135deg, #2a2a2a, #242424);
+    
+    --text-primary: #e8e8e8;
+    --text-secondary: #b8b8b8;
+    --text-muted: #888;
+    --text-light: #999;
+    
+    --border-color: #3a3a3a;
+    --border-light: #333;
+    --border-hover: #4a4a4a;
+    
+    --pink-primary: #ED64A6;
+    --pink-secondary: #C53678;
+    --pink-dark: #B02D6B;
+    --pink-light: #2a1f24;
+    --pink-hover: rgba(237, 100, 166, 0.2);
+    --pink-shadow: rgba(237, 100, 166, 0.4);
+    
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Apply theme colors */
+body {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+
+

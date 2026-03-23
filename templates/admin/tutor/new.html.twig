@@ -1,0 +1,12 @@
+{% extends 'admin/_layout.html.twig' %}
+
+{% block title %}New Tutor{% endblock %}
+{% block admin_title %}New Tutor{% endblock %}
+
+{% block admin_content %}
+<div class="form-container">
+    <h2 class="h4 mb-4" style="color: #2c2c2c; font-weight: 600; border-bottom: 2px solid #ED64A6; padding-bottom: 12px; margin-bottom: 2rem;">Create New Tutor</h2>
+    {{ include('admin/tutor/_form.html.twig', {'tutor': tutor}) }}
+</div>
+{% endblock %}
+
