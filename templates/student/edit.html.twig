@@ -1,0 +1,12 @@
+{% extends 'admin/_layout.html.twig' %}
+
+{% block title %}Edit Student{% endblock %}
+{% block admin_title %}Edit Student{% endblock %}
+
+{% block admin_content %}
+<div class="form-container">
+    <h2 class="h4 mb-4" style="color: #2c2c2c; font-weight: 600; border-bottom: 2px solid #ED64A6; padding-bottom: 12px; margin-bottom: 2rem;">Edit Student</h2>
+    {{ include('student/_form.html.twig', {'student': student}) }}
+</div>
+{% endblock %}
+

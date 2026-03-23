@@ -1,0 +1,52 @@
+{{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': true}}) }}
+
+<div class="row mb-3">
+    <div class="col-md-6">
+        {{ form_label(form.firstName, 'First Name', {'class': 'form-label'}) }}
+        {{ form_widget(form.firstName, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.firstName) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_label(form.lastName, 'Last Name', {'class': 'form-label'}) }}
+        {{ form_widget(form.lastName, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.lastName) }}
+    </div>
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.email, 'Email', {'class': 'form-label'}) }}
+    {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.email) }}
+</div>
+
+<div class="row mb-3">
+    <div class="col-md-6">
+        {{ form_label(form.status, 'Status', {'class': 'form-label'}) }}
+        {{ form_widget(form.status, {'attr': {'class': 'form-select'}}) }}
+        {{ form_errors(form.status) }}
+    </div>
+    <div class="col-md-6">
+        {{ form_label(form.roles, 'Role', {'class': 'form-label'}) }}
+        {{ form_widget(form.roles, {'attr': {'class': 'form-select'}}) }}
+        {{ form_errors(form.roles) }}
+    </div>
+</div>
+
+    <div class="mb-3">
+        {{ form_label(form.plainPassword.first, 'Password', {'class': 'form-label'}) }}
+        {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.plainPassword.first) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.plainPassword.second, 'Repeat Password', {'class': 'form-label'}) }}
+        {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.plainPassword.second) }}
+    </div>
+
+    <div class="d-flex gap-2 mt-4">
+        <button type="submit" class="btn btn-brand">Save</button>
+        <a href="{{ path('app_admin_user_index') }}" class="btn btn-outline-secondary">Cancel</a>
+    </div>
+
+    {{ form_end(form) }}

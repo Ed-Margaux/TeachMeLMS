@@ -1,0 +1,246 @@
+/* Form Container */
+.form-container {
+    background: var(--bg-form);
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    padding: 2.5rem;
+    border-top: 3px solid var(--pink-primary);
+    max-width: 800px;
+    margin: 0 auto;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Form Labels */
+.form-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    display: block;
+    letter-spacing: 0.3px;
+}
+
+/* Form Controls */
+.form-control,
+.form-select {
+    border-radius: 8px;
+    border: 1.5px solid var(--border-color);
+    padding: 12px 16px;
+    font-size: 15px;
+    width: 100%;
+    transition: all 0.3s ease;
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+}
+
+.form-control:hover,
+.form-select:hover {
+    border-color: var(--border-hover);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--pink-primary);
+    box-shadow: 0 0 0 0.2rem var(--pink-hover);
+    outline: none;
+    background-color: var(--bg-input);
+}
+
+.form-control::placeholder {
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+/* Password Inputs */
+input[type="password"].form-control,
+input[type="password"] {
+    border-radius: 8px;
+    border: 1.5px solid var(--border-color);
+    padding: 12px 16px;
+    font-size: 15px;
+    width: 100%;
+    transition: all 0.3s ease;
+    background-color: var(--bg-input);
+    color: var(--text-primary);
+}
+
+input[type="password"].form-control:hover,
+input[type="password"]:hover {
+    border-color: var(--border-hover);
+}
+
+input[type="password"].form-control:focus,
+input[type="password"]:focus {
+    border-color: var(--pink-primary);
+    box-shadow: 0 0 0 0.2rem var(--pink-hover);
+    outline: none;
+    background-color: var(--bg-input);
+}
+
+/* File Input */
+.form-control[type="file"] {
+    padding: 10px;
+    border: 2px dashed var(--border-color);
+    border-radius: 8px;
+    background-color: var(--bg-secondary);
+    transition: all 0.3s ease;
+}
+
+.form-control[type="file"]:hover {
+    border-color: var(--pink-primary);
+    background-color: var(--pink-light);
+}
+
+/* Textarea */
+textarea.form-control {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Form Text */
+.form-text {
+    font-size: 13px;
+    color: var(--text-light);
+    margin-top: 6px;
+    display: block;
+}
+
+/* Form Error Messages - Ensure they are always red */
+.form-errors,
+.invalid-feedback,
+.form-error,
+.form-control.is-invalid ~ .invalid-feedback,
+.form-select.is-invalid ~ .invalid-feedback,
+.form-control:invalid ~ .invalid-feedback {
+    display: block;
+    color: #dc3545 !important;
+    font-size: 13px;
+    margin-top: 6px;
+    font-weight: 500;
+}
+
+/* Ensure Symfony form errors are red - all variations */
+ul.form-errors,
+ul.form-errors li,
+.form-errors li,
+.form-errors li *,
+.invalid-feedback,
+.form-error-message,
+.form-error,
+div.form-errors,
+span.form-errors {
+    color: #dc3545 !important;
+}
+
+/* Specific styling for phone and email field errors */
+input[type="email"].form-control.is-invalid ~ .invalid-feedback,
+input[type="email"].form-control ~ .form-errors,
+input[type="tel"].form-control.is-invalid ~ .invalid-feedback,
+input[type="tel"].form-control ~ .form-errors,
+input[type="text"].form-control.is-invalid ~ .invalid-feedback,
+input[type="text"].form-control ~ .form-errors,
+.form-control.is-invalid ~ .form-errors,
+.form-control.is-invalid ~ ul.form-errors {
+    color: #dc3545 !important;
+}
+
+/* Invalid input border styling */
+.form-control.is-invalid,
+.form-select.is-invalid,
+input.form-control:invalid,
+select.form-select:invalid {
+    border-color: #dc3545 !important;
+}
+
+.form-control.is-invalid:focus,
+.form-select.is-invalid:focus,
+input.form-control:invalid:focus,
+select.form-select:invalid:focus {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}
+
+/* Override any text color that might be applied */
+.form-errors *,
+.invalid-feedback * {
+    color: #dc3545 !important;
+}
+
+/* Form Sections Spacing */
+.mb-3 {
+    margin-bottom: 1.5rem;
+}
+
+.mb-4 {
+    margin-bottom: 2rem;
+}
+
+/* Form Row Spacing */
+.row.mb-3 {
+    margin-bottom: 1.5rem;
+}
+
+.row.mb-3 > div {
+    margin-bottom: 0;
+}
+
+/* Form Title Styling */
+.form-container h2,
+.form-container h3,
+.form-container h4 {
+    color: var(--text-primary);
+    font-weight: 600;
+    margin-bottom: 2rem;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--pink-primary);
+}
+
+/* Image Preview Styling */
+.form-container .img-thumbnail {
+    border-radius: 8px;
+    border: 2px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.form-container .img-thumbnail:hover {
+    border-color: var(--pink-primary);
+    box-shadow: 0 2px 8px var(--pink-shadow);
+}
+
+/* Help Text Styling */
+.form-container small.text-muted {
+    font-size: 13px;
+    color: var(--text-light);
+    display: block;
+    margin-top: 6px;
+}
+
+/* Form Group Spacing */
+.form-container .d-flex.gap-2 {
+    gap: 12px;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-light);
+}
+
+/* Search Form Styling */
+.card-body form {
+    margin: 0;
+}
+
+.card-body .form-control {
+    border-radius: 8px;
+    border: 1.5px solid var(--border-color);
+    padding: 10px 16px;
+    transition: all 0.3s ease;
+    background: var(--bg-input);
+    color: var(--text-primary);
+}
+
+.card-body .form-control:focus {
+    border-color: var(--pink-primary);
+    box-shadow: 0 0 0 0.2rem var(--pink-hover);
+}
+
+
+

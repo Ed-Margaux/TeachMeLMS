@@ -1,0 +1,63 @@
+{% extends 'admin/_layout.html.twig' %}
+
+{% block title %}Tutor Details{% endblock %}
+{% block admin_title %}Tutor Details{% endblock %}
+
+{% block admin_content %}
+<div class="card shadow-sm p-4">
+    <div class="d-flex justify-content-between align-items-start mb-4">
+        <h2 class="h4 mb-0">{{ tutor.fullName }}</h2>
+        <div class="d-flex gap-2">
+            <a href="{{ path('app_tutor_edit', {'id': tutor.id}) }}" class="btn btn-brand">Edit</a>
+            <a href="{{ path('app_tutor_index') }}" class="btn btn-outline-secondary">Back to List</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            {% if tutor.image %}
+                <img src="{{ asset('uploads/tutors/' ~ tutor.image) }}" alt="{{ tutor.fullName }}" class="img-fluid rounded-circle shadow-sm" style="max-width: 300px;">
+            {% else %}
+                <div class="d-flex align-items-center justify-content-center rounded-circle shadow-sm" style="width: 300px; height: 300px; background: var(--bg-secondary);">
+                    <i class="bi bi-person text-muted" style="font-size: 5rem;"></i>
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-md-8">
+            <div class="mb-3">
+                <strong>Full Name:</strong>
+                <p class="mb-0">{{ tutor.fullName }}</p>
+            </div>
+            <div class="mb-3">
+                <strong>Email:</strong>
+                <p class="mb-0">{{ tutor.email }}</p>
+            </div>
+            <div class="mb-3">
+                <strong>Phone:</strong>
+                <p class="mb-0">{{ tutor.phone ?: 'Not provided' }}</p>
+            </div>
+            <div class="mb-3">
+                <strong>Specialty:</strong>
+                <p class="mb-0">
+                    {% if tutor.specialty %}
+                        <span class="badge bg-info">{{ tutor.specialty }}</span>
+                    {% else %}
+                        <span class="text-muted">Not specified</span>
+                    {% endif %}
+                </p>
+            </div>
+            <div class="mb-3">
+                <strong>Created At:</strong>
+                <p class="mb-0">{{ tutor.createdAt ? tutor.createdAt|date('Y-m-d H:i:s') : 'N/A' }}</p>
+            </div>
+            {% if tutor.updatedAt %}
+            <div class="mb-3">
+                <strong>Updated At:</strong>
+                <p class="mb-0">{{ tutor.updatedAt|date('Y-m-d H:i:s') }}</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+

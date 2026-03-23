@@ -1,0 +1,26 @@
+/* Dark Mode Toggle Button */
+.dark-mode-toggle {
+    background: var(--bg-card);
+    border: 1.5px solid var(--border-color);
+    color: var(--text-primary);
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.2rem;
+}
+
+.dark-mode-toggle:hover {
+    background: var(--bg-hover);
+    border-color: var(--pink-primary);
+    color: var(--pink-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px var(--pink-shadow);
+}
+
+
+

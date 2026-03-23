@@ -1,0 +1,48 @@
+{{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': true}}) }}
+
+<div class="row mb-3">
+    <div class="col-md-12">
+        {{ form_label(form.title, 'Title', {'class': 'form-label'}) }}
+        {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.title) }}
+    </div>
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.description, 'Description', {'class': 'form-label'}) }}
+    {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 4}}) }}
+    {{ form_errors(form.description) }}
+</div>
+
+<div class="row mb-3">
+    <div class="col-md-6">
+        {{ form_label(form.slug, 'Slug', {'class': 'form-label'}) }}
+        {{ form_widget(form.slug, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.slug) }}
+        <small class="form-text text-muted">Leave blank to auto-generate from title</small>
+    </div>
+    <div class="col-md-6">
+        {{ form_label(form.level, 'Level', {'class': 'form-label'}) }}
+        {{ form_widget(form.level, {'attr': {'class': 'form-select'}}) }}
+        {{ form_errors(form.level) }}
+    </div>
+</div>
+
+<div class="mb-3">
+    {{ form_label(form.imageFile, 'Course Image', {'class': 'form-label'}) }}
+    {{ form_widget(form.imageFile, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.imageFile) }}
+    {% if course.image %}
+        <div class="mt-2">
+            <small class="text-muted">Current image: {{ course.image }}</small>
+            <img src="{{ asset('uploads/courses/' ~ course.image) }}" alt="Course image" class="img-thumbnail mt-2" style="max-width: 200px;">
+        </div>
+    {% endif %}
+</div>
+
+    <div class="d-flex gap-2 mt-4">
+        <button type="submit" class="btn btn-brand">Save</button>
+        <a href="{{ path('app_course_index') }}" class="btn btn-outline-secondary">Cancel</a>
+    </div>
+
+    {{ form_end(form) }}

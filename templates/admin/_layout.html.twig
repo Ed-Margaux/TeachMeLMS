@@ -1,0 +1,1473 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ asset('assets/styles/variables.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/styles/forms.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/styles/components.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/styles/layout.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/styles/utilities.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/styles/dark-mode.css') }}">
+    <style>
+        /* CSS Variables for Light Mode (Default) */
+        :root {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-tertiary: #ffffff;
+            --bg-hover: #f8f9fa;
+            --bg-card: #ffffff;
+            --bg-sidebar: #ffffff;
+            --bg-topbar: #ffffff;
+            --bg-form: #ffffff;
+            --bg-input: #ffffff;
+            --bg-table-header: linear-gradient(135deg, #f8f9fa, #ffffff);
+            
+            --text-primary: #2c2c2c;
+            --text-secondary: #666;
+            --text-muted: #999;
+            --text-light: #6c757d;
+            
+            --border-color: #e0e0e0;
+            --border-light: #f0f0f0;
+            --border-hover: #d0d0d0;
+            
+            --pink-primary: #ED64A6;
+            --pink-secondary: #C53678;
+            --pink-dark: #B02D6B;
+            --pink-light: #fff5f9;
+            --pink-hover: rgba(237, 100, 166, 0.15);
+            --pink-shadow: rgba(237, 100, 166, 0.3);
+            
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 2px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        /* CSS Variables for Dark Mode */
+        [data-theme="dark"] {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #242424;
+            --bg-tertiary: #2a2a2a;
+            --bg-hover: #2f2f2f;
+            --bg-card: #242424;
+            --bg-sidebar: #1e1e1e;
+            --bg-topbar: #242424;
+            --bg-form: #2a2a2a;
+            --bg-input: #2a2a2a;
+            --bg-table-header: linear-gradient(135deg, #2a2a2a, #242424);
+            
+            --text-primary: #e8e8e8;
+            --text-secondary: #b8b8b8;
+            --text-muted: #888;
+            --text-light: #999;
+            
+            --border-color: #3a3a3a;
+            --border-light: #333;
+            --border-hover: #4a4a4a;
+            
+            --pink-primary: #ED64A6;
+            --pink-secondary: #C53678;
+            --pink-dark: #B02D6B;
+            --pink-light: #2a1f24;
+            --pink-hover: rgba(237, 100, 166, 0.2);
+            --pink-shadow: rgba(237, 100, 166, 0.4);
+            
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 2px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Dark Mode Toggle Button */
+        .dark-mode-toggle {
+            background: var(--bg-card);
+            border: 1.5px solid var(--border-color);
+            color: var(--text-primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+        
+        .dark-mode-toggle:hover {
+            background: var(--bg-hover);
+            border-color: var(--pink-primary);
+            color: var(--pink-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px var(--pink-shadow);
+        }
+        
+        /* Apply theme colors */
+        body {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .sidebar {
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            height: 100vh;
+            width: 260px;
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-sm);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .sidebar .logo {
+            margin-bottom: 2rem;
+            text-align: center;
+            padding-top: 32px;
+            flex-shrink: 0;
+        }
+        .sidebar nav {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 0 16px 16px 16px;
+        }
+        .sidebar nav::-webkit-scrollbar {
+            width: 6px;
+        }
+        .sidebar nav::-webkit-scrollbar-track {
+            background: var(--bg-tertiary);
+            border-radius: 3px;
+        }
+        .sidebar nav::-webkit-scrollbar-thumb {
+            background: var(--border-color);
+            border-radius: 3px;
+        }
+        .sidebar nav::-webkit-scrollbar-thumb:hover {
+            background: var(--pink-primary);
+        }
+        .sidebar .logo-image {
+            max-width: 180px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+        .sidebar .nav-link {
+            color: var(--text-primary);
+            font-weight: 500;
+            border-radius: 8px;
+            margin-bottom: 6px;
+            padding: 12px 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .sidebar .nav-link.active, .sidebar .nav-link:hover {
+            background: linear-gradient(135deg, var(--pink-secondary), var(--pink-primary));
+            color: #fff;
+            transform: translateX(4px);
+            box-shadow: 0 2px 8px var(--pink-shadow);
+        }
+        .sidebar .nav-link i {
+            font-size: 1.2rem;
+        }
+        .admin-main {
+            margin-left: 260px;
+            min-height: 100vh;
+            background: var(--bg-secondary);
+            transition: background-color 0.3s ease;
+        }
+        .admin-topbar {
+            background: var(--bg-topbar);
+            border-bottom: 1px solid var(--border-color);
+            padding: 18px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-sm);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .admin-topbar .search-box {
+            width: 320px;
+            position: relative;
+        }
+        .admin-topbar .search-box input {
+            width: 100%;
+            border-radius: 20px;
+            border: 1.5px solid var(--border-color);
+            padding: 10px 40px 10px 18px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: var(--bg-input);
+            color: var(--text-primary);
+        }
+        
+        .admin-topbar .search-box input:focus {
+            border-color: var(--pink-primary);
+            box-shadow: 0 0 0 0.2rem var(--pink-hover);
+            outline: none;
+        }
+        
+        .admin-topbar .search-box input::placeholder {
+            color: var(--text-muted);
+        }
+        
+        .admin-topbar .search-box i {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+        .search-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 0;
+            right: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+        .search-dropdown.show {
+            display: block;
+        }
+        .search-result-item {
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+        .search-result-item:hover {
+            background: var(--bg-hover);
+        }
+        .search-result-item.active {
+            background: var(--bg-hover);
+        }
+        .search-result-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-tertiary);
+            color: var(--pink-primary);
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        .search-result-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .search-result-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 14px;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .search-result-subtitle {
+            font-size: 12px;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .search-result-type {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: var(--pink-primary);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .search-no-results {
+            padding: 20px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+        .admin-topbar .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--pink-primary);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .admin-topbar .user-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 2px 8px rgba(237, 100, 166, 0.3);
+        }
+        .user-dropdown-menu {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-shadow: var(--shadow-lg);
+            padding: 8px 0;
+            min-width: 200px;
+            margin-top: 8px;
+        }
+        .user-dropdown-menu .dropdown-item {
+            padding: 10px 20px;
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .user-dropdown-menu .dropdown-item:hover {
+            background: var(--bg-hover);
+            color: var(--pink-primary);
+        }
+        .user-dropdown-menu .dropdown-item i {
+            font-size: 1.1rem;
+            width: 20px;
+        }
+        .user-dropdown-menu .dropdown-divider {
+            border-color: var(--border-light);
+            margin: 4px 0;
+        }
+        @media (max-width: 900px) {
+            .sidebar { width: 60px; padding-top: 16px; }
+            .sidebar .logo-image { max-width: 40px; }
+            .sidebar .nav-link span { display: none; }
+            .admin-main { margin-left: 60px; }
+            .admin-topbar .search-box { width: 120px; }
+        }
+
+        /* Brand Button Styles */
+        .btn-brand {
+            background: linear-gradient(135deg, var(--pink-secondary), var(--pink-primary));
+            border: none;
+            color: white;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-brand:hover {
+            background: linear-gradient(135deg, var(--pink-dark), #D8559A);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px var(--pink-shadow);
+        }
+        
+        .btn-brand:focus {
+            background: linear-gradient(135deg, var(--pink-secondary), var(--pink-primary));
+            color: white;
+            box-shadow: 0 0 0 0.2rem var(--pink-hover);
+        }
+        
+        .btn-brand:active {
+            background: linear-gradient(135deg, #A0255A, var(--pink-secondary));
+            color: white;
+        }
+
+        /* Brand Table Styles */
+        /* Override Bootstrap table defaults for dark mode */
+        .table {
+            color: var(--text-primary);
+            background-color: transparent;
+        }
+        
+        .table-brand {
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-light);
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+            color: var(--text-primary);
+        }
+        
+        .table-brand thead {
+            background: var(--bg-table-header);
+            color: var(--text-primary);
+            border-bottom: 3px solid var(--pink-primary);
+        }
+        
+        .table-brand thead th {
+            border: none;
+            font-weight: 600;
+            padding: 1rem 0.75rem;
+            color: var(--text-primary);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background-color: transparent;
+        }
+        
+        .table-brand tbody {
+            background-color: var(--bg-card);
+        }
+        
+        .table-brand tbody tr {
+            border-bottom: 1px solid var(--border-light);
+            transition: all 0.2s ease;
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+        
+        .table-brand tbody tr:hover {
+            background-color: var(--bg-hover);
+            transform: scale(1.01);
+        }
+        
+        .table-brand tbody td {
+            padding: 1rem;
+            vertical-align: middle;
+            color: var(--text-primary);
+            background-color: transparent;
+            border-color: var(--border-light);
+        }
+        
+        .table-brand tbody td .btn-sm {
+            padding: 6px 10px;
+            font-size: 13px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        
+        .table-brand tbody td .btn-sm:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Professional Form Styles - Applied to all forms */
+        .form-container {
+            background: var(--bg-form);
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            padding: 2.5rem;
+            border-top: 3px solid var(--pink-primary);
+            max-width: 800px;
+            margin: 0 auto;
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .form-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+            display: block;
+            letter-spacing: 0.3px;
+        }
+        
+        .form-control,
+        .form-select {
+            border-radius: 8px;
+            border: 1.5px solid var(--border-color);
+            padding: 12px 16px;
+            font-size: 15px;
+            width: 100%;
+            transition: all 0.3s ease;
+            background-color: var(--bg-input);
+            color: var(--text-primary);
+        }
+        
+        .form-control:hover,
+        .form-select:hover {
+            border-color: var(--border-hover);
+        }
+        
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--pink-primary);
+            box-shadow: 0 0 0 0.2rem var(--pink-hover);
+            outline: none;
+            background-color: var(--bg-input);
+        }
+        
+        .form-control::placeholder {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+        
+        /* Password inputs - same professional style */
+        input[type="password"].form-control,
+        input[type="password"] {
+            border-radius: 8px;
+            border: 1.5px solid var(--border-color);
+            padding: 12px 16px;
+            font-size: 15px;
+            width: 100%;
+            transition: all 0.3s ease;
+            background-color: var(--bg-input);
+            color: var(--text-primary);
+        }
+        
+        input[type="password"].form-control:hover,
+        input[type="password"]:hover {
+            border-color: var(--border-hover);
+        }
+        
+        input[type="password"].form-control:focus,
+        input[type="password"]:focus {
+            border-color: var(--pink-primary);
+            box-shadow: 0 0 0 0.2rem var(--pink-hover);
+            outline: none;
+            background-color: var(--bg-input);
+        }
+        
+        .form-control[type="file"] {
+            padding: 10px;
+            border: 2px dashed var(--border-color);
+            border-radius: 8px;
+            background-color: var(--bg-secondary);
+            transition: all 0.3s ease;
+        }
+        
+        .form-control[type="file"]:hover {
+            border-color: var(--pink-primary);
+            background-color: var(--pink-light);
+        }
+        
+        .form-text {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-top: 6px;
+            display: block;
+        }
+        
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        /* Enhanced button styles */
+        .btn-brand {
+            background: linear-gradient(135deg, var(--pink-secondary), var(--pink-primary));
+            border: none;
+            color: white;
+            font-weight: 600;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px var(--pink-shadow);
+        }
+        
+        .btn-brand:hover {
+            background: linear-gradient(135deg, var(--pink-dark), #D8559A);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--pink-shadow);
+        }
+        
+        .btn-outline-secondary {
+            border: 1.5px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-size: 15px;
+            background: var(--bg-card);
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline-secondary:hover {
+            background: var(--bg-hover);
+            border-color: var(--border-hover);
+            color: var(--text-primary);
+        }
+        
+        /* Form sections spacing */
+        .mb-3 {
+            margin-bottom: 1.5rem;
+        }
+        
+        .mb-4 {
+            margin-bottom: 2rem;
+        }
+        
+        /* Form row spacing */
+        .row.mb-3 {
+            margin-bottom: 1.5rem;
+        }
+        
+        .row.mb-3 > div {
+            margin-bottom: 0;
+        }
+        
+        /* Card improvements */
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.3s ease;
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+        
+        .card:hover {
+            box-shadow: var(--shadow-md);
+        }
+        
+        .card.shadow-sm {
+            box-shadow: var(--shadow-sm) !important;
+        }
+        
+        .card-body {
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+        
+        /* Badge improvements */
+        .badge {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 12px;
+            letter-spacing: 0.3px;
+        }
+        
+        /* Button improvements */
+        .btn {
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            letter-spacing: 0.3px;
+        }
+        
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 13px;
+            border-radius: 6px;
+        }
+        
+        .btn-outline-primary {
+            border: 1.5px solid #0d6efd;
+            color: #0d6efd;
+        }
+        
+        .btn-outline-primary:hover {
+            background: #0d6efd;
+            border-color: #0d6efd;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(13, 110, 253, 0.3);
+        }
+        
+        .btn-outline-secondary {
+            border: 1.5px solid #6c757d;
+            color: #6c757d;
+        }
+        
+        .btn-outline-secondary:hover {
+            background: #6c757d;
+            border-color: #6c757d;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(108, 117, 125, 0.3);
+        }
+        
+        .btn-outline-danger {
+            border: 1.5px solid #dc3545;
+            color: #dc3545;
+        }
+        
+        .btn-outline-danger:hover {
+            background: #dc3545;
+            border-color: #dc3545;
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+        }
+        
+        /* Search box improvements */
+        .card.shadow-sm .card-body {
+            padding: 1.25rem;
+        }
+        
+        .card.shadow-sm .form-control {
+            border-radius: 8px;
+            border: 1.5px solid #e0e0e0;
+            transition: all 0.3s ease;
+        }
+        
+        .card.shadow-sm .form-control:focus {
+            border-color: #ED64A6;
+            box-shadow: 0 0 0 0.2rem rgba(237, 100, 166, 0.15);
+        }
+        
+        /* Page title improvements */
+        h2.h4 {
+            color: #2c2c2c;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+        }
+        
+        /* Icon button improvements */
+        .d-flex.gap-1 .btn {
+            width: 36px;
+            height: 36px;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Focus improvements */
+        *:focus {
+            outline: none;
+        }
+        
+        /* Loading states */
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        /* Page title styling */
+        .container-fluid h1 {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 28px;
+            letter-spacing: -0.5px;
+            margin-bottom: 2rem;
+        }
+        
+        /* Form title styling */
+        .form-container h2,
+        .form-container h3,
+        .form-container h4 {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 2rem;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--pink-primary);
+        }
+        
+        /* Image preview styling */
+        .form-container .img-thumbnail {
+            border-radius: 8px;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+        
+        .form-container .img-thumbnail:hover {
+            border-color: var(--pink-primary);
+            box-shadow: 0 2px 8px var(--pink-shadow);
+        }
+        
+        /* Help text styling */
+        .form-container small.text-muted {
+            font-size: 13px;
+            color: var(--text-light);
+            display: block;
+            margin-top: 6px;
+        }
+        
+        /* Form group spacing */
+        .form-container .d-flex.gap-2 {
+            gap: 12px;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-light);
+        }
+        
+        .table-brand tbody tr {
+            transition: all 0.2s ease;
+        }
+        
+        .table-brand tbody tr:hover {
+            background-color: #f8f9fa;
+            transform: scale(1.01);
+        }
+        
+        .table-brand tbody td {
+            padding: 1rem;
+            border: none;
+            color: #333;
+            vertical-align: middle;
+        }
+        
+        .table-brand .badge {
+            font-weight: 500;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+        }
+
+        /* Consistent badge colors */
+        .badge.bg-pink {
+            background-color: #fce4ec !important;
+            color: #c2185b !important;
+        }
+        
+        .badge.bg-purple {
+            background-color: #e8eaf6 !important;
+            color: #512da8 !important;
+        }
+        
+        .badge.bg-success {
+            background-color: #e8f5e9 !important;
+            color: #2e7d32 !important;
+        }
+        
+        .badge.bg-info {
+            background-color: #e0f2f1 !important;
+            color: #00695c !important;
+        }
+        
+        .badge.bg-primary {
+            background-color: #e3f2fd !important;
+            color: #1565c0 !important;
+        }
+        
+        .badge.bg-danger {
+            background-color: #ffebee !important;
+            color: #c62828 !important;
+        }
+        
+        .badge.bg-secondary {
+            background-color: #f5f5f5 !important;
+            color: #616161 !important;
+        }
+        
+        /* Card styling consistency */
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .card:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        }
+        
+        .card.shadow-sm {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+        }
+        
+        /* Icon button styling */
+        .btn-sm {
+            padding: 6px 10px;
+            font-size: 14px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-sm:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-sm i {
+            font-size: 16px;
+        }
+        
+        /* Consistent spacing */
+        .d-flex.gap-1 {
+            gap: 6px;
+        }
+        
+        .d-flex.gap-2 {
+            gap: 12px;
+        }
+        
+        /* Page headers */
+        .admin-content h2,
+        .admin-content .h4 {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+        
+        /* Search form styling */
+        .card-body form {
+            margin: 0;
+        }
+        
+        .card-body .form-control {
+            border-radius: 8px;
+            border: 1.5px solid var(--border-color);
+            padding: 10px 16px;
+            transition: all 0.3s ease;
+            background: var(--bg-input);
+            color: var(--text-primary);
+        }
+        
+        .card-body .form-control:focus {
+            border-color: var(--pink-primary);
+            box-shadow: 0 0 0 0.2rem var(--pink-hover);
+        }
+        
+        /* Alert styling */
+        .alert {
+            border-radius: 8px;
+            border: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+        
+        .alert-success {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+        
+        .alert-danger {
+            background-color: #ffebee;
+            color: #c62828;
+        }
+        
+        .alert-warning {
+            background-color: #fff3e0;
+            color: #e65100;
+        }
+        
+        .alert-info {
+            background-color: #e0f2f1;
+            color: #00695c;
+        }
+        
+        /* Code styling */
+        code {
+            background-color: var(--bg-secondary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: var(--pink-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        /* Image thumbnails in tables */
+        .img-thumbnail {
+            border-radius: 8px;
+            border: 2px solid #f0f0f0;
+            transition: all 0.3s ease;
+        }
+        
+        .img-thumbnail:hover {
+            border-color: #ED64A6;
+            transform: scale(1.05);
+        }
+        
+        /* Empty state styling */
+        .text-center {
+            padding: 3rem 1rem;
+        }
+        
+        .text-center i {
+            opacity: 0.5;
+        }
+        
+        /* Smooth scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Focus visible for accessibility */
+        *:focus-visible {
+            outline: 2px solid #ED64A6;
+            outline-offset: 2px;
+        }
+        
+        /* Loading states */
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        /* Consistent text colors */
+        .text-muted {
+            color: var(--text-light) !important;
+        }
+        
+        .text-dark {
+            color: var(--text-primary) !important;
+        }
+        
+        .fw-semibold {
+            font-weight: 600;
+        }
+        
+        /* Alert dark mode */
+        .alert-success {
+            background-color: #1e3a1e;
+            color: #81c784;
+            border: 1px solid #2e7d32;
+        }
+        
+        [data-theme="dark"] .alert-danger {
+            background-color: #3a1e1e;
+            color: #ef5350;
+            border: 1px solid #c62828;
+        }
+        
+        [data-theme="dark"] .alert-warning {
+            background-color: #3a2e1e;
+            color: #ffb74d;
+            border: 1px solid #e65100;
+        }
+        
+        [data-theme="dark"] .alert-info {
+            background-color: #1e2a2a;
+            color: #4dd0e1;
+            border: 1px solid #00695c;
+        }
+        
+        /* Code dark mode */
+        [data-theme="dark"] code {
+            background-color: var(--bg-tertiary);
+            color: var(--pink-primary);
+        }
+        
+        /* Image thumbnails dark mode */
+        [data-theme="dark"] .img-thumbnail {
+            border-color: var(--border-color);
+        }
+        
+        /* Bootstrap bg-light override for dark mode */
+        [data-theme="dark"] .bg-light {
+            background-color: var(--bg-secondary) !important;
+        }
+        
+        /* Table empty state */
+        .table-brand tbody tr td[colspan] {
+            color: var(--text-muted);
+            text-align: center;
+            padding: 2rem !important;
+        }
+        
+        /* Card headers dark mode */
+        [data-theme="dark"] .card-header {
+            background-color: var(--bg-card) !important;
+            border-color: var(--border-light) !important;
+        }
+        
+        /* Ensure all table cells have proper text color */
+        .table-brand tbody td,
+        .table-brand tbody td strong,
+        .table-brand tbody td code {
+            color: var(--text-primary);
+        }
+        
+        /* Override Bootstrap table defaults for dark mode */
+        .table {
+            color: var(--text-primary) !important;
+            background-color: transparent !important;
+        }
+        
+        .table td,
+        .table th {
+            border-color: var(--border-light) !important;
+        }
+        
+        /* Table responsive improvements */
+        .table-responsive {
+            border-radius: 12px;
+            overflow: hidden;
+            background: var(--bg-card);
+        }
+        
+        /* Ensure table wrapper cards are dark in dark mode */
+        .card .table-responsive {
+            background: transparent;
+        }
+        
+        /* Override Bootstrap table striped rows for dark mode */
+        [data-theme="dark"] .table-striped > tbody > tr:nth-of-type(odd) > td,
+        [data-theme="dark"] .table-striped > tbody > tr:nth-of-type(odd) > th {
+            background-color: var(--bg-card) !important;
+            color: var(--text-primary) !important;
+        }
+        
+        [data-theme="dark"] .table-striped > tbody > tr:nth-of-type(even) > td,
+        [data-theme="dark"] .table-striped > tbody > tr:nth-of-type(even) > th {
+            background-color: var(--bg-tertiary) !important;
+            color: var(--text-primary) !important;
+        }
+        
+        /* Force table-brand tbody to have dark background */
+        [data-theme="dark"] .table-brand {
+            background-color: var(--bg-card) !important;
+        }
+        
+        [data-theme="dark"] .table-brand tbody {
+            background-color: var(--bg-card) !important;
+        }
+        
+        [data-theme="dark"] .table-brand tbody tr {
+            background-color: var(--bg-card) !important;
+            color: var(--text-primary) !important;
+        }
+        
+        [data-theme="dark"] .table-brand tbody td {
+            background-color: transparent !important;
+            color: var(--text-primary) !important;
+            border-color: var(--border-light) !important;
+        }
+        
+        [data-theme="dark"] .table-brand thead {
+            background: var(--bg-table-header) !important;
+        }
+        
+        [data-theme="dark"] .table-brand thead th {
+            background-color: transparent !important;
+            color: var(--text-primary) !important;
+            border-color: var(--border-light) !important;
+        }
+        
+        /* Override Bootstrap's default white background on tables */
+        [data-theme="dark"] .card .table-responsive .table,
+        [data-theme="dark"] .card .table-responsive .table-brand {
+            background-color: var(--bg-card) !important;
+        }
+        
+        [data-theme="dark"] .card .table-responsive .table tbody,
+        [data-theme="dark"] .card .table-responsive .table-brand tbody {
+            background-color: var(--bg-card) !important;
+        }
+        
+        [data-theme="dark"] .card .table-responsive .table tbody tr,
+        [data-theme="dark"] .card .table-responsive .table-brand tbody tr {
+            background-color: var(--bg-card) !important;
+        }
+        
+        [data-theme="dark"] .card .table-responsive .table tbody td,
+        [data-theme="dark"] .card .table-responsive .table-brand tbody td {
+            background-color: transparent !important;
+            color: var(--text-primary) !important;
+        }
+        
+        /* Consistent border radius */
+        * {
+            border-radius: 0;
+        }
+        
+        .btn, .form-control, .form-select, .card, .badge, .alert, .table-brand {
+            border-radius: 8px;
+        }
+        
+        .btn-sm, code {
+            border-radius: 6px;
+        }
+        
+        .sidebar .nav-link {
+            border-radius: 8px;
+        }
+        
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="sidebar d-flex flex-column">
+    <div class="logo mb-4">
+        <img src="{{ asset('img/tmMainlogo.png') }}" alt="Teach Me - Learn. Love. Language." class="logo-image">
+    </div>
+    <nav>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link{% if app.request.get('_route') starts with 'app_admin_dashboard' %} active{% endif %}" href="{{ path('app_admin_dashboard') }}">
+                    <i class="bi bi-speedometer2"></i> <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link{% if app.request.get('_route') starts with 'app_course' %} active{% endif %}" href="{{ path('app_course_index') }}">
+                    <i class="bi bi-book"></i> <span>Courses</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link{% if app.request.get('_route') starts with 'app_category' %} active{% endif %}" href="{{ path('app_category_index') }}">
+                    <i class="bi bi-folder"></i> <span>Categories</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link{% if app.request.get('_route') starts with 'app_tutor' %} active{% endif %}" href="{{ path('app_tutor_index') }}">
+                    <i class="bi bi-person-badge"></i> <span>Tutors</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link{% if app.request.get('_route') starts with 'app_student' %} active{% endif %}" href="{{ path('app_student_index') }}">
+                    <i class="bi bi-people"></i> <span>Students</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link{% if app.request.get('_route') starts with 'app_lessons' %} active{% endif %}" href="{{ path('app_lessons_index') }}">
+                    <i class="bi bi-calendar"></i> <span>Sessions</span>
+                </a>
+            </li>
+            {% if is_granted('ROLE_ADMIN') %}
+            <li class="nav-item">
+                <a class="nav-link{% if app.request.get('_route') starts with 'app_admin_user' %} active{% endif %}" href="{{ path('app_admin_user_index') }}">
+                    <i class="bi bi-people-fill"></i> <span>Users</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link{% if app.request.get('_route') starts with 'app_admin_logs' %} active{% endif %}" href="{{ path('app_admin_logs') }}">
+                    <i class="bi bi-clipboard-data"></i> <span>Activity Logs</span>
+                </a>
+            </li>
+            {% endif %}
+            <li class="nav-item">
+                <a class="nav-link{% if app.request.get('_route') starts with 'app_message' %} active{% endif %}" href="{{ path('app_message_index') }}">
+                    <i class="bi bi-chat-dots"></i> <span>Messages</span>
+                </a>
+            </li>
+            <li class="nav-item mt-3">
+                <a class="nav-link{% if app.request.get('_route') == 'app_admin_settings' %} active{% endif %}" href="{{ path('app_admin_settings') }}">
+                    <i class="bi bi-gear"></i> <span>Settings</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<div class="admin-main">
+    <div class="admin-topbar">
+        <div class="search-box">
+            <input type="text" id="globalSearch" placeholder="Search courses, categories, sessions..." autocomplete="off">
+            <i class="bi bi-search"></i>
+            <div class="search-dropdown" id="searchDropdown"></div>
+        </div>
+               <div class="d-flex align-items-center gap-3">
+                   <button type="button" class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">
+                       <i class="bi bi-moon-fill" id="darkModeIcon"></i>
+                   </button>
+                   <a href="{{ path('app_profile') }}" class="text-decoration-none text-dark">
+                       <div class="text-end">
+                           <div class="fw-semibold">{{ app.user ? app.user.fullName : 'Guest' }}</div>
+                           <div class="small text-muted">{{ app.user ? app.user.email : '' }}</div>
+                       </div>
+                   </a>
+                   <div class="dropdown">
+                       <div class="user-avatar" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                           {% if app.user and app.user.image %}
+                               <img src="{{ asset('uploads/users/' ~ app.user.image) }}" alt="{{ app.user.fullName }}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                           {% else %}
+                               {{ app.user ? app.user.firstName|slice(0,1)|upper : 'A' }}
+                           {% endif %}
+                       </div>
+                       <ul class="dropdown-menu dropdown-menu-end user-dropdown-menu" aria-labelledby="userDropdown">
+                           <li>
+                               <a class="dropdown-item" href="{{ path('app_profile') }}">
+                                   <i class="bi bi-person"></i>
+                                   <span>Profile</span>
+                               </a>
+                           </li>
+                           <li><hr class="dropdown-divider"></li>
+                           <li>
+                               <a class="dropdown-item" href="{{ path('app_logout') }}">
+                                   <i class="bi bi-box-arrow-right"></i>
+                                   <span>Logout</span>
+                               </a>
+                           </li>
+                       </ul>
+                   </div>
+               </div>
+    </div>
+    <div class="container-fluid p-4">
+        <h1 class="mb-4">{% block admin_title %}Admin{% endblock %}</h1>
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('error') %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+        {% block admin_content %}{% endblock %}
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Dark Mode Toggle - Run immediately to prevent flash
+        (function() {
+            const html = document.documentElement;
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            
+            // Apply saved theme immediately
+            if (savedTheme === 'dark') {
+                html.setAttribute('data-theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+            }
+        })();
+        
+        // Dark Mode Toggle Handler - Run after DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            const darkModeToggle = document.getElementById('darkModeToggle');
+            const darkModeIcon = document.getElementById('darkModeIcon');
+            const html = document.documentElement;
+            
+            // Get current theme from localStorage or HTML attribute
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            const currentTheme = html.getAttribute('data-theme') || savedTheme;
+            
+            // Ensure theme is applied
+            html.setAttribute('data-theme', currentTheme);
+            localStorage.setItem('theme', currentTheme);
+            
+            // Update icon based on current theme
+            function updateIcon(theme) {
+                if (darkModeIcon) {
+                    if (theme === 'dark') {
+                        darkModeIcon.classList.remove('bi-moon-fill');
+                        darkModeIcon.classList.add('bi-sun-fill');
+                    } else {
+                        darkModeIcon.classList.remove('bi-sun-fill');
+                        darkModeIcon.classList.add('bi-moon-fill');
+                    }
+                }
+            }
+            
+            // Initialize icon
+            updateIcon(currentTheme);
+            
+            // Toggle handler
+            if (darkModeToggle) {
+                darkModeToggle.addEventListener('click', function() {
+                    const currentTheme = html.getAttribute('data-theme') || 'light';
+                    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                    
+                    html.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('theme', newTheme);
+                    updateIcon(newTheme);
+                });
+            }
+        });
+        
+        // Global Search Autocomplete
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('globalSearch');
+            const searchDropdown = document.getElementById('searchDropdown');
+            let searchTimeout;
+            let selectedIndex = -1;
+            
+            if (!searchInput || !searchDropdown) return;
+            
+            function showDropdown() {
+                searchDropdown.classList.add('show');
+            }
+            
+            function hideDropdown() {
+                searchDropdown.classList.remove('show');
+                selectedIndex = -1;
+            }
+            
+            function renderResults(results) {
+                if (results.length === 0) {
+                    searchDropdown.innerHTML = '<div class="search-no-results">No results found</div>';
+                    showDropdown();
+                    return;
+                }
+                
+                searchDropdown.innerHTML = results.map((result, index) => `
+                    <div class="search-result-item ${index === selectedIndex ? 'active' : ''}" data-url="${result.url}">
+                        <div class="search-result-icon">
+                            <i class="${result.icon}"></i>
+                        </div>
+                        <div class="search-result-content">
+                            <div class="search-result-title">${result.title}</div>
+                            <div class="search-result-subtitle">${result.subtitle}</div>
+                            <div class="search-result-type">${result.type}</div>
+                        </div>
+                    </div>
+                `).join('');
+                
+                showDropdown();
+                
+                // Attach click handlers
+                searchDropdown.querySelectorAll('.search-result-item').forEach(item => {
+                    item.addEventListener('click', function() {
+                        window.location.href = this.dataset.url;
+                    });
+                });
+            }
+            
+            searchInput.addEventListener('input', function() {
+                const query = this.value.trim();
+                
+                clearTimeout(searchTimeout);
+                
+                if (query.length < 2) {
+                    hideDropdown();
+                    return;
+                }
+                
+                searchTimeout = setTimeout(async function() {
+                    try {
+                        const response = await fetch(`/admin/search/autocomplete?q=${encodeURIComponent(query)}`);
+                        const results = await response.json();
+                        renderResults(results);
+                    } catch (error) {
+                        console.error('Search error:', error);
+                        hideDropdown();
+                    }
+                }, 300);
+            });
+            
+            searchInput.addEventListener('keydown', function(e) {
+                const items = searchDropdown.querySelectorAll('.search-result-item');
+                
+                if (items.length === 0) return;
+                
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    selectedIndex = (selectedIndex + 1) % items.length;
+                    items.forEach((item, index) => {
+                        item.classList.toggle('active', index === selectedIndex);
+                    });
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    selectedIndex = selectedIndex <= 0 ? items.length - 1 : selectedIndex - 1;
+                    items.forEach((item, index) => {
+                        item.classList.toggle('active', index === selectedIndex);
+                    });
+                } else if (e.key === 'Enter' && selectedIndex >= 0) {
+                    e.preventDefault();
+                    const activeItem = items[selectedIndex];
+                    if (activeItem) {
+                        window.location.href = activeItem.dataset.url;
+                    }
+                } else if (e.key === 'Escape') {
+                    hideDropdown();
+                }
+            });
+            
+            // Hide dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!searchInput.contains(e.target) && !searchDropdown.contains(e.target)) {
+                    hideDropdown();
+                }
+            });
+        });
+    </script>
+{% endblock %}

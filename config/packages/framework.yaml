@@ -1,6 +1,9 @@
 # see https://symfony.com/doc/current/reference/configuration/framework.html
 framework:
     secret: '%env(APP_SECRET)%'
+    
+    # Set default timezone for the application
+    default_locale: en
 
     # Note that the session will be started ONLY if you read or write from it.
     session: true

@@ -1,0 +1,134 @@
+/* Page Title Styling */
+.container-fluid h1 {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 28px;
+    letter-spacing: -0.5px;
+    margin-bottom: 2rem;
+}
+
+/* Page Headers */
+.admin-content h2,
+.admin-content .h4 {
+    color: var(--text-primary);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+/* Search Box Improvements */
+.search-box {
+    position: relative;
+}
+
+/* Page Title Improvements */
+.page-title {
+    color: var(--text-primary);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+/* Icon Button Improvements */
+.btn-icon {
+    padding: 8px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+/* Smooth Scroll */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Focus Improvements */
+*:focus-visible {
+    outline: 2px solid #ED64A6;
+    outline-offset: 2px;
+}
+
+/* Loading States */
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Consistent Text Colors */
+.text-muted {
+    color: var(--text-light) !important;
+}
+
+.text-dark {
+    color: var(--text-primary) !important;
+}
+
+.fw-semibold {
+    font-weight: 600;
+}
+
+/* Empty State Styling */
+.text-center {
+    padding: 3rem 1rem;
+}
+
+.text-center i {
+    opacity: 0.5;
+}
+
+/* Consistent Spacing */
+.d-flex.gap-1 {
+    gap: 6px;
+}
+
+.d-flex.gap-2 {
+    gap: 12px;
+}
+
+.d-flex.gap-3 {
+    gap: 18px;
+}
+
+/* Consistent Border Radius */
+* {
+    border-radius: 0;
+}
+
+.btn, 
+.form-control, 
+.form-select, 
+.card, 
+.badge, 
+.alert, 
+.table-brand {
+    border-radius: 8px;
+}
+
+.btn-sm, 
+code {
+    border-radius: 6px;
+}
+
+.sidebar .nav-link {
+    border-radius: 8px;
+}
+
+/* Bootstrap Overrides for Dark Mode */
+[data-theme="dark"] .table {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .card-header {
+    background-color: var(--bg-tertiary) !important;
+    color: var(--text-primary) !important;
+    border-bottom-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .bg-light {
+    background-color: var(--bg-tertiary) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .text-muted {
+    color: var(--text-muted) !important;
+}
+
+
+

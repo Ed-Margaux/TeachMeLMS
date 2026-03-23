@@ -1,0 +1,91 @@
+{% extends 'admin/_layout.html.twig' %}
+
+{% block title %}Activity Logs{% endblock %}
+{% block admin_title %}Activity Logs{% endblock %}
+
+{% block admin_content %}
+<div class="card shadow-sm mb-4 p-4">
+    <h2 class="h5 mb-3">Filters</h2>
+    <form method="get" class="row g-3">
+        {% if filters.search %}
+        <input type="hidden" name="search" value="{{ filters.search }}">
+        {% endif %}
+        <div class="col-md-3">
+            <label class="form-label">User</label>
+            <select name="user" class="form-select">
+                <option value="all" {% if filters.user is not defined or filters.user == 'all' or filters.user == '' %}selected{% endif %}>All</option>
+                {% for user in users %}
+                    <option value="{{ user.id }}" {% if filters.user is defined and filters.user == user.id %}selected{% endif %}>{{ user.fullName }} ({{ user.email }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label">Action</label>
+            <select name="action" class="form-select">
+                <option value="">All</option>
+                {% set actions = ['LOGIN','LOGOUT','CREATE','UPDATE','DELETE'] %}
+                {% for action in actions %}
+                    <option value="{{ action }}" {% if filters.action == action %}selected{% endif %}>{{ action }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">From</label>
+            <input type="date" name="from" class="form-control" value="{{ filters.from }}">
+        </div>
+        <div class="col-md-2">
+            <label class="form-label">To</label>
+            <input type="date" name="to" class="form-control" value="{{ filters.to }}">
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+            <button class="btn btn-brand w-100" type="submit">Apply</button>
+        </div>
+    </form>
+</div>
+
+<div class="card shadow-sm">
+    <div class="table-responsive">
+        <table class="table table-brand align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Date/Time</th>
+                    <th>User</th>
+                    <th>Role</th>
+                    <th>Action</th>
+                    <th>Target</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logs %}
+                    <tr>
+                        <td>
+                            {% if log.createdAt %}
+                                {{ log.createdAt|date('Y-m-d H:i:s') }}<br>
+                                <small class="text-muted">{{ log.createdAt|date('T') }}</small>
+                            {% else %}
+                                N/A
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if log.user %}
+                                {{ log.user.fullName }}<br>
+                                <span class="text-muted small">{{ log.user.email }}</span>
+                            {% else %}
+                                <span class="text-muted">System</span>
+                            {% endif %}
+                        </td>
+                        <td><span class="badge bg-secondary">{{ log.role }}</span></td>
+                        <td><span class="badge bg-purple">{{ log.action }}</span></td>
+                        <td>
+                            <div class="fw-semibold text-capitalize">{{ log.targetType }}</div>
+                            <div class="text-muted small">{{ log.targetLabel ?? 'n/a' }}</div>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="5">No logs found.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

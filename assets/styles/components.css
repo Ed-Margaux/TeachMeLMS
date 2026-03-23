@@ -1,0 +1,355 @@
+/* Brand Button Styles */
+.btn-brand {
+    background: linear-gradient(135deg, var(--pink-secondary), var(--pink-primary));
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px var(--pink-shadow);
+}
+
+.btn-brand:hover {
+    background: linear-gradient(135deg, var(--pink-dark), #D8559A);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--pink-shadow);
+}
+
+.btn-brand:focus {
+    background: linear-gradient(135deg, var(--pink-secondary), var(--pink-primary));
+    color: white;
+    box-shadow: 0 0 0 0.2rem var(--pink-hover);
+}
+
+.btn-brand:active {
+    background: linear-gradient(135deg, #A0255A, var(--pink-secondary));
+    color: white;
+}
+
+/* Button Improvements */
+.btn {
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    letter-spacing: 0.3px;
+}
+
+.btn-sm {
+    padding: 6px 12px;
+    font-size: 13px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.btn-sm:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.btn-sm i {
+    font-size: 16px;
+}
+
+.btn-outline-primary {
+    border: 1.5px solid #0d6efd;
+    color: #0d6efd;
+}
+
+.btn-outline-primary:hover {
+    background: #0d6efd;
+    border-color: #0d6efd;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(13, 110, 253, 0.3);
+}
+
+.btn-outline-secondary {
+    border: 1.5px solid var(--border-color);
+    color: var(--text-secondary);
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-size: 15px;
+    background: var(--bg-card);
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-secondary:hover {
+    background: var(--bg-hover);
+    border-color: var(--border-hover);
+    color: var(--text-primary);
+}
+
+.btn-outline-danger {
+    border: 1.5px solid #dc3545;
+    color: #dc3545;
+}
+
+.btn-outline-danger:hover {
+    background: #dc3545;
+    border-color: #dc3545;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Card Improvements */
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    transition: all 0.3s ease;
+    background: var(--bg-card);
+    color: var(--text-primary);
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.card.shadow-sm {
+    box-shadow: var(--shadow-sm) !important;
+}
+
+.card-body {
+    background: var(--bg-card);
+    color: var(--text-primary);
+}
+
+/* Badge Improvements */
+.badge {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.3px;
+}
+
+/* Consistent Badge Colors */
+.badge.bg-pink {
+    background-color: #fce4ec !important;
+    color: #c2185b !important;
+}
+
+.badge.bg-purple {
+    background-color: #e8eaf6 !important;
+    color: #512da8 !important;
+}
+
+.badge.bg-success {
+    background-color: #e8f5e9 !important;
+    color: #2e7d32 !important;
+}
+
+.badge.bg-info {
+    background-color: #e0f2f1 !important;
+    color: #00695c !important;
+}
+
+.badge.bg-primary {
+    background-color: #e3f2fd !important;
+    color: #1565c0 !important;
+}
+
+.badge.bg-danger {
+    background-color: #ffebee !important;
+    color: #c62828 !important;
+}
+
+.badge.bg-secondary {
+    background-color: #f5f5f5 !important;
+    color: #616161 !important;
+}
+
+/* Brand Table Styles */
+.table {
+    color: var(--text-primary);
+    background-color: transparent;
+}
+
+.table-brand {
+    background: var(--bg-card);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-light);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    color: var(--text-primary);
+}
+
+.table-brand thead {
+    background: var(--bg-table-header);
+    color: var(--text-primary);
+    border-bottom: 3px solid var(--pink-primary);
+}
+
+.table-brand thead th {
+    border: none;
+    font-weight: 600;
+    padding: 1rem 0.75rem;
+    color: var(--text-primary);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background-color: transparent;
+}
+
+.table-brand tbody {
+    background-color: var(--bg-card);
+}
+
+.table-brand tbody tr {
+    border-bottom: 1px solid var(--border-light);
+    transition: all 0.2s ease;
+    background: var(--bg-card);
+    color: var(--text-primary);
+}
+
+.table-brand tbody tr:hover {
+    background-color: var(--bg-hover);
+    transform: scale(1.01);
+}
+
+.table-brand tbody td {
+    padding: 1rem;
+    vertical-align: middle;
+    color: var(--text-primary);
+    background-color: transparent;
+    border-color: var(--border-light);
+}
+
+.table-brand tbody td .btn-sm {
+    padding: 6px 10px;
+    font-size: 13px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+/* Dark Mode Table Overrides */
+[data-theme="dark"] .table {
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .table thead {
+    background: var(--bg-table-header) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .table tbody {
+    background-color: var(--bg-card) !important;
+}
+
+[data-theme="dark"] .table tbody tr {
+    background-color: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .table tbody td {
+    background-color: transparent !important;
+    color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .card .table-responsive .table tbody,
+[data-theme="dark"] .card .table-responsive .table-brand tbody {
+    background-color: var(--bg-card) !important;
+}
+
+[data-theme="dark"] .card .table-responsive .table tbody tr,
+[data-theme="dark"] .card .table-responsive .table-brand tbody tr {
+    background-color: var(--bg-card) !important;
+}
+
+[data-theme="dark"] .card .table-responsive .table tbody td,
+[data-theme="dark"] .card .table-responsive .table-brand tbody td {
+    background-color: transparent !important;
+    color: var(--text-primary) !important;
+}
+
+/* Alert Styling */
+.alert {
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.alert-success {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+}
+
+.alert-danger {
+    background-color: #ffebee;
+    color: #c62828;
+}
+
+.alert-warning {
+    background-color: #fff3e0;
+    color: #e65100;
+}
+
+.alert-info {
+    background-color: #e0f2f1;
+    color: #00695c;
+}
+
+/* Alert Dark Mode */
+[data-theme="dark"] .alert-success {
+    background-color: #1e3a1e;
+    color: #81c784;
+    border: 1px solid #2e7d32;
+}
+
+[data-theme="dark"] .alert-danger {
+    background-color: #3a1e1e;
+    color: #ef5350;
+    border: 1px solid #c62828;
+}
+
+[data-theme="dark"] .alert-warning {
+    background-color: #3a2e1e;
+    color: #ffb74d;
+    border: 1px solid #e65100;
+}
+
+[data-theme="dark"] .alert-info {
+    background-color: #1e2a2a;
+    color: #4dd0e1;
+    border: 1px solid #00695c;
+}
+
+/* Image Thumbnails */
+.img-thumbnail {
+    border-radius: 8px;
+    border: 2px solid #f0f0f0;
+    transition: all 0.3s ease;
+}
+
+.img-thumbnail:hover {
+    border-color: #ED64A6;
+    transform: scale(1.05);
+}
+
+/* Code Styling */
+code {
+    background-color: var(--bg-secondary);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--pink-primary);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+[data-theme="dark"] code {
+    background-color: var(--bg-tertiary);
+    color: var(--pink-primary);
+}
+
+
+

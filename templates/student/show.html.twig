@@ -1,0 +1,68 @@
+{% extends 'admin/_layout.html.twig' %}
+
+{% block title %}Student Details{% endblock %}
+{% block admin_title %}Student Details{% endblock %}
+
+{% block admin_content %}
+<div class="card shadow-sm p-4">
+    <div class="d-flex justify-content-between align-items-start mb-4">
+        <h2 class="h4 mb-0">{{ student.fullName }}</h2>
+        <div class="d-flex gap-2">
+            <a href="{{ path('app_student_edit', {'id': student.id}) }}" class="btn btn-brand">Edit</a>
+            <a href="{{ path('app_student_index') }}" class="btn btn-outline-secondary">Back to List</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            {% if student.image %}
+                <img src="{{ asset('uploads/students/' ~ student.image) }}" alt="{{ student.fullName }}" class="img-fluid rounded-circle shadow-sm" style="max-width: 300px;">
+            {% else %}
+                <div class="bg-light d-flex align-items-center justify-content-center rounded-circle shadow-sm" style="width: 300px; height: 300px;">
+                    <i class="bi bi-person text-muted" style="font-size: 5rem;"></i>
+                </div>
+            {% endif %}
+        </div>
+        <div class="col-md-8">
+            <div class="mb-3">
+                <strong>Full Name:</strong>
+                <p class="mb-0">{{ student.fullName }}</p>
+            </div>
+            <div class="mb-3">
+                <strong>Email:</strong>
+                <p class="mb-0">{{ student.email }}</p>
+            </div>
+            <div class="mb-3">
+                <strong>Phone:</strong>
+                <p class="mb-0">{{ student.phone ?: 'Not provided' }}</p>
+            </div>
+            <div class="mb-3">
+                <strong>Grade:</strong>
+                <p class="mb-0">
+                    {% if student.grade %}
+                        <span class="badge bg-success">{{ student.grade }}</span>
+                    {% else %}
+                        <span class="text-muted">Not specified</span>
+                    {% endif %}
+                </p>
+            </div>
+            <div class="mb-3">
+                <strong>Created At:</strong>
+                <p class="mb-0">{{ student.createdAt ? student.createdAt|date('Y-m-d H:i:s') : 'N/A' }}</p>
+            </div>
+            {% if student.updatedAt %}
+            <div class="mb-3">
+                <strong>Updated At:</strong>
+                <p class="mb-0">{{ student.updatedAt|date('Y-m-d H:i:s') }}</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+
+

@@ -13,6 +13,16 @@ final class HomeController extends AbstractController
     {
         return $this->render('home/index.html.twig');
     }
+
+    #[Route('/dashboard', name: 'app_dashboard', methods: ['GET'])]
+    public function dashboard(): Response
+    {
+        // Redirect to admin dashboard if user is authenticated, otherwise to login
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_admin_dashboard');
+        }
+        return $this->redirectToRoute('app_login');
+    }
 }
 
 
