@@ -12,5 +12,11 @@ return function (array $context) {
         FILTER_VALIDATE_BOOL
     );
 
+    // Railway/production: composer install --no-dev does not ship DebugBundle.
+    if ('dev' === $env && !class_exists(\Symfony\Bundle\DebugBundle\DebugBundle::class, false)) {
+        $env = 'prod';
+        $debug = false;
+    }
+
     return new Kernel($env, $debug);
 };
