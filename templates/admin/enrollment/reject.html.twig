@@ -1,0 +1,17 @@
+{% extends 'admin/_layout.html.twig' %}
+
+{% block title %}Reject enrollment{% endblock %}
+{% block admin_title %}Reject enrollment{% endblock %}
+
+{% block admin_content %}
+<div class="card shadow-sm p-4" style="max-width: 560px;">
+    <p class="mb-3 text-muted">This message is shown to the parent in the mobile app.</p>
+    {{ form_start(form) }}
+        {{ form_row(form.staffNote) }}
+        <div class="d-flex gap-2 mt-3">
+            <button type="submit" class="btn btn-danger">Reject request</button>
+            <a href="{{ path('app_enrollment_show', {id: enrollment.id}) }}" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

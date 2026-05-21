@@ -1,0 +1,185 @@
+/**
+ * Decorative element art — always behind page content, never captures pointer events.
+ * Continuous vertical float on .page-bg-decor__wrap (CSS loop; no hover).
+ * Amplitude is visible but calm; disabled under prefers-reduced-motion.
+ */
+
+.page-content-layer {
+    position: relative;
+    z-index: 1;
+    isolation: isolate;
+    min-height: 100vh;
+}
+
+/* Behind all app UI; never targetable (incl. nested nodes / future markup) */
+.page-bg-decor {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none !important;
+    overflow: hidden;
+    user-select: none;
+}
+
+.page-bg-decor * {
+    pointer-events: none !important;
+}
+
+.page-bg-decor__wrap {
+    position: absolute;
+    pointer-events: none;
+    transform-origin: center center;
+    will-change: transform;
+    animation: page-bg-float 14s ease-in-out infinite;
+}
+
+.page-bg-decor__blob {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: min(28vw, 160px);
+    opacity: 0.42;
+    filter: drop-shadow(0 6px 14px rgba(197, 54, 120, 0.12));
+    pointer-events: none;
+}
+
+.page-bg-decor__blob--photo {
+    border-radius: 18px;
+}
+
+/* Scatter + staggered float */
+.page-bg-decor__wrap--1 {
+    top: 4%;
+    left: 2%;
+    width: clamp(72px, 14vw, 130px);
+    animation-duration: 17s;
+    animation-delay: -2s;
+}
+
+.page-bg-decor__wrap--2 {
+    top: 8%;
+    right: 4%;
+    left: auto;
+    width: clamp(68px, 12vw, 118px);
+    animation-duration: 15s;
+    animation-delay: -7s;
+}
+
+.page-bg-decor__wrap--3 {
+    top: 38%;
+    left: -1%;
+    width: clamp(56px, 10vw, 100px);
+    animation-duration: 18s;
+    animation-delay: -4s;
+}
+
+.page-bg-decor__wrap--4 {
+    top: 52%;
+    right: 6%;
+    left: auto;
+    width: clamp(62px, 11vw, 108px);
+    animation-duration: 16s;
+    animation-delay: -11s;
+}
+
+.page-bg-decor__wrap--5 {
+    bottom: 28%;
+    left: 8%;
+    top: auto;
+    width: clamp(52px, 9vw, 92px);
+    animation-duration: 19s;
+    animation-delay: -1s;
+}
+
+.page-bg-decor__wrap--6 {
+    bottom: 12%;
+    right: 14%;
+    left: auto;
+    top: auto;
+    width: clamp(48px, 8vw, 86px);
+    animation-duration: 14s;
+    animation-delay: -9s;
+}
+
+.page-bg-decor__wrap--7 {
+    top: 18%;
+    left: 42%;
+    width: clamp(58px, 10vw, 102px);
+    animation-duration: 20s;
+    animation-delay: -14s;
+}
+
+.page-bg-decor__wrap--8 {
+    bottom: 38%;
+    right: 1%;
+    left: auto;
+    top: auto;
+    width: clamp(76px, 13vw, 128px);
+    animation-duration: 13s;
+    animation-delay: -5s;
+}
+
+@keyframes page-bg-float {
+    0%,
+    100% {
+        transform: translateY(0) rotate(var(--blob-rotate, 0deg));
+    }
+    50% {
+        transform: translateY(var(--drift-y, -16px)) rotate(var(--blob-rotate, 0deg));
+    }
+}
+
+.page-bg-decor__wrap--1 {
+    --blob-rotate: -11deg;
+    --drift-y: -18px;
+}
+.page-bg-decor__wrap--2 {
+    --blob-rotate: 14deg;
+    --drift-y: 16px;
+}
+.page-bg-decor__wrap--3 {
+    --blob-rotate: 7deg;
+    --drift-y: -14px;
+}
+.page-bg-decor__wrap--4 {
+    --blob-rotate: -16deg;
+    --drift-y: 20px;
+}
+.page-bg-decor__wrap--5 {
+    --blob-rotate: 19deg;
+    --drift-y: -22px;
+}
+.page-bg-decor__wrap--6 {
+    --blob-rotate: -9deg;
+    --drift-y: 15px;
+}
+.page-bg-decor__wrap--7 {
+    --blob-rotate: 22deg;
+    --drift-y: -17px;
+}
+.page-bg-decor__wrap--8 {
+    --blob-rotate: -6deg;
+    --drift-y: 19px;
+}
+
+/* Admin / dashboard: keep UI clean */
+body:has(.sidebar) .page-bg-decor {
+    display: none;
+}
+
+@media (max-width: 720px) {
+    .page-bg-decor__blob {
+        opacity: 0.32;
+        max-width: min(36vw, 120px);
+    }
+
+    .page-bg-decor__wrap--7 {
+        left: 36%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .page-bg-decor__wrap {
+        animation: none;
+    }
+}

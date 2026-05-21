@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
 
 class RegistrationType extends AbstractType
@@ -22,26 +23,30 @@ class RegistrationType extends AbstractType
                 'label' => 'First Name',
                 'required' => true,
                 'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Enter your first name',
+                    'class' => 'login-split__input',
+                    'placeholder' => 'First name',
                 ],
             ])
             ->add('lastName', TextType::class, [
                 'label' => 'Last Name',
                 'required' => true,
                 'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Enter your last name',
+                    'class' => 'login-split__input',
+                    'placeholder' => 'Last name',
                 ],
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email',
                 'required' => true,
                 'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Enter your email address',
+                    'class' => 'login-split__input',
+                    'placeholder' => 'you@example.com',
+                    'autocomplete' => 'email',
                 ],
                 'constraints' => [
+                    new NotBlank([
+                        'message' => 'Please enter an email',
+                    ]),
                     new Email([
                         'message' => 'Please enter a valid email address.',
                     ]),
@@ -58,17 +63,17 @@ class RegistrationType extends AbstractType
                 'first_options' => [
                     'label' => 'Password',
                     'attr' => [
-                        'class' => 'form-control',
+                        'class' => 'login-split__input login-split__input--password-toggle',
                         'autocomplete' => 'new-password',
-                        'placeholder' => 'Enter your password',
+                        'placeholder' => '••••••••',
                     ],
                 ],
                 'second_options' => [
                     'label' => 'Confirm Password',
                     'attr' => [
-                        'class' => 'form-control',
+                        'class' => 'login-split__input login-split__input--password-toggle',
                         'autocomplete' => 'new-password',
-                        'placeholder' => 'Confirm your password',
+                        'placeholder' => '••••••••',
                     ],
                 ],
                 'invalid_message' => 'The password fields must match.',

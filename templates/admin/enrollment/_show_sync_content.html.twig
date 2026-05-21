@@ -1,0 +1,20 @@
+<span class="badge {% if enrollment.status == 'pending' %}bg-warning text-dark{% elseif enrollment.status == 'active' %}bg-success{% elseif enrollment.status == 'rejected' %}bg-danger{% else %}bg-secondary{% endif %}" data-tm-sync-status>
+    {{ enrollment.status }}
+</span>
+
+<div class="d-flex flex-wrap gap-2 mt-4" data-tm-sync-actions>
+    {% if enrollment.status == 'pending' %}
+        <a href="{{ path('app_enrollment_approve', {id: enrollment.id}) }}" class="btn btn-brand">Approve & assign tutor</a>
+        <a href="{{ path('app_enrollment_reject', {id: enrollment.id}) }}" class="btn btn-outline-danger">Reject</a>
+    {% endif %}
+    {% if enrollment.status == 'active' %}
+        <a href="{{ path('app_enrollment_session_new', {id: enrollment.id}) }}" class="btn btn-brand">Schedule online class</a>
+    {% endif %}
+    <a href="{{ path('app_enrollment_index') }}" class="btn btn-outline-secondary">Back to list</a>
+</div>
+
+<div class="card shadow-sm p-4 mt-4">
+    <h3 class="h5 mb-3">Online class schedule</h3>
+    <p class="text-muted small">Parents see these on mobile and tap the meeting link to join Zoom / Google Meet.</p>
+    {% include 'admin/enrollment/_sessions_content.html.twig' %}
+</div>

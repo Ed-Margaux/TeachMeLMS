@@ -4,12 +4,15 @@
     {{ parent() }}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="{{ asset('assets/styles/variables.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/styles/forms.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/styles/components.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/styles/layout.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/styles/utilities.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/styles/dark-mode.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,600;0,700;1,400&family=Merriweather:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('styles/variables.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/forms.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/components.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/layout.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/utilities.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/dark-mode.css') }}">
     <style>
         /* CSS Variables for Light Mode (Default) */
         :root {
@@ -110,78 +113,270 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
         
+        .tm-admin-app {
+            font-family: "Lato", system-ui, -apple-system, sans-serif;
+            --sidebar-motion-duration: 0.52s;
+            --sidebar-motion-ease: cubic-bezier(0.33, 1, 0.68, 1);
+            --sidebar-shadow-duration: 0.45s;
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .tm-admin-app {
+                --sidebar-motion-duration: 0s;
+                --sidebar-shadow-duration: 0s;
+            }
+        }
+        .tm-admin-app h1,
+        .tm-admin-app h2,
+        .tm-admin-app h3,
+        .tm-admin-app .h1,
+        .tm-admin-app .h2 {
+            font-family: "Merriweather", Georgia, serif;
+        }
+        
+        /* Sidebar: Teach Me brand — collapsed to icons; expands on hover */
         .sidebar {
-            background: var(--bg-secondary);
-            border-right: 1px solid var(--border-color);
+            background: #C53678;
+            border-right: 1px solid transparent;
             height: 100vh;
-            width: 260px;
+            width: 76px;
             position: fixed;
             left: 0;
             top: 0;
             z-index: 100;
             display: flex;
             flex-direction: column;
-            box-shadow: var(--shadow-sm);
-            transition: background-color 0.3s ease, border-color 0.3s ease;
+            box-shadow: 4px 0 28px rgba(197, 54, 120, 0.28);
+            transition:
+                width var(--sidebar-motion-duration) var(--sidebar-motion-ease),
+                box-shadow var(--sidebar-shadow-duration) var(--sidebar-motion-ease),
+                background var(--sidebar-motion-duration) var(--sidebar-motion-ease),
+                border-color var(--sidebar-motion-duration) var(--sidebar-motion-ease);
+            overflow: hidden;
         }
-        .sidebar .logo {
-            margin-bottom: 2rem;
-            text-align: center;
-            padding-top: 32px;
+        /* Light panel on hover so tmMainlogo (pink/coral on dark) stays legible on a soft tint */
+        .sidebar:hover {
+            width: 260px;
+            box-shadow: 8px 0 36px rgba(45, 18, 32, 0.12);
+            background: linear-gradient(168deg, #ffffff 0%, #fff9fb 38%, #fdeef4 100%);
+            border-right-color: rgba(197, 54, 120, 0.14);
+        }
+        [data-theme="dark"] .sidebar {
+            background: linear-gradient(180deg, #9e2f62 0%, #6e2145 100%);
+            box-shadow: 4px 0 24px rgba(0, 0, 0, 0.45);
+        }
+        [data-theme="dark"] .sidebar:hover {
+            background: linear-gradient(168deg, #2a1822 0%, #3d2434 48%, #4d2d42 100%);
+            border-right-color: rgba(237, 100, 166, 0.22);
+            box-shadow: 8px 0 40px rgba(0, 0, 0, 0.35);
+        }
+        /* Brand row: tmicon (always); tmMainlogo when expanded */
+        .sidebar-brand {
+            margin-bottom: 1rem;
+            padding: 24px 8px 0;
             flex-shrink: 0;
+        }
+        .sidebar-brand-hit {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            text-decoration: none;
+            color: inherit;
+            outline: none;
+            transition:
+                gap var(--sidebar-motion-duration) var(--sidebar-motion-ease),
+                justify-content var(--sidebar-motion-duration) var(--sidebar-motion-ease);
+        }
+        .sidebar:hover .sidebar-brand-hit {
+            justify-content: flex-start;
+            gap: 10px;
+        }
+        .sidebar-brand-hit:focus-visible {
+            border-radius: 12px;
+            box-shadow: 0 0 0 2px #fff, 0 0 0 4px #C53678;
+        }
+        .sidebar:hover .sidebar-brand-hit:focus-visible {
+            box-shadow: 0 0 0 2px #C53678, 0 0 0 4px rgba(237, 100, 166, 0.5);
+        }
+        /* tmicon.png: no extra frame, background, or radius — asset is used as-is */
+        .sidebar-brand-icon-img {
+            flex-shrink: 0;
+            display: block;
+            width: 48px;
+            height: auto;
+        }
+        .sidebar-brand-wordmark {
+            flex: 1;
+            min-width: 0;
+            max-width: 0;
+            opacity: 0;
+            overflow: hidden;
+            transform: translate3d(-4px, 0, 0);
+            transition:
+                max-width var(--sidebar-motion-duration) var(--sidebar-motion-ease),
+                opacity calc(var(--sidebar-motion-duration) * 0.88) var(--sidebar-motion-ease),
+                transform var(--sidebar-motion-duration) var(--sidebar-motion-ease);
+        }
+        .sidebar:hover .sidebar-brand-wordmark {
+            max-width: 200px;
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+            transition-delay: 0.03s;
+        }
+        .sidebar-brand-wordmark-img {
+            height: 36px;
+            width: auto;
+            max-width: 178px;
+            display: block;
+            object-fit: contain;
+            object-position: left center;
         }
         .sidebar nav {
             flex: 1;
             overflow-y: auto;
             overflow-x: hidden;
-            padding: 0 16px 16px 16px;
+            padding: 0 10px 16px 10px;
         }
         .sidebar nav::-webkit-scrollbar {
             width: 6px;
         }
         .sidebar nav::-webkit-scrollbar-track {
-            background: var(--bg-tertiary);
+            background: rgba(255, 255, 255, 0.06);
             border-radius: 3px;
         }
         .sidebar nav::-webkit-scrollbar-thumb {
-            background: var(--border-color);
+            background: rgba(255, 255, 255, 0.22);
             border-radius: 3px;
         }
         .sidebar nav::-webkit-scrollbar-thumb:hover {
-            background: var(--pink-primary);
+            background: rgba(255, 255, 255, 0.35);
         }
-        .sidebar .logo-image {
-            max-width: 180px;
-            height: auto;
-            display: block;
-            margin: 0 auto;
+        .sidebar:hover nav::-webkit-scrollbar-track {
+            background: rgba(197, 54, 120, 0.06);
+        }
+        .sidebar:hover nav::-webkit-scrollbar-thumb {
+            background: rgba(197, 54, 120, 0.22);
+        }
+        .sidebar:hover nav::-webkit-scrollbar-thumb:hover {
+            background: rgba(197, 54, 120, 0.38);
+        }
+        [data-theme="dark"] .sidebar:hover nav::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.04);
+        }
+        [data-theme="dark"] .sidebar:hover nav::-webkit-scrollbar-thumb {
+            background: rgba(237, 100, 166, 0.25);
         }
         .sidebar .nav-link {
-            color: var(--text-primary);
-            font-weight: 500;
-            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.94);
+            font-weight: 600;
+            border-radius: 10px;
             margin-bottom: 6px;
-            padding: 12px 18px;
+            padding: 11px 12px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            transition: all 0.3s ease;
-            position: relative;
+            gap: 0;
+            transition:
+                background 0.22s ease,
+                color 0.22s ease,
+                box-shadow 0.22s ease,
+                gap var(--sidebar-motion-duration) var(--sidebar-motion-ease);
+            justify-content: center;
+            white-space: nowrap;
         }
-        .sidebar .nav-link.active, .sidebar .nav-link:hover {
-            background: linear-gradient(135deg, var(--pink-secondary), var(--pink-primary));
-            color: #fff;
-            transform: translateX(4px);
-            box-shadow: 0 2px 8px var(--pink-shadow);
+        .sidebar:hover .nav-link {
+            justify-content: flex-start;
+            gap: 12px;
         }
         .sidebar .nav-link i {
             font-size: 1.2rem;
+            flex-shrink: 0;
+            width: 1.5rem;
+            text-align: center;
+        }
+        .sidebar .nav-link span {
+            display: inline-block;
+            max-width: 0;
+            opacity: 0;
+            overflow: hidden;
+            transform: translate3d(-6px, 0, 0);
+            transition:
+                max-width var(--sidebar-motion-duration) var(--sidebar-motion-ease),
+                opacity calc(var(--sidebar-motion-duration) * 0.85) var(--sidebar-motion-ease),
+                transform var(--sidebar-motion-duration) var(--sidebar-motion-ease);
+            transition-delay: 0s, 0s, 0s;
+            vertical-align: middle;
+        }
+        .sidebar:hover .nav-link span {
+            max-width: 220px;
+            opacity: 1;
+            transform: translate3d(0, 0, 0);
+            transition-delay: 0s, 0.04s, 0.02s;
+        }
+        .sidebar .nav-link:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+            transform: none;
+            box-shadow: none;
+        }
+        .sidebar .nav-link.active {
+            background: rgba(255, 255, 255, 0.16);
+            color: #fff;
+            box-shadow: inset 3px 0 0 #ED64A6;
+            transform: none;
+        }
+        /* Expanded (light) rail: dark text + brand-colored icons */
+        .sidebar:hover .nav-link {
+            color: #4a3540;
+        }
+        .sidebar:hover .nav-link i {
+            color: #C53678;
+        }
+        .sidebar:hover .nav-link:hover {
+            background: rgba(197, 54, 120, 0.09);
+            color: #8f1f56;
+        }
+        .sidebar:hover .nav-link:hover i {
+            color: #C53678;
+        }
+        .sidebar:hover .nav-link.active {
+            background: rgba(197, 54, 120, 0.11);
+            color: #6d1844;
+            box-shadow: inset 3px 0 0 #C53678;
+        }
+        .sidebar:hover .nav-link.active i {
+            color: #C53678;
+        }
+        [data-theme="dark"] .sidebar:hover .nav-link {
+            color: rgba(255, 255, 255, 0.94);
+        }
+        [data-theme="dark"] .sidebar:hover .nav-link i {
+            color: #ED64A6;
+        }
+        [data-theme="dark"] .sidebar:hover .nav-link:hover {
+            background: rgba(237, 100, 166, 0.12);
+            color: #fff;
+        }
+        [data-theme="dark"] .sidebar:hover .nav-link:hover i {
+            color: #ffb3d4;
+        }
+        [data-theme="dark"] .sidebar:hover .nav-link.active {
+            background: rgba(237, 100, 166, 0.16);
+            color: #fff;
+            box-shadow: inset 3px 0 0 #ED64A6;
+        }
+        [data-theme="dark"] .sidebar:hover .nav-link.active i {
+            color: #ffb3d4;
         }
         .admin-main {
-            margin-left: 260px;
+            margin-left: 76px;
             min-height: 100vh;
             background: var(--bg-secondary);
-            transition: background-color 0.3s ease;
+            transition:
+                margin-left var(--sidebar-motion-duration) var(--sidebar-motion-ease),
+                background-color 0.3s ease;
+        }
+        .sidebar:hover ~ .admin-main {
+            margin-left: 260px;
         }
         .admin-topbar {
             background: var(--bg-topbar);
@@ -190,8 +385,49 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 12px;
+            flex-wrap: nowrap;
             box-shadow: var(--shadow-sm);
             transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+        .admin-mobile-nav-toggle {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            flex-shrink: 0;
+            border: 1.5px solid var(--border-color);
+            border-radius: 10px;
+            background: var(--bg-card);
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s, background 0.2s;
+        }
+        .admin-mobile-nav-toggle:hover {
+            border-color: rgba(197, 54, 120, 0.45);
+            color: #C53678;
+            background: rgba(197, 54, 120, 0.06);
+        }
+        .admin-mobile-nav-toggle i {
+            font-size: 1.35rem;
+            line-height: 1;
+        }
+        .admin-sidebar-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1050;
+            background: rgba(18, 10, 14, 0.48);
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
+        }
+        .admin-sidebar-backdrop.is-visible {
+            display: block;
+        }
+        body.admin-mobile-nav-open {
+            overflow: hidden;
         }
         .admin-topbar .search-box {
             width: 320px;
@@ -201,7 +437,7 @@
             width: 100%;
             border-radius: 20px;
             border: 1.5px solid var(--border-color);
-            padding: 10px 40px 10px 18px;
+            padding: 10px 18px 10px 42px;
             font-size: 14px;
             transition: all 0.3s ease;
             background: var(--bg-input);
@@ -220,10 +456,29 @@
         
         .admin-topbar .search-box i {
             position: absolute;
-            right: 12px;
+            left: 14px;
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-muted);
+            pointer-events: none;
+        }
+        .tm-topbar-notify {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            background: var(--bg-card);
+            border: 1.5px solid var(--border-color);
+            text-decoration: none;
+            transition: color 0.2s, border-color 0.2s, background 0.2s;
+        }
+        .tm-topbar-notify:hover {
+            color: #C53678;
+            border-color: rgba(197, 54, 120, 0.45);
+            background: rgba(197, 54, 120, 0.06);
         }
         .search-dropdown {
             position: absolute;
@@ -353,11 +608,136 @@
             margin: 4px 0;
         }
         @media (max-width: 900px) {
-            .sidebar { width: 60px; padding-top: 16px; }
-            .sidebar .logo-image { max-width: 40px; }
-            .sidebar .nav-link span { display: none; }
-            .admin-main { margin-left: 60px; }
-            .admin-topbar .search-box { width: 120px; }
+            .sidebar { width: 64px; }
+            .sidebar:hover { width: 240px; z-index: 200; }
+            .sidebar-brand-icon-img { width: 44px; }
+            .sidebar-brand-wordmark-img { max-width: 150px; height: 32px; }
+            .admin-main { margin-left: 64px; }
+            .sidebar:hover ~ .admin-main { margin-left: 240px; }
+            .admin-topbar .search-box { width: min(100%, 160px); }
+        }
+
+        /* Mobile: off-canvas nav + hamburger (≤768px) */
+        @media (max-width: 768px) {
+            .admin-mobile-nav-toggle {
+                display: inline-flex;
+            }
+            .admin-main {
+                margin-left: 0 !important;
+            }
+            .sidebar:hover ~ .admin-main {
+                margin-left: 0 !important;
+            }
+            .admin-topbar {
+                padding: 12px 14px;
+                flex-wrap: wrap;
+                row-gap: 10px;
+            }
+            .admin-topbar .search-box {
+                flex: 1 1 140px;
+                width: auto !important;
+                max-width: none;
+                min-width: 0;
+                order: 2;
+            }
+            .admin-mobile-nav-toggle {
+                order: 1;
+            }
+            .admin-topbar .admin-topbar-actions {
+                order: 3;
+                margin-left: auto;
+                flex-wrap: wrap;
+                justify-content: flex-end;
+                gap: 0.5rem !important;
+            }
+            .admin-topbar .admin-topbar-profile-text {
+                display: none !important;
+            }
+            .sidebar {
+                width: min(300px, 88vw) !important;
+                max-width: 100vw;
+                z-index: 1060;
+                transform: translate3d(-100%, 0, 0);
+                transition: transform 0.34s cubic-bezier(0.33, 1, 0.68, 1), background 0.25s ease, box-shadow 0.25s ease;
+                box-shadow: 8px 0 32px rgba(0, 0, 0, 0.2);
+            }
+            .sidebar:not(.is-open):hover {
+                width: min(300px, 88vw) !important;
+                transform: translate3d(-100%, 0, 0);
+                background: #C53678;
+                border-right-color: transparent;
+            }
+            [data-theme="dark"] .sidebar:not(.is-open):hover {
+                background: linear-gradient(180deg, #9e2f62 0%, #6e2145 100%);
+            }
+            .sidebar.is-open {
+                transform: translate3d(0, 0, 0);
+                background: linear-gradient(168deg, #ffffff 0%, #fff9fb 38%, #fdeef4 100%);
+                border-right-color: rgba(197, 54, 120, 0.14);
+            }
+            [data-theme="dark"] .sidebar.is-open {
+                background: linear-gradient(168deg, #2a1822 0%, #3d2434 48%, #4d2d42 100%);
+                border-right-color: rgba(237, 100, 166, 0.22);
+            }
+            .sidebar.is-open .sidebar-brand-hit {
+                justify-content: flex-start;
+                gap: 10px;
+            }
+            .sidebar.is-open .sidebar-brand-wordmark {
+                max-width: 200px;
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+            .sidebar.is-open .nav-link {
+                justify-content: flex-start;
+                gap: 12px;
+            }
+            .sidebar.is-open .nav-link span {
+                max-width: 220px;
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+            .sidebar.is-open .nav-link {
+                color: #4a3540;
+            }
+            .sidebar.is-open .nav-link i {
+                color: #C53678;
+            }
+            .sidebar.is-open .nav-link:hover {
+                background: rgba(197, 54, 120, 0.09);
+                color: #8f1f56;
+            }
+            .sidebar.is-open .nav-link.active {
+                background: rgba(197, 54, 120, 0.11);
+                color: #6d1844;
+                box-shadow: inset 3px 0 0 #C53678;
+            }
+            [data-theme="dark"] .sidebar.is-open .nav-link {
+                color: rgba(255, 255, 255, 0.94);
+            }
+            [data-theme="dark"] .sidebar.is-open .nav-link i {
+                color: #ED64A6;
+            }
+            [data-theme="dark"] .sidebar.is-open .nav-link:hover {
+                background: rgba(237, 100, 166, 0.12);
+                color: #fff;
+            }
+            [data-theme="dark"] .sidebar.is-open .nav-link.active {
+                background: rgba(237, 100, 166, 0.16);
+                color: #fff;
+                box-shadow: inset 3px 0 0 #ED64A6;
+            }
+            /* admin-main is full-width after backdrop in DOM — it was stealing taps from the overlay and blocking nav on non-dashboard pages */
+            body.admin-mobile-nav-open .admin-main {
+                pointer-events: none;
+            }
+            body.admin-mobile-nav-open .admin-topbar {
+                pointer-events: auto;
+            }
+            body.admin-mobile-nav-open .sidebar,
+            body.admin-mobile-nav-open .admin-sidebar-backdrop {
+                pointer-events: auto;
+            }
         }
 
         /* Brand Button Styles */
@@ -1181,9 +1561,15 @@
 {% endblock %}
 
 {% block body %}
-<div class="sidebar d-flex flex-column">
-    <div class="logo mb-4">
-        <img src="{{ asset('img/tmMainlogo.png') }}" alt="Teach Me - Learn. Love. Language." class="logo-image">
+<div class="tm-admin-app">
+<div class="sidebar d-flex flex-column" id="adminSidebar">
+    <div class="sidebar-brand">
+        <a href="{{ path('app_admin_dashboard') }}" class="sidebar-brand-hit" aria-label="Teach Me — Admin home">
+            <img src="{{ asset('img/tmicon.png') }}" alt="" class="sidebar-brand-icon-img" width="48" height="48" decoding="async">
+            <span class="sidebar-brand-wordmark">
+                <img src="{{ asset('img/tmMainlogo.png') }}" alt="Teach Me — Learn. Love. Language." class="sidebar-brand-wordmark-img" decoding="async">
+            </span>
+        </a>
     </div>
     <nav>
         <ul class="nav flex-column">
@@ -1205,6 +1591,11 @@
             <li class="nav-item">
                 <a class="nav-link{% if app.request.get('_route') starts with 'app_tutor' %} active{% endif %}" href="{{ path('app_tutor_index') }}">
                     <i class="bi bi-person-badge"></i> <span>Tutors</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link{% if app.request.get('_route') starts with 'app_enrollment' %} active{% endif %}" href="{{ path('app_enrollment_index') }}">
+                    <i class="bi bi-journal-check"></i> <span>Enrollments</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -1242,18 +1633,25 @@
         </ul>
     </nav>
 </div>
+<div class="admin-sidebar-backdrop" id="adminSidebarBackdrop" hidden aria-hidden="true"></div>
 <div class="admin-main">
     <div class="admin-topbar">
+        <button type="button" class="admin-mobile-nav-toggle" id="adminMobileNavToggle" aria-controls="adminSidebar" aria-expanded="false" aria-label="Open navigation menu">
+            <i class="bi bi-list" id="adminMobileNavToggleIcon" aria-hidden="true"></i>
+        </button>
         <div class="search-box">
+            <i class="bi bi-search" aria-hidden="true"></i>
             <input type="text" id="globalSearch" placeholder="Search courses, categories, sessions..." autocomplete="off">
-            <i class="bi bi-search"></i>
             <div class="search-dropdown" id="searchDropdown"></div>
         </div>
-               <div class="d-flex align-items-center gap-3">
+               <div class="d-flex align-items-center gap-3 admin-topbar-actions">
+                   <a href="{{ path('app_message_index') }}" class="tm-topbar-notify" title="Messages" aria-label="Messages">
+                       <i class="bi bi-bell"></i>
+                   </a>
                    <button type="button" class="dark-mode-toggle" id="darkModeToggle" aria-label="Toggle dark mode">
                        <i class="bi bi-moon-fill" id="darkModeIcon"></i>
                    </button>
-                   <a href="{{ path('app_profile') }}" class="text-decoration-none text-dark">
+                   <a href="{{ path('app_profile') }}" class="text-decoration-none text-dark admin-topbar-profile-text">
                        <div class="text-end">
                            <div class="fw-semibold">{{ app.user ? app.user.fullName : 'Guest' }}</div>
                            <div class="small text-muted">{{ app.user ? app.user.email : '' }}</div>
@@ -1286,7 +1684,9 @@
                </div>
     </div>
     <div class="container-fluid p-4">
+        {% block admin_page_intro %}
         <h1 class="mb-4">{% block admin_title %}Admin{% endblock %}</h1>
+        {% endblock %}
         {% for message in app.flashes('success') %}
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ message }}
@@ -1301,6 +1701,7 @@
         {% endfor %}
         {% block admin_content %}{% endblock %}
     </div>
+</div>
 </div>
 {% endblock %}
 
@@ -1469,5 +1870,87 @@
                 }
             });
         });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var sidebar = document.getElementById('adminSidebar');
+            var toggle = document.getElementById('adminMobileNavToggle');
+            var backdrop = document.getElementById('adminSidebarBackdrop');
+            var toggleIcon = document.getElementById('adminMobileNavToggleIcon');
+            if (!sidebar || !toggle) return;
+
+            function isMobileNav() {
+                return window.matchMedia('(max-width: 768px)').matches;
+            }
+
+            function syncMobileNavState(open) {
+                if (!isMobileNav()) {
+                    sidebar.classList.remove('is-open');
+                    document.body.classList.remove('admin-mobile-nav-open');
+                    if (backdrop) {
+                        backdrop.classList.remove('is-visible');
+                        backdrop.hidden = true;
+                        backdrop.setAttribute('aria-hidden', 'true');
+                    }
+                    toggle.setAttribute('aria-expanded', 'false');
+                    toggle.setAttribute('aria-label', 'Open navigation menu');
+                    if (toggleIcon) {
+                        toggleIcon.className = 'bi bi-list';
+                    }
+                    return;
+                }
+                sidebar.classList.toggle('is-open', open);
+                document.body.classList.toggle('admin-mobile-nav-open', open);
+                if (backdrop) {
+                    backdrop.classList.toggle('is-visible', open);
+                    backdrop.hidden = !open;
+                    backdrop.setAttribute('aria-hidden', open ? 'false' : 'true');
+                }
+                toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+                toggle.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+                if (toggleIcon) {
+                    toggleIcon.className = open ? 'bi bi-x-lg' : 'bi bi-list';
+                }
+            }
+
+            toggle.addEventListener('click', function() {
+                if (!isMobileNav()) return;
+                syncMobileNavState(!sidebar.classList.contains('is-open'));
+            });
+
+            if (backdrop) {
+                backdrop.addEventListener('click', function() {
+                    syncMobileNavState(false);
+                });
+            }
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && isMobileNav() && sidebar.classList.contains('is-open')) {
+                    syncMobileNavState(false);
+                }
+            });
+
+            sidebar.addEventListener('click', function(e) {
+                var a = e.target.closest('a[href]');
+                if (!a || !sidebar.contains(a)) return;
+                if (isMobileNav()) syncMobileNavState(false);
+            });
+
+            window.addEventListener('resize', function() {
+                if (!isMobileNav()) {
+                    syncMobileNavState(false);
+                }
+            });
+        });
     </script>
+    <style>
+        .tm-sync-flash {
+            animation: tm-sync-pulse 1.2s ease-out;
+        }
+        @keyframes tm-sync-pulse {
+            0% { box-shadow: 0 0 0 0 rgba(237, 100, 166, 0.45); }
+            70% { box-shadow: 0 0 0 10px rgba(237, 100, 166, 0); }
+            100% { box-shadow: none; }
+        }
+    </style>
+    <script src="{{ asset('js/admin-realtime-sync.js') }}" defer></script>
 {% endblock %}

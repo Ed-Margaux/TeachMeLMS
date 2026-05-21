@@ -1,0 +1,754 @@
+/**
+ * Teach Me — split login (custom layout, brand colors)
+ * #C53678 · #FF5841 · #ED64A6
+ */
+
+.login-page {
+    --tm-pink: #c53678;
+    --tm-pink-light: #ed64a6;
+    --tm-coral: #ff5841;
+    --tm-ink: #12141a;
+    --tm-ink-soft: #1c2030;
+    --tm-text: rgba(255, 255, 255, 0.94);
+    --tm-muted: rgba(255, 255, 255, 0.62);
+    --tm-input-bg: #e8eaef;
+    --tm-border: rgba(237, 100, 166, 0.55);
+    --tm-focus: rgba(237, 100, 166, 0.45);
+
+    min-height: 100vh;
+    margin: 0;
+    font-family: 'Lato', system-ui, sans-serif;
+    color: var(--tm-text);
+    background: var(--tm-ink);
+    -webkit-font-smoothing: antialiased;
+}
+
+.login-split {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+/* ——— Form column: same pink gradient as contact page aside ——— */
+.login-split__panel {
+    --tm-muted: rgba(45, 19, 34, 0.78);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    padding: clamp(28px, 5vw, 56px) clamp(20px, 4vw, 48px);
+    color: #2d1322;
+    background: linear-gradient(
+        165deg,
+        #ffe8f2 0%,
+        #ffc8dd 28%,
+        #ed64a6 58%,
+        #c53678 100%
+    );
+}
+
+/* ——— Header: brand row (easy to tweak — sign-in & register) ——— */
+.login-split__header {
+    flex-shrink: 0;
+    width: 100%;
+    margin: 0 0 1.25rem 0;
+    text-align: left;
+}
+.login-split__header .tm-brand-logos__icon {
+    border-radius: 20%;
+}
+
+/* Compact auth layouts: spacing + wordmark size inside the header only */
+.login-page--signin .login-split__header,
+.login-page--register .login-split__header {
+    margin-bottom: 12px;
+}
+
+.login-page--signin .login-split__header .tm-brand-logos--split .tm-brand-logos__wordmark,
+.login-page--register .login-split__header .tm-brand-logos--split .tm-brand-logos__wordmark {
+    max-height: 44px;
+}
+
+@media (max-height: 720px) {
+    .login-page--signin .login-split__header,
+    .login-page--register .login-split__header {
+        margin-bottom: 8px;
+    }
+
+    .login-page--signin .login-split__header .tm-brand-logos--split .tm-brand-logos__wordmark,
+    .login-page--register .login-split__header .tm-brand-logos--split .tm-brand-logos__wordmark {
+        max-height: 32px;
+    }
+}
+
+.login-split__inner {
+    width: 100%;
+    max-width: 400px;
+    padding: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    align-self: flex-start;
+}
+
+.login-split__fields-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 14px;
+    align-items: start;
+}
+
+.login-split__fields-row .login-split__field {
+    margin-bottom: 18px;
+}
+
+@media (max-width: 480px) {
+    .login-split__fields-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+.login-split__title {
+    font-family: 'Merriweather', Georgia, serif;
+    font-size: clamp(2rem, 4.5vw, 2.65rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin: 0 0 10px 0;
+    letter-spacing: -0.03em;
+    color: #83004d;
+}
+
+.login-split__lead {
+    margin: 0 0 28px 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--tm-muted);
+}
+
+/* Social */
+.login-split__social {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.login-split__social-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    border: 1px solid rgba(197, 54, 120, 0.35);
+    background: rgba(255, 255, 255, 0.479);
+    color: #9c1456;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        transform 0.15s ease,
+        color 0.2s ease;
+}
+
+.login-split__social-btn:hover {
+    border-color: rgba(156, 20, 86, 0.55);
+    background: #fff;
+    color: #7a1045;
+    transform: translateY(-1px);
+}
+
+.login-split__social-btn:focus-visible {
+    outline: 2px solid #ed64a6;
+    outline-offset: 3px;
+}
+
+.login-split__social-btn svg {
+    flex-shrink: 0;
+}
+
+.login-split__social-label {
+    margin-left: 10px;
+}
+
+.login-split__social-hint {
+    margin: 0 0 20px 0;
+    font-size: 12px;
+    line-height: 1.45;
+    color: var(--tm-muted);
+}
+
+/* Divider */
+.login-split__rule {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0 0 22px 0;
+    color: var(--tm-muted);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.login-split__rule::before,
+.login-split__rule::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(45, 19, 34, 0.2), transparent);
+}
+
+/* Fields */
+.login-split__field {
+    margin-bottom: 18px;
+}
+
+.login-split__label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    margin-bottom: 8px;
+    color: rgba(45, 19, 34, 0.88);
+}
+
+.login-split__input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px 16px;
+    font-size: 16px;
+    font-family: inherit;
+    color: #1a1a1a;
+    background: var(--tm-input-bg);
+    border: none;
+    border-radius: 14px;
+    transition: box-shadow 0.2s ease;
+}
+
+.login-split__input::placeholder {
+    color: #889;
+}
+
+.login-split__input:hover {
+    box-shadow: 0 0 0 1px rgba(45, 19, 34, 0.12);
+}
+
+.login-split__input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--tm-focus);
+}
+
+/* Password visibility toggle */
+.login-split__password-wrap {
+    position: relative;
+    display: block;
+}
+
+.login-split__input--with-toggle {
+    padding-right: 48px;
+}
+
+.login-split__password-toggle {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: none;
+    border-radius: 10px;
+    background: transparent;
+    color: rgba(45, 19, 34, 0.55);
+    cursor: pointer;
+    transition:
+        color 0.2s ease,
+        background 0.2s ease;
+}
+
+.login-split__password-toggle:hover {
+    color: #c53678;
+    background: rgba(197, 54, 120, 0.08);
+}
+
+.login-split__password-toggle:focus-visible {
+    outline: 2px solid #c53678;
+    outline-offset: 2px;
+}
+
+.login-split__password-toggle-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 0;
+}
+
+.login-split__password-toggle-icon[hidden] {
+    display: none !important;
+}
+
+.login-split__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+}
+
+.login-split__remember {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--tm-muted);
+    cursor: pointer;
+    user-select: none;
+}
+
+.login-split__remember input {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--tm-pink);
+    cursor: pointer;
+}
+
+.login-split__link {
+    font-size: 13px;
+    font-weight: 600;
+    color: #7a1045;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.login-split__link:hover {
+    color: #4a0a2a;
+}
+
+.login-split__link:focus-visible {
+    outline: 2px solid #c53678;
+    outline-offset: 3px;
+    border-radius: 4px;
+}
+
+/* Primary CTA — light surface on pink panel for contrast */
+.login-split__submit {
+    width: 100%;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 999px;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    color: #c53678;
+    background: #fff;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.12);
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.2s ease,
+        filter 0.2s ease;
+}
+
+.login-split__submit:hover {
+    filter: brightness(1.02);
+    transform: translateY(-1px);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.16);
+    background: #ffbcc2;
+}
+
+.login-split__submit:focus-visible {
+    outline: 2px solid #c53678;
+    outline-offset: 3px;
+}
+
+.login-split__register {
+    margin-top: 22px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--tm-muted);
+}
+
+.login-split__register a {
+    color: #7a1045;
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(156, 20, 86, 0.4);
+}
+
+.login-split__register a:hover {
+    color: #4a0a2a;
+    border-bottom-color: rgba(74, 10, 42, 0.55);
+}
+
+/* Alert */
+.login-split__alert {
+    padding: 14px 16px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    line-height: 1.45;
+    background: #fff;
+    border: 1px solid rgba(255, 88, 65, 0.45);
+    color: #5a1a2e;
+}
+
+.login-split__alert strong {
+    color: #c53678;
+}
+
+.login-split__alert--success {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(46, 125, 50, 0.4);
+    color: #1b4d1e;
+}
+
+.login-split__alert--success strong {
+    color: #2e7d32;
+}
+
+/* Symfony field / form error lists on pink panel */
+.login-split__inner form > ul,
+.login-split__field ul {
+    list-style: none;
+    margin: 0 0 14px 0;
+    padding: 10px 12px;
+    font-size: 13px;
+    line-height: 1.45;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(255, 88, 65, 0.45);
+    border-radius: 10px;
+    color: #5a1a2e;
+}
+
+.login-split__field ul {
+    margin-top: 8px;
+    margin-bottom: 0;
+}
+
+.login-split__field ul li + li {
+    margin-top: 6px;
+}
+
+/* Legal */
+.login-split__legal {
+    margin-top: 28px;
+    font-size: 11px;
+    line-height: 1.55;
+    text-align: center;
+    color: rgba(45, 19, 34, 0.72);
+}
+
+.login-split__legal a {
+    color: #7a1045;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.login-split__legal a:hover {
+    color: #4a0a2a;
+}
+
+/* ——— Visual column (decorative) ——— */
+.login-split__visual {
+    position: relative;
+    min-height: 320px;
+    background-color: #0d0f14;
+    background-image:
+        linear-gradient(135deg, rgba(26, 39, 68, 0.88) 0%, rgba(197, 54, 120, 0.35) 42%, rgba(255, 88, 65, 0.2) 100%),
+        repeating-linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.04) 0,
+            rgba(255, 255, 255, 0.04) 1px,
+            transparent 1px,
+            transparent min(12vw, 72px)
+        ),
+        linear-gradient(180deg, #1a1f2e 0%, #0a0c10 100%);
+    background-size:
+        cover,
+        auto,
+        cover;
+    background-position: center;
+}
+
+.login-split__visual::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 70% 20%, rgba(237, 100, 166, 0.15), transparent 55%);
+    pointer-events: none;
+}
+
+/* Optional photo layer (URL set from Twig) */
+.login-split__visual.has-photo {
+    background-size: cover, cover, auto, cover;
+    background-position: center, center, center, center;
+}
+
+/* ——— Sign-in: standard width, compact vertical rhythm (fits viewport without scrolling) ——— */
+.login-page--signin {
+    overflow-x: hidden;
+}
+
+.login-split--signin {
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+.login-page--signin .login-split__panel {
+    align-items: stretch;
+    justify-content: flex-start;
+    padding: clamp(12px, 2.5vh, 32px) clamp(16px, 4vw, 40px);
+}
+
+.login-page--signin .login-split__inner {
+    max-width: 400px;
+}
+
+.login-page--signin .login-split__title {
+    font-size: clamp(1.35rem, 3vw, 1.8rem);
+    margin: 0 0 4px 0;
+}
+
+.login-page--signin .login-split__lead {
+    margin: 0 0 12px 0;
+    font-size: 0.875rem;
+    line-height: 1.4;
+}
+
+.login-page--signin .login-split__social {
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.login-page--signin .login-split__social-btn {
+    min-height: 44px;
+    padding: 8px 12px;
+    border-radius: 12px;
+}
+
+.login-page--signin .login-split__social-hint {
+    margin: 0 0 12px 0;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+.login-page--signin .login-split__rule {
+    margin: 0 0 12px 0;
+    font-size: 12px;
+}
+
+.login-page--signin .login-split__field {
+    margin-bottom: 10px;
+}
+
+.login-page--signin .login-split__label {
+    margin-bottom: 4px;
+    font-size: 12px;
+}
+
+.login-page--signin .login-split__input {
+    padding: 10px 12px;
+    font-size: 15px;
+    border-radius: 12px;
+}
+
+.login-page--signin .login-split__input--with-toggle {
+    padding-right: 44px;
+}
+
+.login-page--signin .login-split__row {
+    margin-bottom: 12px;
+}
+
+.login-page--signin .login-split__submit {
+    padding: 12px 18px;
+    font-size: 15px;
+}
+
+.login-page--signin .login-split__register {
+    margin-top: 12px;
+    font-size: 13px;
+}
+
+.login-page--signin .login-split__legal {
+    margin-top: 12px;
+    font-size: 10px;
+    line-height: 1.45;
+}
+
+.login-page--signin .login-split__alert {
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    font-size: 13px;
+}
+
+@media (max-height: 720px) {
+    .login-page--signin .login-split__lead {
+        margin-bottom: 8px;
+        font-size: 0.8125rem;
+    }
+
+    .login-page--signin .login-split__social-hint {
+        margin-bottom: 8px;
+    }
+
+    .login-page--signin .login-split__rule {
+        margin-bottom: 8px;
+    }
+
+    .login-page--signin .login-split__field {
+        margin-bottom: 8px;
+    }
+
+    .login-page--signin .login-split__row {
+        margin-bottom: 10px;
+    }
+
+    .login-page--signin .login-split__legal {
+        margin-top: 8px;
+    }
+}
+
+/* ——— Registration: standard width, compact vertical rhythm (fits viewport without scrolling) ——— */
+.login-page--register {
+    overflow-x: hidden;
+}
+
+.login-split--register {
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+.login-page--register .login-split__panel {
+    align-items: stretch;
+    justify-content: flex-start;
+    padding: clamp(12px, 2.5vh, 32px) clamp(16px, 4vw, 40px);
+}
+
+.login-page--register .login-split__inner--register {
+    max-width: 400px;
+}
+
+.login-page--register .login-split__title {
+    font-size: clamp(1.35rem, 3vw, 1.8rem);
+    margin: 0 0 4px 0;
+}
+
+.login-page--register .login-split__lead {
+    margin: 0 0 12px 0;
+    font-size: 0.875rem;
+    line-height: 1.4;
+}
+
+.login-page--register .login-split__field {
+    margin-bottom: 10px;
+}
+
+.login-page--register .login-split__fields-row .login-split__field {
+    margin-bottom: 10px;
+}
+
+.login-page--register .login-split__label {
+    margin-bottom: 4px;
+    font-size: 12px;
+}
+
+.login-page--register .login-split__input {
+    padding: 10px 12px;
+    font-size: 15px;
+    border-radius: 12px;
+}
+
+.login-page--register .login-split__input--with-toggle {
+    padding-right: 44px;
+}
+
+.login-page--register .login-split__submit {
+    padding: 12px 18px;
+    font-size: 15px;
+}
+
+.login-page--register .login-split__register {
+    margin-top: 12px;
+    font-size: 13px;
+}
+
+.login-page--register .login-split__legal {
+    margin-top: 12px;
+    font-size: 10px;
+    line-height: 1.45;
+}
+
+.login-page--register .login-split__alert {
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    font-size: 13px;
+}
+
+.login-page--register .login-split__inner form > ul,
+.login-page--register .login-split__field ul {
+    padding: 8px 10px;
+    margin-bottom: 8px;
+    font-size: 12px;
+}
+
+@media (max-height: 720px) {
+    .login-page--register .login-split__lead {
+        margin-bottom: 8px;
+        font-size: 0.8125rem;
+    }
+
+    .login-page--register .login-split__field,
+    .login-page--register .login-split__fields-row .login-split__field {
+        margin-bottom: 8px;
+    }
+
+    .login-page--register .login-split__legal {
+        margin-top: 8px;
+    }
+}
+
+@media (max-width: 900px) {
+    .login-split {
+        grid-template-columns: 1fr;
+    }
+
+    .login-split__visual {
+        min-height: min(38vh, 320px);
+        order: -1;
+    }
+
+    .login-split__panel {
+        padding-bottom: 48px;
+    }
+
+    .login-page--register .login-split__visual,
+    .login-page--signin .login-split__visual {
+        min-height: min(26vh, 220px);
+    }
+
+    .login-page--register .login-split__panel,
+    .login-page--signin .login-split__panel {
+        padding-bottom: clamp(14px, 3vh, 28px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .login-split__submit,
+    .login-split__social-btn {
+        transition: none;
+    }
+
+    .login-split__submit:hover,
+    .login-split__social-btn:hover {
+        transform: none;
+    }
+}
