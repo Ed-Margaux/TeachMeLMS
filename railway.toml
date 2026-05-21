@@ -3,7 +3,7 @@
 
 [build]
 # Force prod during install so post-install scripts do not assume dev.
-buildCommand = "APP_ENV=prod APP_DEBUG=0 composer install --no-dev --optimize-autoloader --no-interaction"
+buildCommand = "APP_ENV=prod APP_DEBUG=0 composer install --no-dev --optimize-autoloader --no-interaction && APP_ENV=prod APP_DEBUG=0 php bin/console asset-map:compile"
 
 [deploy]
 # Force prod at runtime (.env defaults to APP_ENV=dev if Railway vars are missing).
