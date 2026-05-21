@@ -1,0 +1,18 @@
+{% extends 'admin/_layout.html.twig' %}
+
+{% block title %}Approve enrollment{% endblock %}
+{% block admin_title %}Approve enrollment{% endblock %}
+
+{% block admin_content %}
+<div class="card shadow-sm p-4" style="max-width: 560px;">
+    <p class="mb-3"><strong>{{ enrollment.student.fullName }}</strong> → {{ enrollment.course.title }}</p>
+    {{ form_start(form) }}
+        {{ form_row(form.tutor) }}
+        {{ form_row(form.staffNote) }}
+        <div class="d-flex gap-2 mt-3">
+            <button type="submit" class="btn btn-brand">Approve</button>
+            <a href="{{ path('app_enrollment_show', {id: enrollment.id}) }}" class="btn btn-outline-secondary">Cancel</a>
+        </div>
+    {{ form_end(form) }}
+</div>
+{% endblock %}

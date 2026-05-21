@@ -59,7 +59,7 @@ class StudentType extends AbstractType
                 'required' => true,
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Email',
+                'label' => 'Student email',
                 'required' => true,
                 'constraints' => [
                     new Email([
@@ -68,6 +68,16 @@ class StudentType extends AbstractType
                     new Regex([
                         'pattern' => '/@.*\.com$/i',
                         'message' => 'Email must contain @ symbol and end with .com',
+                    ]),
+                ],
+            ])
+            ->add('parentEmail', EmailType::class, [
+                'label' => 'Parent / guardian account email',
+                'required' => false,
+                'help' => 'Must match the parent login email so the mobile app shows this student in real time.',
+                'constraints' => [
+                    new Email([
+                        'message' => 'Please enter a valid parent email address.',
                     ]),
                 ],
             ])

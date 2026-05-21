@@ -6,6 +6,7 @@ use App\Entity\Student;
 use App\Form\StudentType;
 use App\Repository\StudentRepository;
 use App\Service\ActivityLogger;
+use App\Service\ParentLearnerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,17 +48,23 @@ class StudentController extends AbstractController
             });
         }
 
-        return $this->render('student/index.html.twig', [
+        $viewData = [
             'students' => $students,
             'search' => $search,
             'totalStudents' => $totalStudents,
             'totalGrades' => $totalGrades,
             'grades' => $uniqueGrades,
-        ]);
+        ];
+
+        if ($request->query->getBoolean('partial')) {
+            return $this->render('student/_list_content.html.twig', $viewData);
+        }
+
+        return $this->render('student/index.html.twig', $viewData);
     }
 
     #[Route('/new', name: 'app_student_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger, ActivityLogger $activityLogger): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger, ActivityLogger $activityLogger, ParentLearnerService $parentLearners): Response
     {
         $this->denyAccessUnlessGranted('ROLE_STAFF');
         $student = new Student();
@@ -85,6 +92,8 @@ class StudentController extends AbstractController
             }
 
             $student->setCreatedAt(new \DateTimeImmutable());
+            $student->setUpdatedAt(new \DateTimeImmutable());
+            $parentLearners->linkParentFromEmailField($student);
             $entityManager->persist($student);
             $entityManager->flush();
             
@@ -110,7 +119,7 @@ class StudentController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_student_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Student $student, EntityManagerInterface $entityManager, SluggerInterface $slugger, ActivityLogger $activityLogger): Response
+    public function edit(Request $request, Student $student, EntityManagerInterface $entityManager, SluggerInterface $slugger, ActivityLogger $activityLogger, ParentLearnerService $parentLearners): Response
     {
         $this->denyAccessUnlessGranted('ROLE_STAFF');
 
@@ -151,6 +160,7 @@ class StudentController extends AbstractController
             }
 
             $student->setUpdatedAt(new \DateTimeImmutable());
+            $parentLearners->linkParentFromEmailField($student);
             $entityManager->flush();
             
             $activityLogger->log('UPDATE', 'student', $student->getFullName(), $student->getId());

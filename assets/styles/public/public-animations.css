@@ -1,0 +1,214 @@
+/**
+ * Public marketing animations — Teach Me
+ * Respects prefers-reduced-motion
+ */
+
+@media (prefers-reduced-motion: no-preference) {
+    @keyframes km-fade-up {
+        from {
+            opacity: 0;
+            transform: translateY(22px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes km-fade-in {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes km-scale-in {
+        from {
+            opacity: 0;
+            transform: scale(0.94);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    @keyframes km-soft-float {
+        0%,
+        100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-6px);
+        }
+    }
+
+    /* Learning paths grid — slightly stronger entrance than generic km-fade-up */
+    @keyframes km-offering-enter {
+        from {
+            opacity: 0;
+            transform: translateY(32px) scale(0.97);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    /* Landing hero — entrance */
+    .page-home .hero__eyebrow {
+        animation: km-fade-in 0.55s ease-out both;
+    }
+
+    .page-home .hero-copy h1 {
+        animation: km-fade-up 0.65s ease-out 0.08s both;
+    }
+
+    .page-home .hero-copy > p:not(.hero__eyebrow) {
+        animation: km-fade-up 0.65s ease-out 0.16s both;
+    }
+
+    .page-home .hero-copy .btn-cta {
+        animation: km-fade-up 0.65s ease-out 0.26s both;
+    }
+
+    .page-home .hero-image {
+        animation: km-scale-in 0.85s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+    }
+
+    .page-home .hero-image img {
+        animation: km-soft-float 5.5s ease-in-out 1.2s infinite;
+    }
+
+    /* Gradient page header (about / contact) */
+    .km-page-header {
+        animation: km-fade-in 0.5s ease-out both;
+    }
+
+    /* Scroll reveal (class added by public-animations.js) */
+    .km-reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+            opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+            transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .km-reveal.km-reveal--visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Stagger children inside revealed sections (cards, steps) */
+    .km-reveal--visible .km-services-grid .km-service-card:nth-child(1) {
+        animation: km-fade-up 0.5s ease-out 0.05s both;
+    }
+    .km-reveal--visible .km-services-grid .km-service-card:nth-child(2) {
+        animation: km-fade-up 0.5s ease-out 0.12s both;
+    }
+    .km-reveal--visible .km-services-grid .km-service-card:nth-child(3) {
+        animation: km-fade-up 0.5s ease-out 0.19s both;
+    }
+
+    .page-home .section--offerings.km-reveal--visible .km-offerings-grid .km-offering-card:nth-child(1) {
+        animation: km-offering-enter 0.58s cubic-bezier(0.22, 1, 0.36, 1) 0.06s both;
+    }
+    .page-home .section--offerings.km-reveal--visible .km-offerings-grid .km-offering-card:nth-child(2) {
+        animation: km-offering-enter 0.58s cubic-bezier(0.22, 1, 0.36, 1) 0.14s both;
+    }
+    .page-home .section--offerings.km-reveal--visible .km-offerings-grid .km-offering-card:nth-child(3) {
+        animation: km-offering-enter 0.58s cubic-bezier(0.22, 1, 0.36, 1) 0.22s both;
+    }
+    .page-home .section--offerings.km-reveal--visible .km-offerings-grid .km-offering-card:nth-child(4) {
+        animation: km-offering-enter 0.58s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+    }
+
+    .km-reveal--visible .how-it-works-split__step:nth-child(1) {
+        animation: km-fade-up 0.5s ease-out 0.06s both;
+    }
+    .km-reveal--visible .how-it-works-split__step:nth-child(2) {
+        animation: km-fade-up 0.5s ease-out 0.14s both;
+    }
+    .km-reveal--visible .how-it-works-split__step:nth-child(3) {
+        animation: km-fade-up 0.5s ease-out 0.22s both;
+    }
+
+    .km-reveal--visible .our-tutors__grid .tutor-card:nth-child(1) {
+        animation: km-fade-up 0.45s ease-out 0.02s both;
+    }
+    .km-reveal--visible .our-tutors__grid .tutor-card:nth-child(2) {
+        animation: km-fade-up 0.45s ease-out 0.06s both;
+    }
+    .km-reveal--visible .our-tutors__grid .tutor-card:nth-child(3) {
+        animation: km-fade-up 0.45s ease-out 0.1s both;
+    }
+    .km-reveal--visible .our-tutors__grid .tutor-card:nth-child(4) {
+        animation: km-fade-up 0.45s ease-out 0.14s both;
+    }
+    .km-reveal--visible .our-tutors__grid .tutor-card:nth-child(5) {
+        animation: km-fade-up 0.45s ease-out 0.18s both;
+    }
+
+    .km-reveal--visible .grid-3 .card:nth-child(1),
+    .km-reveal--visible .benefit-cards .benefit-card:nth-child(1) {
+        animation: km-fade-up 0.48s ease-out 0.05s both;
+    }
+    .km-reveal--visible .grid-3 .card:nth-child(2),
+    .km-reveal--visible .benefit-cards .benefit-card:nth-child(2) {
+        animation: km-fade-up 0.48s ease-out 0.12s both;
+    }
+    .km-reveal--visible .grid-3 .card:nth-child(3),
+    .km-reveal--visible .benefit-cards .benefit-card:nth-child(3) {
+        animation: km-fade-up 0.48s ease-out 0.19s both;
+    }
+
+    /* Micro-interaction: primary CTAs */
+    .page-home .btn-cta,
+    .page-home .btn-primary,
+    .km-link-btn {
+        transition:
+            transform 0.22s ease,
+            box-shadow 0.22s ease,
+            filter 0.22s ease;
+    }
+
+    .page-home .btn-cta:active,
+    .page-home .btn-primary:active {
+        transform: scale(0.98);
+    }
+
+    /* Inner pages: team / testimonial cards */
+    .km-reveal--visible .team-grid .card:nth-child(1) {
+        animation: km-fade-up 0.45s ease-out 0.04s both;
+    }
+    .km-reveal--visible .team-grid .card:nth-child(2) {
+        animation: km-fade-up 0.45s ease-out 0.1s both;
+    }
+    .km-reveal--visible .team-grid .card:nth-child(3) {
+        animation: km-fade-up 0.45s ease-out 0.16s both;
+    }
+    .km-reveal--visible .team-grid .card:nth-child(4) {
+        animation: km-fade-up 0.45s ease-out 0.22s both;
+    }
+
+    .km-reveal--visible .contact-split__detail:nth-child(1) {
+        animation: km-fade-up 0.45s ease-out 0.05s both;
+    }
+    .km-reveal--visible .contact-split__detail:nth-child(2) {
+        animation: km-fade-up 0.45s ease-out 0.11s both;
+    }
+    .km-reveal--visible .contact-split__detail:nth-child(3) {
+        animation: km-fade-up 0.45s ease-out 0.17s both;
+    }
+}
+
+/* Reduced motion: instant state, no transitions from reveal */
+@media (prefers-reduced-motion: reduce) {
+    .km-reveal {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
+}

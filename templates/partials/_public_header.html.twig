@@ -1,0 +1,258 @@
+{# variant: 'landing' | 'simple' #}
+{% import 'partials/_nav_dropdown_icons.html.twig' as ndd %}
+{% set variant = variant|default('simple') %}
+{% set nav_home = path('app_home') %}
+{% set is_logged_in = app.user is not null %}
+<header class="site-header public-header" id="public-site-header" data-public-header>
+    <div class="header-inner">
+        <a class="brand" href="{{ nav_home }}">
+            <img src="{{ asset('img/tmMainlogo.png') }}" alt="Teach Me logo" />
+        </a>
+        <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="public-nav-panel" aria-label="Open menu" data-nav-toggle>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+        </button>
+        <div class="nav-panel" id="public-nav-panel">
+            <nav class="main-nav public-main-nav" aria-label="Primary">
+                <ul class="public-nav-list">
+                    <li class="nav-dropdown" data-dropdown>
+                        <a href="{{ nav_home }}#our-tutors" class="nav-dropdown__trigger" data-dropdown-trigger aria-expanded="false" aria-haspopup="true">
+                            Find Tutors <span class="nav-chevron" aria-hidden="true">▾</span>
+                        </a>
+                        <div class="nav-dropdown__panel nav-dropdown__panel--mega" role="region" aria-label="Find Tutors">
+                            <header class="dropdown-mega__header">Get started</header>
+                            <ul class="dropdown-mega__list">
+                                <li>
+                                    <a href="{{ nav_home }}#how-it-works" class="dropdown-card">
+                                        <span class="dropdown-card__icon" aria-hidden="true">{{ ndd.home()|raw }}</span>
+                                        <span class="dropdown-card__body">
+                                            <span class="dropdown-card__title">How it works</span>
+                                            <span class="dropdown-card__desc">Three steps from goal to first lesson</span>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ nav_home }}#our-tutors" class="dropdown-card">
+                                        <span class="dropdown-card__icon" aria-hidden="true">{{ ndd.search()|raw }}</span>
+                                        <span class="dropdown-card__body">
+                                            <span class="dropdown-card__title">Meet our tutors</span>
+                                            <span class="dropdown-card__desc">Browse profiles and specialties</span>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ nav_home }}#find-tutors-top-rated" class="dropdown-card">
+                                        <span class="dropdown-card__icon" aria-hidden="true">{{ ndd.star()|raw }}</span>
+                                        <span class="dropdown-card__body">
+                                            <span class="dropdown-card__title">What families say</span>
+                                            <span class="dropdown-card__desc">Reviews and testimonials</span>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ nav_home }}#cta" class="dropdown-card">
+                                        <span class="dropdown-card__icon" aria-hidden="true">{{ ndd.plus_box()|raw }}</span>
+                                        <span class="dropdown-card__body">
+                                            <span class="dropdown-card__title">Free trial lesson</span>
+                                            <span class="dropdown-card__desc">Try before you commit</span>
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <footer class="dropdown-mega__footer">
+                                <a href="{{ nav_home }}#our-tutors" class="dropdown-mega__cta">View tutors <span aria-hidden="true">→</span></a>
+                            </footer>
+                        </div>
+                    </li>
+                    <li class="nav-dropdown" data-dropdown>
+                        <a href="{{ path('app_about') }}#for-tutors" class="nav-dropdown__trigger" data-dropdown-trigger aria-expanded="false" aria-haspopup="true">
+                            Become a Tutor <span class="nav-chevron" aria-hidden="true">▾</span>
+                        </a>
+                        <div class="nav-dropdown__panel nav-dropdown__panel--mega nav-dropdown__panel--light" role="region" aria-label="Become a Tutor">
+                            <header class="dropdown-mega__header dropdown-mega__header--sans">For tutors</header>
+                            <ul class="dropdown-mega__list">
+                                <li>
+                                    <a href="{{ path('app_about') }}#become-tutor-how" class="dropdown-card">
+                                        <span class="dropdown-card__icon" aria-hidden="true">{{ ndd.home()|raw }}</span>
+                                        <span class="dropdown-card__body">
+                                            <span class="dropdown-card__title">How it works</span>
+                                            <span class="dropdown-card__desc">Step-by-step guide</span>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('app_about') }}#become-tutor-requirements" class="dropdown-card">
+                                        <span class="dropdown-card__icon" aria-hidden="true">{{ ndd.user()|raw }}</span>
+                                        <span class="dropdown-card__body">
+                                            <span class="dropdown-card__title">Requirements</span>
+                                            <span class="dropdown-card__desc">What we look for</span>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('app_about') }}#become-tutor-earnings" class="dropdown-card">
+                                        <span class="dropdown-card__icon" aria-hidden="true">{{ ndd.clock()|raw }}</span>
+                                        <span class="dropdown-card__body">
+                                            <span class="dropdown-card__title">Earnings</span>
+                                            <span class="dropdown-card__desc">Rates and dashboard</span>
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <footer class="dropdown-mega__footer">
+                                <a href="{{ path('app_register') }}" class="dropdown-mega__cta">Apply now <span aria-hidden="true">→</span></a>
+                            </footer>
+                        </div>
+                    </li>
+                    <li class="nav-item-flat">
+                        <a href="{{ path('app_about') }}">About</a>
+                    </li>
+                    <li class="nav-item-flat">
+                        <a href="{{ path('app_contact') }}">Contact</a>
+                    </li>
+                    {% if is_logged_in %}
+                    <li class="nav-dropdown nav-dropdown--align-right" data-dropdown>
+                        <a href="{{ is_granted('ROLE_STAFF') ? path('app_admin_dashboard') : path('app_profile') }}" class="nav-dropdown__trigger" data-dropdown-trigger aria-expanded="false" aria-haspopup="true">
+                            Manage Lessons <span class="nav-chevron" aria-hidden="true">▾</span>
+                        </a>
+                        <div class="nav-dropdown__panel nav-dropdown__panel--mega nav-dropdown__panel--light" role="region" aria-label="Manage Lessons">
+                            <header class="dropdown-mega__header dropdown-mega__header--sans">Your account</header>
+                            <ul class="dropdown-mega__list">
+                                <li>
+                                    <a href="{{ is_granted('ROLE_STAFF') ? path('app_dashboard') : path('app_profile') }}" class="dropdown-card">
+                                        <span class="dropdown-card__icon" aria-hidden="true">{{ ndd.calendar()|raw }}</span>
+                                        <span class="dropdown-card__body">
+                                            <span class="dropdown-card__title">My schedule</span>
+                                            <span class="dropdown-card__desc">Upcoming sessions</span>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ is_granted('ROLE_STAFF') ? path('app_lessons_index') : path('app_profile') }}" class="dropdown-card">
+                                        <span class="dropdown-card__icon" aria-hidden="true">{{ ndd.history()|raw }}</span>
+                                        <span class="dropdown-card__body">
+                                            <span class="dropdown-card__title">Lesson history</span>
+                                            <span class="dropdown-card__desc">Past sessions &amp; notes</span>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ is_granted('ROLE_STAFF') ? path('app_message_index') : path('app_profile') }}" class="dropdown-card">
+                                        <span class="dropdown-card__icon" aria-hidden="true">{{ ndd.mail()|raw }}</span>
+                                        <span class="dropdown-card__body">
+                                            <span class="dropdown-card__title">Messages</span>
+                                            <span class="dropdown-card__desc">Inbox &amp; replies</span>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('app_profile') }}" class="dropdown-card">
+                                        <span class="dropdown-card__icon" aria-hidden="true">{{ ndd.card()|raw }}</span>
+                                        <span class="dropdown-card__body">
+                                            <span class="dropdown-card__title">Billing &amp; payments</span>
+                                            <span class="dropdown-card__desc">Plans &amp; receipts</span>
+                                        </span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <footer class="dropdown-mega__footer">
+                                <a href="{{ is_granted('ROLE_STAFF') ? path('app_admin_dashboard') : path('app_profile') }}" class="dropdown-mega__cta">Open dashboard <span aria-hidden="true">→</span></a>
+                            </footer>
+                        </div>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+            {% if variant == 'landing' %}
+                <div class="auth-actions">
+                    {% if is_logged_in %}
+                        <a class="btn btn-ghost" href="{{ is_granted('ROLE_STAFF') ? path('app_admin_dashboard') : path('app_profile') }}">Dashboard</a>
+                        <a class="btn btn-primary" href="{{ path('app_logout') }}">Log out</a>
+                    {% else %}
+                        <a class="btn btn-ghost" href="{{ path('app_login') }}">Log in</a>
+                        <a class="btn btn-primary" href="{{ path('app_register') }}">Sign up</a>
+                    {% endif %}
+                </div>
+            {% else %}
+                <div class="auth-actions auth-actions--simple">
+                    {% if not is_logged_in %}
+                        <a class="btn btn-ghost" href="{{ path('app_login') }}">Log in</a>
+                        <a class="btn btn-primary" href="{{ path('app_register') }}">Sign up</a>
+                    {% else %}
+                        <a class="btn btn-ghost" href="{{ is_granted('ROLE_STAFF') ? path('app_admin_dashboard') : path('app_profile') }}">Dashboard</a>
+                        <a class="btn btn-primary" href="{{ path('app_logout') }}">Log out</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</header>
+<script>
+(function () {
+    var header = document.querySelector('[data-public-header]');
+    if (!header) return;
+    var toggle = header.querySelector('[data-nav-toggle]');
+    var panel = document.getElementById('public-nav-panel');
+    if (!toggle || !panel) return;
+
+    function setOpen(open) {
+        header.classList.toggle('nav-open', open);
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    }
+
+    toggle.addEventListener('click', function () {
+        setOpen(!header.classList.contains('nav-open'));
+    });
+
+    panel.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () {
+            if (window.matchMedia('(max-width: 991px)').matches) {
+                setOpen(false);
+            }
+        });
+    });
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') setOpen(false);
+    });
+
+    window.addEventListener('resize', function () {
+        if (window.matchMedia('(min-width: 992px)').matches) {
+            setOpen(false);
+        }
+    });
+
+    var mqMobile = window.matchMedia('(max-width: 991px)');
+    function closeAllDropdowns() {
+        header.querySelectorAll('[data-dropdown].is-open').forEach(function (d) {
+            d.classList.remove('is-open');
+            var t = d.querySelector('[data-dropdown-trigger]');
+            if (t) t.setAttribute('aria-expanded', 'false');
+        });
+    }
+
+    header.querySelectorAll('[data-dropdown]').forEach(function (drop) {
+        var trigger = drop.querySelector('[data-dropdown-trigger]');
+        if (!trigger) return;
+        trigger.addEventListener('click', function (e) {
+            if (!mqMobile.matches) return;
+            var panelEl = drop.querySelector('.nav-dropdown__panel');
+            if (!panelEl) return;
+            e.preventDefault();
+            var willOpen = !drop.classList.contains('is-open');
+            closeAllDropdowns();
+            if (willOpen) {
+                drop.classList.add('is-open');
+                trigger.setAttribute('aria-expanded', 'true');
+            }
+        });
+    });
+
+    document.addEventListener('click', function (e) {
+        if (!mqMobile.matches) return;
+        if (!header.contains(e.target)) closeAllDropdowns();
+    });
+})();
+</script>

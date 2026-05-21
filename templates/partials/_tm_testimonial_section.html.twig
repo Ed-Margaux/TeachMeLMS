@@ -1,0 +1,151 @@
+{# Shared home + about: family testimonial carousel — pass section_id / heading_id to override defaults #}
+<section
+    class="section section--testimonials tm-testimonial"
+    id="{{ section_id|default('testimonials') }}"
+    aria-labelledby="{{ heading_id|default('find-tutors-top-rated') }}"
+    data-tm-carousel
+>
+    <div class="section-inner tm-testimonial__inner">
+        <div class="tm-testimonial__visual">
+            <div class="tm-testimonial__cluster" aria-hidden="true">
+                <div class="tm-testimonial__ring tm-testimonial__ring--tl">
+                    <img
+                        class="tm-testimonial__face"
+                        src="{{ asset('img/parents/jihyo.jpg') }}"
+                        alt=""
+                        width="120"
+                        height="120"
+                        loading="lazy"
+                        decoding="async"
+                        data-src-0="{{ asset('img/parents/jihyo.jpg') }}"
+                        data-src-1="{{ asset('img/parents/sana.jpg') }}"
+                        data-src-2="{{ asset('img/parents/sana.jpg') }}"
+                        data-src-3="{{ asset('img/parents/sana.jpg') }}"
+                        data-src-4="{{ asset('img/parents/sana.jpg') }}"
+                    />
+                </div>
+                <div class="tm-testimonial__ring tm-testimonial__ring--tr">
+                    <img
+                        class="tm-testimonial__face"
+                        src="{{ asset('img/parents/dahyun.jpg') }}"
+                        alt=""
+                        width="120"
+                        height="120"
+                        loading="lazy"
+                        decoding="async"
+                        data-src-0="{{ asset('img/parents/dahyun.jpg') }}"
+                        data-src-1="{{ asset('img/parents/dahyun.jpg') }}"
+                        data-src-2="{{ asset('img/parents/jihyo.jpg') }}"
+                        data-src-3="{{ asset('img/parents/jihyo.jpg') }}"
+                        data-src-4="{{ asset('img/parents/jihyo.jpg') }}"
+                    />
+                </div>
+                <div class="tm-testimonial__ring tm-testimonial__ring--bl">
+                    <img
+                        class="tm-testimonial__face"
+                        src="{{ asset('img/parents/chaeyoung.jpg') }}"
+                        alt=""
+                        width="120"
+                        height="120"
+                        loading="lazy"
+                        decoding="async"
+                        data-src-0="{{ asset('img/parents/chaeyoung.jpg') }}"
+                        data-src-1="{{ asset('img/parents/chaeyoung.jpg') }}"
+                        data-src-2="{{ asset('img/parents/chaeyoung.jpg') }}"
+                        data-src-3="{{ asset('img/parents/dahyun.jpg') }}"
+                        data-src-4="{{ asset('img/parents/dahyun.jpg') }}"
+                    />
+                </div>
+                <div class="tm-testimonial__ring tm-testimonial__ring--br">
+                    <img
+                        class="tm-testimonial__face"
+                        src="{{ asset('img/parents/nayeon.jpg') }}"
+                        alt=""
+                        width="120"
+                        height="120"
+                        loading="lazy"
+                        decoding="async"
+                        data-src-0="{{ asset('img/parents/nayeon.jpg') }}"
+                        data-src-1="{{ asset('img/parents/nayeon.jpg') }}"
+                        data-src-2="{{ asset('img/parents/nayeon.jpg') }}"
+                        data-src-3="{{ asset('img/parents/nayeon.jpg') }}"
+                        data-src-4="{{ asset('img/parents/chaeyoung.jpg') }}"
+                    />
+                </div>
+                <div class="tm-testimonial__center">
+                    <span class="tm-testimonial__quote-mark" aria-hidden="true">
+                        <span class="tm-testimonial__quote-mark-inner">“</span>
+                    </span>
+                    <img
+                        class="tm-testimonial__face tm-testimonial__face--hero"
+                        src="{{ asset('img/parents/sana.jpg') }}"
+                        alt=""
+                        width="280"
+                        height="280"
+                        loading="lazy"
+                        decoding="async"
+                        data-src-0="{{ asset('img/parents/sana.jpg') }}"
+                        data-src-1="{{ asset('img/parents/jihyo.jpg') }}"
+                        data-src-2="{{ asset('img/parents/dahyun.jpg') }}"
+                        data-src-3="{{ asset('img/parents/chaeyoung.jpg') }}"
+                        data-src-4="{{ asset('img/parents/nayeon.jpg') }}"
+                    />
+                </div>
+            </div>
+        </div>
+
+        <div class="tm-testimonial__panel">
+            <p class="tm-testimonial__kicker">Testimonial</p>
+            <h2 class="tm-testimonial__title" id="{{ heading_id|default('find-tutors-top-rated') }}">What our families say</h2>
+
+            <div class="tm-testimonial__carousel" role="region" aria-roledescription="carousel" aria-label="Family testimonials">
+                <div class="tm-testimonial__slides" aria-live="polite">
+                    <blockquote class="tm-testimonial__slide is-active" data-tm-slide="0">
+                        <p class="tm-testimonial__quote">The sessions are upbeat and focused. We can see progress week to week—and our child actually looks forward to the next lesson.</p>
+                        <footer class="tm-testimonial__meta">
+                            <cite class="tm-testimonial__name">Sana</cite>
+                            <span class="tm-testimonial__role">Parent, elementary learner</span>
+                        </footer>
+                    </blockquote>
+                    <blockquote class="tm-testimonial__slide" data-tm-slide="1" hidden>
+                        <p class="tm-testimonial__quote">Clear goals and great communication. Our tutor explains everything in simple terms and checks understanding before moving on.</p>
+                        <footer class="tm-testimonial__meta">
+                            <cite class="tm-testimonial__name">Jihyo</cite>
+                            <span class="tm-testimonial__role">Parent, beginner track</span>
+                        </footer>
+                    </blockquote>
+                    <blockquote class="tm-testimonial__slide" data-tm-slide="2" hidden>
+                        <p class="tm-testimonial__quote">Perfect for busy schedules—we book around school and activities without stress, and reminders keep us on the same page.</p>
+                        <footer class="tm-testimonial__meta">
+                            <cite class="tm-testimonial__name">Dahyun</cite>
+                            <span class="tm-testimonial__role">Parent, two learners</span>
+                        </footer>
+                    </blockquote>
+                    <blockquote class="tm-testimonial__slide" data-tm-slide="3" hidden>
+                        <p class="tm-testimonial__quote">We love how lessons tie to school themes when we ask—the tutor adjusts materials so practice feels relevant, not random.</p>
+                        <footer class="tm-testimonial__meta">
+                            <cite class="tm-testimonial__name">Chaeyoung</cite>
+                            <span class="tm-testimonial__role">Parent, middle grades</span>
+                        </footer>
+                    </blockquote>
+                    <blockquote class="tm-testimonial__slide" data-tm-slide="4" hidden>
+                        <p class="tm-testimonial__quote">Signing up was straightforward, and the first session felt welcoming. Our questions were answered before we even booked lesson two.</p>
+                        <footer class="tm-testimonial__meta">
+                            <cite class="tm-testimonial__name">Nayeon</cite>
+                            <span class="tm-testimonial__role">Parent, new to online tutoring</span>
+                        </footer>
+                    </blockquote>
+                </div>
+
+                <div class="tm-testimonial__nav" role="group" aria-label="Testimonial navigation">
+                    <button type="button" class="tm-testimonial__nav-btn tm-testimonial__nav-btn--prev" aria-label="Previous testimonial">
+                        <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                    </button>
+                    <button type="button" class="tm-testimonial__nav-btn tm-testimonial__nav-btn--next" aria-label="Next testimonial">
+                        <svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

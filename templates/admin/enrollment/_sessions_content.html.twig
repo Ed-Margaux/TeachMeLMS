@@ -1,0 +1,41 @@
+<div class="table-responsive">
+    <table class="table table-brand align-middle mb-0">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>When</th>
+                <th>Meeting</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for session in enrollment.classSessions %}
+                <tr>
+                    <td>{{ session.title }}</td>
+                    <td>{{ session.scheduledAt|date('Y-m-d H:i') }} ({{ session.durationMinutes }} min)</td>
+                    <td>
+                        {% if session.meetingUrl %}
+                            <a href="{{ session.meetingUrl }}" target="_blank" rel="noopener">Join link</a>
+                        {% else %}
+                            <span class="text-muted">No link</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ session.status }}</td>
+                    <td>
+                        {% if session.status == 'scheduled' %}
+                            <form method="post" action="{{ path('app_class_session_complete', {id: session.id}) }}" class="d-inline">
+                                <input type="hidden" name="_token" value="{{ csrf_token('complete' ~ session.id) }}">
+                                <button type="submit" class="btn btn-sm btn-outline-success">Mark completed</button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5" class="text-muted">No sessions scheduled yet.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>

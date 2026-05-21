@@ -24,7 +24,7 @@ class Student
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
 
-    #[ORM\Column(length: 255, unique: true)]
+    #[ORM\Column(length: 255, unique: true, nullable: true)]
     private ?string $email = null;
 
     #[ORM\Column(length: 20, nullable: true)]
@@ -43,6 +43,15 @@ class Student
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: true)]
     private ?User $createdBy = null;
+
+    /** Guardian account that manages this learner (mobile / family). */
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'learners')]
+    #[ORM\JoinColumn(name: 'parent_user_id', nullable: true, onDelete: 'SET NULL')]
+    private ?User $parentUser = null;
+
+    /** Parent login email (set in web admin) — used to link this row to a User account. */
+    #[ORM\Column(length: 180, nullable: true)]
+    private ?string $parentEmail = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $createdAt = null;
@@ -89,7 +98,7 @@ class Student
         return $this->email;
     }
 
-    public function setEmail(string $email): static
+    public function setEmail(?string $email): static
     {
         $this->email = $email;
 
@@ -180,6 +189,32 @@ class Student
     public function setCreatedBy(?User $createdBy): static
     {
         $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getParentUser(): ?User
+    {
+        return $this->parentUser;
+    }
+
+    public function setParentUser(?User $parentUser): static
+    {
+        $this->parentUser = $parentUser;
+
+        return $this;
+    }
+
+    public function getParentEmail(): ?string
+    {
+        return $this->parentEmail;
+    }
+
+    public function setParentEmail(?string $parentEmail): static
+    {
+        $this->parentEmail = $parentEmail !== null && $parentEmail !== ''
+            ? strtolower(trim($parentEmail))
+            : null;
 
         return $this;
     }

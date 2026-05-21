@@ -1,0 +1,55 @@
+{% extends 'admin/_layout.html.twig' %}
+
+{% block title %}Enrollment #{{ enrollment.id }}{% endblock %}
+{% block admin_title %}Enrollment detail{% endblock %}
+
+{% block admin_content %}
+<div class="card shadow-sm p-4 mb-4">
+    <div class="d-flex justify-content-between align-items-start flex-wrap gap-2 mb-3">
+        <h2 class="h4 mb-0">{{ enrollment.student.fullName }} · {{ enrollment.course.title }}</h2>
+        <div id="tm-enrollment-status-badge">
+            <span class="badge {% if enrollment.status == 'pending' %}bg-warning text-dark{% elseif enrollment.status == 'active' %}bg-success{% elseif enrollment.status == 'rejected' %}bg-danger{% else %}bg-secondary{% endif %}">
+                {{ enrollment.status }}
+            </span>
+        </div>
+    </div>
+
+    <div class="row g-3">
+        <div class="col-md-6">
+            <strong>Student grade:</strong> {{ enrollment.student.grade ?: '—' }}
+        </div>
+        <div class="col-md-6">
+            <strong>Parent email:</strong>
+            {% if enrollment.student.parentEmail %}
+                {{ enrollment.student.parentEmail }}
+            {% elseif enrollment.student.parentUser %}
+                {{ enrollment.student.parentUser.email }}
+            {% else %}
+                —
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            <strong>Tutor:</strong> {{ enrollment.tutor ? enrollment.tutor.fullName : 'Not assigned' }}
+        </div>
+        <div class="col-md-6">
+            <strong>Requested:</strong> {{ enrollment.requestedAt|date('Y-m-d H:i') }}
+        </div>
+        {% if enrollment.parentNote %}
+            <div class="col-12">
+                <strong>Parent note:</strong>
+                <p class="mb-0">{{ enrollment.parentNote }}</p>
+            </div>
+        {% endif %}
+        {% if enrollment.staffNote %}
+            <div class="col-12">
+                <strong>Staff note:</strong>
+                <p class="mb-0">{{ enrollment.staffNote }}</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<div id="tm-enrollment-show-live" data-tm-sync-partial-url="{{ path('app_enrollment_show', {id: enrollment.id, partial: 1}) }}">
+    {% include 'admin/enrollment/_show_sync_content.html.twig' %}
+</div>
+{% endblock %}

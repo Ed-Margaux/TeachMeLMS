@@ -1,0 +1,19 @@
+{# Kidso-style inner page title + breadcrumb (Teach Me brand)
+   - title: page title string
+   - crumbs: optional array of { label, path } for segments before current page
+#}
+{% set crumbs = crumbs|default([]) %}
+<section class="km-page-header" aria-labelledby="km-page-title">
+    <div class="km-page-header__inner">
+        <h1 id="km-page-title" class="km-page-header__title">{{ title }}</h1>
+        <nav class="km-breadcrumb" aria-label="Breadcrumb">
+            <ol>
+                <li><a href="{{ path('app_home') }}">Home</a></li>
+                {% for c in crumbs %}
+                    <li><a href="{{ path(c.route) }}">{{ c.label }}</a></li>
+                {% endfor %}
+                <li aria-current="page">{{ title }}</li>
+            </ol>
+        </nav>
+    </div>
+</section>

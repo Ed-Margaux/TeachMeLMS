@@ -1,0 +1,166 @@
+{# About — Teach Me (Kidso-inspired layout, brand typography & colors) #}
+{% extends 'base.html.twig' %}
+
+{% block title %}About — Teach Me{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% include 'partials/_public_header_styles.html.twig' %}
+    <link rel="stylesheet" href="{{ asset('styles/public/kidso-public.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/public/public-base.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/public/public-footer.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/public/about.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/public/home.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/public/public-animations.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/public-animations.js') }}" defer></script>
+{% endblock %}
+
+{% block body %}
+<div class="public-simple-page km-page">
+{% include 'partials/_public_header.html.twig' with { variant: 'simple' } %}
+
+{% include 'partials/_kidso_page_header.html.twig' with { title: 'About Us', crumbs: [] } only %}
+
+<div class="km-wrap">
+    <section class="km-about-intro" aria-labelledby="about-intro-title">
+        <div class="km-about-split">
+            <div class="km-about-split__media">
+                <img src="{{ asset('img/children.jpg') }}" alt="Children learning in a supportive environment" width="800" height="600" loading="lazy" decoding="async" />
+            </div>
+            <div class="km-about-split__content">
+                <div class="km-section-head km-section-head--left">
+                    <p class="km-eyebrow">About us</p>
+                    <h2 id="about-intro-title" class="km-title">Get special care for your kids</h2>
+                    <p class="lead">Teach Me is a learning platform built to make language practice feel simple, structured, and confidence-building for kids and families. We match you with tutors who communicate clearly and celebrate progress.</p>
+                    <a class="km-link-btn" href="{{ path('app_register') }}">Get started</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="km-about-stats-strip" aria-label="Teach Me highlights" data-stats-animate>
+            <div class="km-stat-mini">
+                <div class="km-stat-mini__num" data-stat-count="385" data-stat-suffix="+">0+</div>
+                <div class="km-stat-mini__label">Happy learners</div>
+            </div>
+            <div class="km-stat-mini">
+                <div class="km-stat-mini__num" data-stat-count="50" data-stat-suffix="+">0+</div>
+                <div class="km-stat-mini__label">Tutors on board</div>
+            </div>
+            <div class="km-stat-mini">
+                <div class="km-stat-mini__num" data-stat-count="12" data-stat-suffix="+">0+</div>
+                <div class="km-stat-mini__label">Focus areas</div>
+            </div>
+            <div class="km-stat-mini">
+                <div class="km-stat-mini__num" data-stat-count="4.9" data-stat-suffix="">0</div>
+                <div class="km-stat-mini__label">Family satisfaction</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section" id="meet-the-team">
+        <div class="km-section-head">
+            <p class="km-eyebrow">Our team</p>
+            <h2>Meet the team</h2>
+            <p class="lead">Our roles are defined so we can ship a secure, friendly experience for students and tutors.</p>
+        </div>
+
+        <div class="team-grid">
+            {% for member in team %}
+                <article class="team-card card">
+                    <div class="team-card__media">
+                        <img
+                            src="{{ asset(member.image) }}"
+                            alt="{{ member.name }}"
+                            width="400"
+                            height="480"
+                            loading="lazy"
+                            decoding="async"
+                        />
+                    </div>
+                    <div class="team-card__body">
+                        <h3 class="team-card__name">{{ member.name }}</h3>
+                        <p class="team-card__pos">{{ member.position }}</p>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section class="about-section" id="for-tutors">
+        <div class="km-section-head">
+            <p class="km-eyebrow">For tutors</p>
+            <h2>Become a tutor</h2>
+            <p class="lead">Share your knowledge, set your availability, and teach in a supportive environment.</p>
+        </div>
+        <div class="about-grid-3">
+            <div class="card" id="become-tutor-how">
+                <h3>How it works</h3>
+                <div class="muted">Create a profile, set your hours, and start matching with families—Teach Me keeps scheduling simple.</div>
+            </div>
+            <div class="card" id="become-tutor-requirements">
+                <h3>Requirements</h3>
+                <div class="muted">Reliable internet, a quiet teaching space, and a passion for helping kids learn—details are confirmed during onboarding.</div>
+            </div>
+            <div class="card" id="become-tutor-earnings">
+                <h3>Earnings</h3>
+                <div class="muted">Set your rates and availability; projected earnings appear in your dashboard as you add sessions.</div>
+            </div>
+        </div>
+        <div class="about-grid-3 about-grid-3--spaced">
+            <div class="card">
+                <h3>Flexible schedule</h3>
+                <div class="muted">Teach when it works for you—after class, weekends, or evenings.</div>
+            </div>
+            <div class="card">
+                <h3>Supportive tools</h3>
+                <div class="muted">Organize sessions, manage students, and track progress.</div>
+            </div>
+            <div class="card">
+                <h3>Make an impact</h3>
+                <div class="muted">Help kids gain confidence and communicate clearly.</div>
+            </div>
+        </div>
+        <p class="about-cta"><a class="about-btn" href="{{ path('app_register') }}">Apply to teach</a></p>
+    </section>
+
+    <section class="km-watch-block" id="community">
+        <p class="km-eyebrow">Community</p>
+        <h2>Start growing with us</h2>
+        <p>Teach Me is built for families who want consistency, clear communication, and tutors who genuinely care. Join office hours, parent tips, and seasonal learning challenges—we’re building this together.</p>
+    </section>
+
+    <section class="about-section" id="resources-hub">
+        <div class="km-section-head">
+            <p class="km-eyebrow">Resources</p>
+            <h2>Help between lessons</h2>
+            <p class="lead">Content for parents and kids—keep momentum, build habits, and stay engaged.</p>
+        </div>
+        <div class="about-grid-3">
+            <div class="card" id="resources-blog">
+                <h3>English blog</h3>
+                <div class="muted">Tips, mini-lessons, and fun language activities you can try at home.</div>
+            </div>
+            <div class="card" id="resources-study-guides">
+                <h3>Study guides (grades 1–6)</h3>
+                <div class="muted">Printable-style guides aligned to elementary grades so practice matches what kids see in school.</div>
+            </div>
+            <div class="card" id="resources-parents">
+                <h3>Parent resources</h3>
+                <div class="muted">Guides for caregivers: how to choose a tutor, set goals, and track progress.</div>
+            </div>
+        </div>
+    </section>
+
+    {% include 'partials/_tm_testimonial_section.html.twig' with {
+        section_id: 'about-testimonials',
+        heading_id: 'about-families-say',
+    } only %}
+</div>
+
+{% include 'partials/_public_footer.html.twig' %}
+</div>
+{% endblock %}

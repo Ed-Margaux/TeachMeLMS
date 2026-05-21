@@ -1,0 +1,80 @@
+{# Shared marketing footer — same markup on all public pages #}
+<div id="privacy" class="legal-scroll-anchor" tabindex="-1" aria-hidden="true"></div>
+<div id="terms" class="legal-scroll-anchor" tabindex="-1" aria-hidden="true"></div>
+
+<footer class="site-footer site-footer--marketing">
+    <div class="site-footer__main">
+        <div class="site-footer__grid">
+            <div class="site-footer__col">
+                <h3 class="site-footer__heading">Get in Touch</h3>
+                <p class="site-footer__lead">We’d love to hear from you. Reach out anytime.</p>
+                <ul class="site-footer__contact-list">
+                    <li>
+                        <span class="site-footer__contact-icon" aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'mail' }) }}</span>
+                        <a href="mailto:hello@teachme.ph">hello@teachme.ph</a>
+                    </li>
+                    <li>
+                        <span class="site-footer__contact-icon" aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'phone' }) }}</span>
+                        <a href="tel:+63354234567">+63 (035) 423 4567</a>
+                    </li>
+                    <li>
+                        <span class="site-footer__contact-icon" aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'pin' }) }}</span>
+                        <span class="site-footer__address">Dumaguete City, Negros Oriental, Philippines</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="site-footer__col">
+                <h3 class="site-footer__heading">Company</h3>
+                <ul class="site-footer__links">
+                    <li><a href="{{ path('app_about') }}">About Us</a></li>
+                    <li><a href="{{ path('app_home') }}#how-it-works">How it works</a></li>
+                    <li><a href="{{ path('app_home') }}#our-tutors">Our tutors</a></li>
+                    <li><a href="{{ path('app_register') }}">Careers</a></li>
+                    <li><a href="{{ path('app_about') }}#resources-blog">Blog</a></li>
+                </ul>
+            </div>
+            <div class="site-footer__col">
+                <h3 class="site-footer__heading">For Students</h3>
+                <ul class="site-footer__links">
+                    <li><a href="{{ path('app_home') }}#our-tutors">Find a tutor</a></li>
+                    <li><a href="{{ path('app_home') }}#benefits">Why Teach Me</a></li>
+                    <li><a href="{{ path('app_home') }}#cta">Free trial lesson</a></li>
+                    <li><a href="{{ path('app_about') }}#resources-study-guides">Study guides</a></li>
+                    <li><a href="{{ path('app_about') }}#resources-parents">Parent resources</a></li>
+                    <li><a href="{{ path('app_home') }}#faq">FAQ</a></li>
+                </ul>
+            </div>
+            <div class="site-footer__col">
+                <h3 class="site-footer__heading">Stay Updated</h3>
+                <p class="site-footer__newsletter-lead">Join our newsletter for tips, stories, and learning ideas.</p>
+                <div class="footer-newsletter" role="search">
+                    <label class="visually-hidden" for="footer-newsletter-email">Email address</label>
+                    <div class="footer-newsletter__row">
+                        <input id="footer-newsletter-email" type="email" name="email" placeholder="Enter your email" autocomplete="email" />
+                        <a href="{{ path('app_contact') }}" class="footer-newsletter__btn">Subscribe</a>
+                    </div>
+                </div>
+                <ul class="footer-social" aria-label="Social media">
+                    <li><a href="#" class="footer-social__link" aria-label="Facebook"><span class="footer-social__icon" aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'facebook' }) }}</span></a></li>
+                    <li><a href="#" class="footer-social__link" aria-label="Instagram"><span class="footer-social__icon" aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'instagram' }) }}</span></a></li>
+                    <li><a href="#" class="footer-social__link" aria-label="TikTok"><span class="footer-social__icon" aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'tiktok' }) }}</span></a></li>
+                    <li><a href="#" class="footer-social__link" aria-label="YouTube"><span class="footer-social__icon" aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'youtube' }) }}</span></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="site-footer__bar">
+        <div class="site-footer__bar-inner">
+            <div class="site-footer__brand-wrap">
+                {% include 'partials/_tm_brand_logos.html.twig' with { variant: 'footer' } %}
+            </div>
+            <nav class="site-footer__legal-nav" aria-label="Legal and support">
+                <a href="{{ path('app_contact') }}">Contact Support</a>
+                <a href="{{ path('app_home') }}#faq">FAQ</a>
+                <a href="{{ path('app_home') }}#privacy">Privacy Policy</a>
+                <a href="{{ path('app_home') }}#terms">Terms of Service</a>
+            </nav>
+            <p class="site-footer__copyright">Copyright © {{ 'now'|date('Y') }}, Teach Me.</p>
+        </div>
+    </div>
+</footer>

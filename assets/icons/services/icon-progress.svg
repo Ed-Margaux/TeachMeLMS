@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+  <!-- Chart area -->
+  <rect x="12" y="16" width="40" height="36" rx="4" stroke="#718096" stroke-width="1.25" fill="rgba(197,54,120,0.04)" opacity="0.9"/>
+  <!-- Milestone ticks -->
+  <path d="M18 44v4M28 38v10M38 32v16M48 26v22" stroke="#ED64A6" stroke-width="1.5" stroke-linecap="round" opacity="0.35"/>
+  <!-- Upward trend -->
+  <path d="M16 46 L26 38 L36 34 L46 22" stroke="#C53678" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <circle cx="26" cy="38" r="2.5" fill="#ED64A6" stroke="#C53678" stroke-width="1"/>
+  <circle cx="36" cy="34" r="2.5" fill="#FF5841" stroke="#C53678" stroke-width="1"/>
+  <circle cx="46" cy="22" r="2.5" fill="#C53678" stroke="#fff" stroke-width="1"/>
+  <!-- Up arrow -->
+  <path d="M46 18v-6M42 16l4-4 4 4" stroke="#C53678" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Check -->
+  <path d="M14 50l3 3 6-6" stroke="#718096" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

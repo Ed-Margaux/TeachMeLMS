@@ -1,0 +1,45 @@
+{# Shared platform figures for home — keep stat-section and about-preview inline stats identical. #}
+{% set platform_stats = [
+    { count: '100000', suffix: '+', label: 'Experienced tutors', kind: 'stat' },
+    { count: '300000', suffix: '+', label: '5-star tutor reviews', kind: 'stat' },
+    { count: '110', suffix: '+', label: 'Subjects taught', kind: 'stat' },
+    { count: '180', suffix: '+', label: 'Tutor nationalities', kind: 'stat' },
+    { count: '4.8', suffix: '', label: '', kind: 'rating' },
+] %}
+
+{% if variant == 'stats_bar' %}
+<section class="stats-section" id="stats" data-stats-animate aria-label="Platform highlights">
+    <div class="stats-container">
+        {% for s in platform_stats %}
+            {% if s.kind == 'stat' %}
+                <div class="stat-item">
+                    <div class="stat-number" data-stat-count="{{ s.count }}" data-stat-suffix="{{ s.suffix }}">0{{ s.suffix }}</div>
+                    <div class="stat-label">{{ s.label }}</div>
+                </div>
+            {% else %}
+                <div class="rating">
+                    <div class="rating-number" data-stat-count="{{ s.count }}" data-stat-suffix="{{ s.suffix }}">0</div>
+                    <div class="stars" aria-hidden="true">★★★★★</div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</section>
+{% elseif variant == 'about_inline' %}
+<div class="km-stats-inline" data-stats-animate>
+    {% for s in platform_stats %}
+        {% if s.kind == 'stat' %}
+            <div class="km-stat-mini">
+                <div class="km-stat-mini__num" data-stat-count="{{ s.count }}" data-stat-suffix="{{ s.suffix }}">0{{ s.suffix }}</div>
+                <div class="km-stat-mini__label">{{ s.label }}</div>
+            </div>
+        {% else %}
+            <div class="km-stat-mini km-stat-mini--rating">
+                <div class="km-stat-mini__num" data-stat-count="{{ s.count }}" data-stat-suffix="{{ s.suffix }}">0</div>
+                <div class="km-stat-mini__stars" aria-hidden="true">★★★★★</div>
+                <span class="visually-hidden">Average {{ s.count }} out of 5 stars</span>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+{% endif %}

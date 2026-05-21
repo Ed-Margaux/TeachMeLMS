@@ -1,0 +1,628 @@
+/**
+ * Kidso-inspired layout primitives — Teach Me brand
+ * Type: Merriweather (primary h1–h2 / section titles), Lato (all other copy)
+ * Colors: #C53678, #ED64A6, #FF5841, #1a2744
+ */
+
+.km-page {
+    --km-pink: #c53678;
+    --km-pink-light: #ed64a6;
+    --km-coral: #ff5841;
+    --km-navy: #1a2744;
+    --km-cream: rgba(255, 197, 224, 0.18);
+}
+
+/* ——— Inner page header (About / Contact) ——— */
+.km-page-header {
+    background: linear-gradient(120deg, #c53678 0%, #ed64a6 52%, #e85a3d 100%);
+    color: #fff;
+    padding: 48px 24px 44px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.km-page-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 20% 20%, rgba(255, 255, 255, 0.12), transparent 55%),
+        radial-gradient(ellipse 60% 50% at 90% 80%, rgba(255, 255, 255, 0.08), transparent 50%);
+    pointer-events: none;
+}
+
+.km-page-header__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.km-page-header__title {
+    font-family: 'Merriweather', Georgia, serif;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 700;
+    margin: 0 0 16px 0;
+    letter-spacing: -0.02em;
+}
+
+.km-breadcrumb {
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 14px;
+}
+
+.km-breadcrumb ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.km-breadcrumb li {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.km-breadcrumb li:not(:last-child)::after {
+    content: '/';
+    opacity: 0.65;
+    font-weight: 400;
+}
+
+.km-breadcrumb a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px solid transparent;
+}
+
+.km-breadcrumb a:hover {
+    border-bottom-color: rgba(255, 255, 255, 0.6);
+}
+
+.km-breadcrumb [aria-current='page'] {
+    font-weight: 700;
+    opacity: 0.95;
+}
+
+/* ——— Section heading (Kidso-style eyebrow + title) ——— */
+.km-section-head {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.km-section-head--left {
+    text-align: left;
+}
+
+.km-section-head .section-lead {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.km-section-head--left .section-lead {
+    margin-left: 0;
+}
+
+.km-eyebrow {
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #ed64a6;
+    margin: 0 0 12px 0;
+}
+
+.km-section-head h2,
+.km-section-head .km-title {
+    font-family: 'Merriweather', Georgia, serif;
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    font-weight: 700;
+    color: #c53678;
+    margin: 0 0 12px 0;
+    letter-spacing: -0.02em;
+}
+
+.km-section-head--left h2,
+.km-section-head--left .km-title {
+    color: #1a2744;
+}
+
+/* ——— Services grid (What we provide) ——— */
+.km-services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+}
+
+/* Full-bleed photo cards (image is direct child of article, like reference layout) */
+.km-service-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: min(320px, 58vw);
+    max-height: 420px;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 12px 32px rgba(26, 39, 68, 0.18);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.km-service-card:hover,
+.km-service-card:focus-within {
+    transform: translateY(-5px);
+    box-shadow: 0 18px 40px rgba(197, 54, 120, 0.22);
+}
+
+.km-service-card:hover .km-service-card__img,
+.km-service-card:focus-within .km-service-card__img {
+    transform: scale(1.05);
+}
+
+.km-service-card__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+    transition: transform 0.5s ease;
+}
+
+/* Teach Me brand wash: ED64A6 → C53678 → FF5841 (photo still reads through the top) */
+.km-service-card__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(
+        188deg,
+        rgba(237, 100, 166, 0.12) 0%,
+        rgba(197, 54, 120, 0.42) 48%,
+        rgba(255, 88, 65, 0.72) 100%
+    );
+    transition: background 0.4s ease;
+}
+
+.km-service-card:hover .km-service-card__overlay,
+.km-service-card:focus-within .km-service-card__overlay {
+    background: linear-gradient(
+        188deg,
+        rgba(237, 100, 166, 0.2) 0%,
+        rgba(197, 54, 120, 0.58) 45%,
+        rgba(255, 88, 65, 0.88) 100%
+    );
+}
+
+.km-service-card__body {
+    position: relative;
+    z-index: 2;
+    padding: 22px 20px 24px;
+    text-align: center;
+}
+
+.km-service-card__title {
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: clamp(1.05rem, 2.2vw, 1.2rem);
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+    text-shadow: 0 1px 14px rgba(97, 24, 58, 0.55);
+}
+
+/* Description + CTA: hidden until hover or keyboard focus inside card */
+.km-service-card__reveal {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transform: translateY(8px);
+    margin-top: 0;
+    transition:
+        opacity 0.38s ease,
+        max-height 0.45s ease,
+        transform 0.4s cubic-bezier(0.22, 1, 0.36, 1),
+        margin-top 0.35s ease;
+    pointer-events: none;
+}
+
+.km-service-card:hover .km-service-card__reveal,
+.km-service-card:focus-within .km-service-card__reveal {
+    opacity: 1;
+    max-height: 15rem;
+    transform: translateY(0);
+    margin-top: 12px;
+    pointer-events: auto;
+}
+
+.km-service-card__text {
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.55;
+    color: rgba(255, 250, 252, 0.96);
+    margin: 0 0 12px 0;
+    text-shadow: 0 1px 10px rgba(80, 20, 48, 0.45);
+}
+
+.km-service-card__link {
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff5f9;
+    text-decoration: none;
+    text-shadow: 0 1px 8px rgba(120, 30, 70, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+    padding-bottom: 1px;
+    display: inline-block;
+}
+
+.km-service-card__link:hover {
+    color: #fff;
+    border-bottom-color: rgba(255, 255, 255, 0.75);
+}
+
+/* Touch: no hover — show copy without requiring a second tap */
+@media (hover: none) and (pointer: coarse) {
+    .km-service-card__reveal {
+        opacity: 1;
+        max-height: none;
+        transform: none;
+        margin-top: 12px;
+        pointer-events: auto;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .km-service-card__reveal {
+        opacity: 1;
+        max-height: none;
+        transform: none;
+        margin-top: 12px;
+        pointer-events: auto;
+        transition: none;
+    }
+
+    .km-service-card__img {
+        transition: none;
+    }
+
+    .km-service-card:hover .km-service-card__img,
+    .km-service-card:focus-within .km-service-card__img {
+        transform: none;
+    }
+
+    .km-service-card__overlay {
+        transition: none;
+    }
+}
+
+@media (max-width: 900px) {
+    .km-services-grid {
+        grid-template-columns: 1fr;
+        max-width: 420px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+/* ——— About split (image + copy + stats) ——— */
+.km-about-split {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: clamp(28px, 4vw, 48px);
+    align-items: center;
+}
+
+.km-about-split__media {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 16px 40px rgba(26, 39, 68, 0.12);
+    aspect-ratio: 4 / 3;
+    background: #f0e8ec;
+}
+
+.km-about-split__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.km-about-split__content .km-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-family: 'Lato', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: #fff;
+    text-decoration: none;
+    background: linear-gradient(135deg, #c53678, #ed64a6);
+    box-shadow: 0 6px 18px rgba(197, 54, 120, 0.3);
+}
+
+.km-about-split__content .km-link-btn:hover {
+    filter: brightness(1.05);
+    transform: translateY(-1px);
+}
+
+.km-stats-inline {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 28px;
+}
+
+.km-stat-mini {
+    background: #fff;
+    border: 1px solid rgba(197, 54, 120, 0.15);
+    border-radius: 14px;
+    padding: 16px 14px;
+    text-align: center;
+}
+
+.km-stat-mini__num {
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #c53678;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+    min-height: 1.2em;
+}
+
+.km-stat-mini__label {
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 12px;
+    color: #6b7b8d;
+    margin-top: 6px;
+    line-height: 1.35;
+}
+
+@media (max-width: 900px) {
+    .km-about-split {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ——— Offerings / “classes” cards ——— */
+.km-offerings-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.km-offering-card {
+    background: #fff;
+    border: 1px solid rgba(26, 39, 68, 0.08);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 8px 22px rgba(26, 39, 68, 0.06);
+    display: flex;
+    flex-direction: column;
+}
+
+.km-offering-card__thumb {
+    aspect-ratio: 16 / 11;
+    background: linear-gradient(135deg, rgba(197, 54, 120, 0.15), rgba(237, 100, 166, 0.2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.km-offering-card__thumb--img {
+    padding: clamp(10px, 2.5vw, 18px) clamp(12px, 3vw, 22px);
+    background: linear-gradient(
+        165deg,
+        rgba(255, 250, 252, 0.98) 0%,
+        rgba(255, 240, 248, 0.55) 45%,
+        rgba(255, 88, 65, 0.06) 100%
+    );
+}
+
+.km-offering-card__thumb--img img {
+    width: 100%;
+    height: 100%;
+    max-height: min(160px, 100%);
+    object-fit: contain;
+    object-position: center bottom;
+    display: block;
+}
+
+.km-offering-card__body {
+    padding: 18px 16px 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.km-offering-card__title {
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a2744;
+    margin: 0 0 8px 0;
+}
+
+.km-offering-card__text {
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #6b7b8d;
+    margin: 0 0 12px 0;
+    flex: 1;
+}
+
+.km-offering-card__meta {
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 12px;
+    color: #c53678;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.km-offering-card__meta li {
+    margin-bottom: 4px;
+}
+
+@media (max-width: 1100px) {
+    .km-offerings-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    .km-offerings-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ——— About page: stats strip ——— */
+.km-about-stats-strip {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin: 32px 0 40px;
+}
+
+.km-about-stats-strip .km-stat-mini {
+    padding: 22px 16px;
+}
+
+@media (max-width: 900px) {
+    .km-about-stats-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* ——— About: video / community block ——— */
+.km-watch-block {
+    margin-top: 40px;
+    padding: 40px 28px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, rgba(197, 54, 120, 0.08), rgba(237, 100, 166, 0.1));
+    border: 1px solid rgba(197, 54, 120, 0.15);
+    text-align: center;
+}
+
+.km-watch-block .km-eyebrow {
+    margin-bottom: 8px;
+}
+
+.km-watch-block h2 {
+    font-family: 'Merriweather', Georgia, serif;
+    color: #1a2744;
+    font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+    margin: 0 0 12px 0;
+}
+
+.km-watch-block p {
+    font-family: 'Lato', system-ui, sans-serif;
+    color: #5a6b7d;
+    max-width: 560px;
+    margin: 0 auto;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* ——— Contact: info cards ——— */
+.km-contact-info {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+.km-info-card {
+    background: #fff;
+    border: 1px solid rgba(26, 39, 68, 0.08);
+    border-radius: 16px;
+    padding: 22px 20px;
+    box-shadow: 0 8px 24px rgba(26, 39, 68, 0.06);
+    text-align: center;
+}
+
+.km-info-card__icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 12px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #c53678, #ed64a6);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-size: 20px;
+}
+
+.km-info-card h2 {
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #c53678;
+    margin: 0 0 10px 0;
+}
+
+.km-info-card p,
+.km-info-card address {
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.55;
+    color: #5a6b7d;
+    margin: 0;
+    font-style: normal;
+}
+
+.km-info-card a {
+    color: #c53678;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.km-info-card a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 800px) {
+    .km-contact-info {
+        grid-template-columns: 1fr;
+    }
+}
+
+.km-form-section-head {
+    margin-bottom: 18px;
+}
+
+.km-form-section-head h2 {
+    font-family: 'Merriweather', Georgia, serif;
+    color: #1a2744;
+    font-size: 1.5rem;
+    margin: 0 0 8px 0;
+}
+
+.km-form-section-head .lead {
+    font-family: 'Lato', system-ui, sans-serif;
+    color: #666;
+    margin: 0;
+    font-size: 15px;
+}
+
+/* ——— Wider wrap on inner pages ——— */
+.km-wrap {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 24px 56px;
+}

@@ -16,10 +16,31 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        # Public JSON endpoints (must be before `api` — same /api prefix)
+        api_public:
+            pattern: ^/api/(login|login/google|register|verify-email|health)$
+            stateless: true 
+            security: false
+        # All other /api routes: valid JWT required (Bearer), or 401
+        api:
+            pattern: ^/api
+            stateless: true
+            provider: app_user_provider
+            user_checker: App\Security\UserChecker
+            jwt: ~
         main:
             lazy: true
             provider: app_user_provider
             user_checker: App\Security\UserChecker
+            entry_point: form_login
+            oauth:
+                resource_owners:
+                    google: "/connect/google/check"
+                login_path: /login
+                use_forward: false
+                failure_path: /login
+                oauth_user_provider:
+                    service: my_google_user_provider
             form_login:
                 login_path: app_login
                 check_path: app_login
@@ -41,6 +62,16 @@ security:
     access_control:
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/register, roles: PUBLIC_ACCESS }
+        - { path: ^/verify-email, roles: PUBLIC_ACCESS }
+        - { path: ^/api/login$, roles: PUBLIC_ACCESS }
+        - { path: ^/api/login/google$, roles: PUBLIC_ACCESS }
+        - { path: ^/api/register$, roles: PUBLIC_ACCESS }
+        - { path: ^/api/verify-email$, roles: PUBLIC_ACCESS }
+        - { path: ^/api/health$, roles: PUBLIC_ACCESS }
+        # CORS preflight must not require Authorization (mobile / SPA)
+        - { path: ^/api, roles: PUBLIC_ACCESS, methods: [OPTIONS] }
+        - { path: ^/api, roles: ROLE_USER }
+        - { path: ^/connect/google, roles: PUBLIC_ACCESS }
         - { path: ^/admin/users, roles: ROLE_ADMIN }
         - { path: ^/admin/logs, roles: ROLE_ADMIN }
         - { path: ^/admin/dashboard, roles: ROLE_STAFF }

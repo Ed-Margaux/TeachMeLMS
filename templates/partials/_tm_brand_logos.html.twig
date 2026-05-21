@@ -1,0 +1,22 @@
+{# Icon + wordmark — same markup for split auth pages and footer #}
+{% set variant = variant|default('split') %}
+<a href="{{ path('app_home') }}" class="tm-brand-logos tm-brand-logos--{{ variant }}">
+    <img
+        class="tm-brand-logos__icon"
+        src="{{ asset('img/tmicon.png') }}"
+        alt=""
+        width="40"
+        height="40"
+        decoding="async"
+        {% if variant == 'footer' %}loading="lazy"{% else %}loading="eager"{% endif %}
+    >
+    <img
+        class="tm-brand-logos__wordmark"
+        src="{{ asset('img/tmMainlogo.png') }}"
+        alt="Teach Me — Learn. Love. Language."
+        width="240"
+        height="80"
+        decoding="async"
+        {% if variant == 'footer' %}loading="lazy"{% endif %}
+    >
+</a>

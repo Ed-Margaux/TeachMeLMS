@@ -1,0 +1,101 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact — Teach Me{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {% include 'partials/_public_header_styles.html.twig' %}
+    <link rel="stylesheet" href="{{ asset('styles/public/kidso-public.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/public/public-base.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/public/public-footer.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/public/contact.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/public/public-animations.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/public-animations.js') }}" defer></script>
+{% endblock %}
+
+{% block body %}
+<div class="public-simple-page km-page">
+{% include 'partials/_public_header.html.twig' with { variant: 'simple' } %}
+
+{% include 'partials/_kidso_page_header.html.twig' with { title: 'Contact Us', crumbs: [] } only %}
+
+<div class="km-wrap">
+    <section class="contact-split" aria-labelledby="contact-aside-title">
+        <div class="contact-split__card">
+            <aside class="contact-split__aside">
+                <div class="contact-split__aside-head">
+                    <h2 id="contact-aside-title" class="contact-split__aside-title">Contact information</h2>
+                    <p class="contact-split__aside-lead">
+                        Use the secure form to send your inquiry or feedback. Our team will reply as soon as we can—usually within one to two business days.
+                    </p>
+                </div>
+
+                <ul class="contact-split__details">
+                    <li class="contact-split__detail">
+                        <span class="contact-split__detail-icon" aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'phone' }) }}</span>
+                        <div class="contact-split__detail-body">
+                            <span class="contact-split__detail-label">Phone</span>
+                            <a href="tel:+63354234567">+63 (955) 826 3178</a>
+                        </div>
+                    </li>
+                    <li class="contact-split__detail">
+                        <span class="contact-split__detail-icon" aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'mail' }) }}</span>
+                        <div class="contact-split__detail-body">
+                            <span class="contact-split__detail-label">Email</span>
+                            <a href="mailto:mail@teachme.ph">mail@teachme.ph</a>
+                        </div>
+                    </li>
+                    <li class="contact-split__detail">
+                        <span class="contact-split__detail-icon" aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'pin' }) }}</span>
+                        <div class="contact-split__detail-body">
+                            <span class="contact-split__detail-label">Office</span>
+                            <span>Dumaguete City, Negros Oriental, Philippines</span>
+                        </div>
+                    </li>
+                </ul>
+
+
+                <div class="contact-split__social">
+                    <a href="#" class="contact-split__social-link" aria-label="Facebook"><span aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'facebook' }) }}</span></a>
+                    <a href="#" class="contact-split__social-link" aria-label="Instagram"><span aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'instagram' }) }}</span></a>
+                    <a href="#" class="contact-split__social-link" aria-label="TikTok"><span aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'tiktok' }) }}</span></a>
+                    <a href="#" class="contact-split__social-link" aria-label="YouTube"><span aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'youtube' }) }}</span></a>
+                </div>
+            </aside>
+
+            <div class="contact-split__main">
+                <header class="contact-split__main-head">
+                    <h2 class="contact-split__main-title" id="contact-form-heading">Send a message</h2>
+                    <p class="contact-split__main-lead">Questions about tutoring, enrollment, or support? Submit the form—we read every message.</p>
+                </header>
+
+                <div class="contact-split__form-area" aria-labelledby="contact-form-heading">
+                    {% if contactFormEmbed is defined and contactFormEmbed|trim is not empty %}
+                        <p class="contact-form-feedback-hint" role="status">
+                            After you submit, look for a confirmation <strong>inside the form</strong> (Google usually shows “Your response has been recorded”).
+                        </p>
+                        <div id="contactFormWrapper" class="contact-form-embed">
+                            {{ contactFormEmbed|raw }}
+                        </div>
+                    {% else %}
+                        <div class="embed-placeholder">
+                            Add your Google Form embed: in Google Forms choose <strong>Send</strong> → <strong>&lt;&gt;</strong> (embed), copy the <code>&lt;iframe&gt;…&lt;/iframe&gt;</code> HTML, and set
+                            <strong>CONTACT_FORM_EMBED</strong> in <code>.env.local</code> (or <code>.env</code>), then refresh.
+                            <div class="embed-note">
+                                Optional redirect page: <a href="{{ path('app_contact_thanks') }}">/contact/thanks</a>.
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+{% include 'partials/_public_footer.html.twig' %}
+</div>
+{% endblock %}

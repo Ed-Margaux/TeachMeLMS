@@ -5,14 +5,13 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\RegistrationType;
 use App\Repository\UserRepository;
+use App\Service\EmailVerificationService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class RegistrationController extends AbstractController
 {
@@ -22,7 +21,7 @@ class RegistrationController extends AbstractController
         UserPasswordHasherInterface $passwordHasher,
         EntityManagerInterface $entityManager,
         UserRepository $userRepository,
-        TokenStorageInterface $tokenStorage
+        EmailVerificationService $emailVerification
     ): Response {
         // Redirect if already logged in
         if ($this->getUser()) {
@@ -60,14 +59,11 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // Automatically log in the user after registration
-            $token = new UsernamePasswordToken($user, 'main', $user->getRoles());
-            $tokenStorage->setToken($token);
+            $emailVerification->beginVerification($user);
 
-            $this->addFlash('success', 'Registration successful! Welcome to Teach Me.');
+            $this->addFlash('success', 'Registration successful! Please check your email to verify your account.');
 
-            // Redirect to dashboard
-            return $this->redirectToRoute('app_admin_dashboard');
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('registration/register.html.twig', [

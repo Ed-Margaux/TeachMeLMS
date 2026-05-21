@@ -1,0 +1,234 @@
+/**
+ * About page — team grid and intro (Kidso-inspired + Teach Me brand)
+ */
+
+.public-simple-page.km-page {
+    background: rgba(255, 197, 224, 0.14);
+}
+
+.public-simple-page .km-about-intro .lead {
+    font-family: 'Lato', system-ui, sans-serif;
+    color: #5a6b7d;
+    font-size: 16px;
+    line-height: 1.65;
+    margin: 0 0 18px 0;
+}
+
+.public-simple-page .about-section {
+    margin-top: 48px;
+}
+
+.public-simple-page .about-section .km-section-head h2 {
+    font-family: 'Merriweather', Georgia, serif;
+    color: #c53678;
+    font-size: clamp(1.5rem, 2.5vw, 1.9rem);
+    margin: 0 0 10px 0;
+}
+
+.public-simple-page .about-section .lead {
+    color: #666;
+    margin-bottom: 22px;
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.public-simple-page .section {
+    margin-top: 28px;
+}
+
+.public-simple-page .section h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.public-simple-page .lead {
+    color: #666;
+    margin-bottom: 18px;
+}
+
+.public-simple-page .team-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+}
+
+.public-simple-page .team-grid .card.team-card {
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition:
+        transform 0.38s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform;
+}
+
+.public-simple-page .team-card__media {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: linear-gradient(145deg, rgba(197, 54, 120, 0.12), rgba(237, 100, 166, 0.08));
+}
+
+.public-simple-page .team-card__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        180deg,
+        transparent 45%,
+        rgba(26, 39, 68, 0.55) 100%
+    );
+    opacity: 0.75;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+}
+
+.public-simple-page .team-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    transform: scale(1);
+    transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.public-simple-page .team-card:hover .team-card__media img,
+.public-simple-page .team-card:focus-within .team-card__media img {
+    transform: scale(1.08);
+}
+
+.public-simple-page .team-card:hover .team-card__media::after,
+.public-simple-page .team-card:focus-within .team-card__media::after {
+    opacity: 0.95;
+}
+
+.public-simple-page .team-card:hover,
+.public-simple-page .team-card:focus-within {
+    transform: translateY(-8px);
+    box-shadow:
+        0 16px 40px rgba(26, 39, 68, 0.12),
+        0 4px 12px rgba(197, 54, 120, 0.12);
+}
+
+.public-simple-page .team-card__body {
+    padding: 16px 18px 18px;
+}
+
+.public-simple-page .team-card__name {
+    font-family: 'Lato', system-ui, sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1a2744;
+    margin: 0 0 6px 0;
+    transition: color 0.25s ease;
+}
+
+.public-simple-page .team-card:hover .team-card__name,
+.public-simple-page .team-card:focus-within .team-card__name {
+    color: #c53678;
+}
+
+.public-simple-page .team-card__pos {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+    line-height: 1.45;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .public-simple-page .team-grid .card.team-card,
+    .public-simple-page .team-card__media img,
+    .public-simple-page .team-card__media::after,
+    .public-simple-page .team-card__name {
+        transition: none;
+    }
+
+    .public-simple-page .team-card:hover .team-card__media img,
+    .public-simple-page .team-card:focus-within .team-card__media img {
+        transform: none;
+    }
+
+    .public-simple-page .team-card:hover,
+    .public-simple-page .team-card:focus-within {
+        transform: none;
+    }
+}
+
+@media (max-width: 980px) {
+    .public-simple-page .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 560px) {
+    .public-simple-page .team-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.public-simple-page .section--alt {
+    background: rgba(255, 197, 224, 0.2);
+    margin-left: -24px;
+    margin-right: -24px;
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-bottom: 28px;
+    border-radius: 16px;
+}
+
+.public-simple-page .about-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+}
+
+.public-simple-page .about-grid-3--spaced {
+    margin-top: 14px;
+}
+
+.public-simple-page .about-grid-3 .card h3 {
+    font-size: 17px;
+    margin-bottom: 8px;
+}
+
+.public-simple-page .about-grid-3 .muted {
+    color: #555;
+    font-size: 14px;
+    line-height: 1.55;
+}
+
+.public-simple-page .about-cta {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.public-simple-page .about-btn {
+    display: inline-block;
+    padding: 10px 22px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(135deg, #C53678, #ED64A6);
+}
+
+.public-simple-page .about-btn:hover {
+    opacity: 0.95;
+}
+
+@media (max-width: 900px) {
+    .public-simple-page .about-grid-3 {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Shared testimonial block (styles in home.css); spacing on About only */
+.km-page #about-testimonials {
+    margin-top: 48px;
+    padding-top: 36px;
+    border-top: 1px solid rgba(197, 54, 120, 0.15);
+}

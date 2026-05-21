@@ -4,468 +4,30 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html, body {
-            height: 100%;
-            width: 100%;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            color: #2c2c2c;
-            line-height: 1.6;
-            overflow-x: hidden;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* Header Styles */
-        .site-header {
-            background: rgb(245, 213, 238);
-            padding: 16px 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            flex-shrink: 0;
-        }
-
-        .header-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .brand {
-            display: flex;
-            flex-direction: column;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        .brand img {
-            height: 40px;
-            width: auto;
-        }
-
-        .brand-tagline {
-            font-size: 14px;
-            color: #666;
-            margin-top: 4px;
-            font-weight: 400;
-        }
-
-        .main-nav {
-            display: flex;
-            gap: 32px;
-            align-items: center;
-        }
-
-        .main-nav a {
-            text-decoration: none;
-            color: #2c2c2c;
-            font-weight: 500;
-            font-size: 16px;
-            transition: color 0.2s;
-        }
-
-        .main-nav a:hover {
-            color: #ED64A6;
-        }
-
-        .auth-actions {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .btn {
-            padding: 10px 24px;
-            border-radius: 10px;;
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            display: inline-block;
-        }
-
-        .btn-ghost {
-            background: transparent;
-            color: #2c2c2c;
-            border: 1px solid transparent;
-        }
-
-        .btn-ghost:hover {
-            color: #ED64A6;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #C53678, #ED64A6);
-            color: #fff;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #B02D6B, #D8559A);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(197, 54, 120, 0.3);
-        }
-
-        /* Hero Section - Full Viewport */
-        main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .hero {
-            position: relative;
-            flex: 1;
-            min-height: calc(100vh - 80px);
-            display: flex;
-            align-items: center;
-            padding: 0;
-            background: rgba(255, 197, 224, 0.3);
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: url('{{ asset('img/bg.jpg') }}');
-            background-size: cover;
-            background-position: center;
-            background-repeat: repeat;
-            opacity: 0.12;
-            z-index: 0;
-        }
-
-        .hero-content {
-            max-width: 1200px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 60px 40px;
-            display: grid;
-            grid-template-columns: 1.1fr 1fr;
-            gap: 60px;
-            align-items: center;
-            position: relative;
-            z-index: 1;
-            min-height: 100%;
-        }
-
-        .hero-copy {
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero-copy h1 {
-            font-size: 55px;
-            font-weight: 700;
-            line-height: 1.3;
-            margin-bottom: 15px;
-            color: #2c2c2c;
-            letter-spacing: -0.5px;
-        }
-
-        .hero-copy p {
-            font-size: 18px;
-            color: #666;
-            margin-bottom: 32px;
-            line-height: 1.6;
-            max-width: 500px;
-        }
-
-        .btn-cta {
-            background: linear-gradient(135deg, #C53678, #ED64A6);
-            color: #fff;
-            padding: 14px 32px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 16px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(197, 54, 120, 0.25);
-        }
-
-        .btn-cta:hover {
-            background: linear-gradient(135deg, #B02D6B, #D8559A);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 25px rgba(197, 54, 120, 0.4);
-        }
-
-        .btn-cta::after {
-            content: '→';
-            font-size: 18px;
-            font-weight: 400;
-        }
-
-        .hero-image {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .hero-image img {
-            width: 100%;
-            height: auto;
-            border-radius: 50%;
-            max-width: 450px;
-            min-width: 400px;
-            aspect-ratio: 1;
-            object-fit: cover;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Statistics Section */
-        .stats-section {
-            background: linear-gradient(135deg, #C53678, #ED64A6);
-            padding: 50px 40px;
-            color: #fff;
-            flex-shrink: 0;
-        }
-
-        .stats-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 40px;
-            align-items: center;
-            text-align: center;
-        }
-
-        .stat-item {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .stat-number {
-            font-size: 36px;
-            font-weight: 700;
-            line-height: 1;
-        }
-
-        .stat-label {
-            font-size: 14px;
-            opacity: 0.95;
-            font-weight: 400;
-            letter-spacing: 0.3px;
-        }
-
-        .rating {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .stars {
-            font-size: 24px;
-            letter-spacing: 3px;
-            line-height: 1;
-        }
-
-        .rating-number {
-            font-size: 36px;
-            font-weight: 700;
-            line-height: 1;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 968px) {
-            .header-inner {
-                padding: 0 24px;
-            }
-
-            .main-nav {
-                gap: 24px;
-            }
-
-            .main-nav a {
-                font-size: 14px;
-            }
-
-            .hero-content {
-                grid-template-columns: 1fr;
-                gap: 40px;
-                padding: 50px 24px;
-            }
-
-            .hero-copy h1 {
-                font-size: 32px;
-                text-align: center;
-            }
-
-            .hero-copy p {
-                text-align: center;
-                max-width: 100%;
-                font-size: 16px;
-            }
-
-            .hero-copy {
-                text-align: center;
-            }
-
-            .hero-image {
-                justify-content: center;
-            }
-
-            .hero-image img {
-                max-width: 350px;
-                min-width: 300px;
-            }
-
-            .stats-container {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 30px;
-            }
-
-            .stats-section {
-                padding: 40px 24px;
-            }
-        }
-
-        @media (max-width: 640px) {
-            .site-header {
-                padding: 12px 0;
-            }
-
-            .header-inner {
-                flex-wrap: wrap;
-                gap: 16px;
-                padding: 0 16px;
-            }
-
-            .brand img {
-                height: 36px;
-            }
-
-            .brand-tagline {
-                font-size: 12px;
-            }
-
-            .main-nav {
-                order: 3;
-                width: 100%;
-                justify-content: center;
-                gap: 16px;
-                flex-wrap: wrap;
-            }
-
-            .main-nav a {
-                font-size: 14px;
-            }
-
-            .auth-actions {
-                gap: 8px;
-            }
-
-            .btn {
-                padding: 8px 16px;
-                font-size: 14px;
-            }
-
-            .hero {
-                min-height: calc(100vh - 100px);
-            }
-
-            .hero-content {
-                padding: 40px 16px;
-                gap: 30px;
-            }
-
-            .hero-copy h1 {
-                font-size: 30px;
-            }
-
-            .hero-copy p {
-                font-size: 16px;
-            }
-
-            .btn-cta {
-                padding: 12px 24px;
-                font-size: 14px;
-            }
-
-            .hero-image img {
-                max-width: 100%;
-                min-width: 280px;
-            }
-
-            .stats-container {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-
-            .stats-section {
-                padding: 40px 16px;
-            }
-
-            .stat-number, .rating-number {
-                font-size: 28px;
-            }
-
-            .stat-label {
-                font-size: 13px;
-            }
-
-            .stars {
-                font-size: 20px;
-            }
-        }
-    </style>
+    {% include 'partials/_public_header_styles.html.twig' %}
+    <link rel="stylesheet" href="{{ asset('styles/public/kidso-public.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/public/home.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/public/public-footer.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/public/public-animations.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/public-animations.js') }}" defer></script>
 {% endblock %}
 
 {% block body %}
-<header class="site-header">
-    <div class="header-inner">
-        <a class="brand" href="/">
-            <img src="{{ asset('img/tmMainlogo.png') }}" alt="Teach Me logo" />
-            <span class="brand-tagline">Learn. Love. Language.</span>
-        </a>
-        <nav class="main-nav">
-            <a href="#find-tutors">Find Tutors</a>
-            <a href="#become-tutor">Become a tutor</a>
-            <a href="{{ path('app_admin_dashboard') }}">Manage Lessons</a>
-        </nav>
-        <div class="auth-actions">
-            <a class="btn btn-ghost" href="{{ path('app_login') }}">Log in</a>
-            <a class="btn btn-primary" href="{{ path('app_register') }}">Sign up</a>
-        </div>
-    </div>
-</header>
+<div class="page-home">
+{% include 'partials/_public_header.html.twig' with { variant: 'landing' } %}
 
 <main>
-    <section class="hero">
+    <section class="hero" id="top">
         <div class="hero-content">
             <div class="hero-copy">
-                <h1>Learn faster with your best language tutor.</h1>
+                <p class="hero__eyebrow">Welcome to Teach Me</p>
+                <h1>Learn faster with your <span class="hero-accent">best</span> language tutor.</h1>
                 <p>Personalized, fun, and interactive lessons designed to help kids grow confidently in any language.</p>
-                <a href="#find-tutors" class="btn-cta">Find your tutor</a>
+                <a href="#how-it-works" class="btn-cta">How it works</a>
             </div>
             <div class="hero-image">
                 <img src="{{ asset('img/1stud.jpg') }}" alt="Student learning online with tutor" />
@@ -474,28 +36,413 @@
     </section>
 </main>
 
-<section class="stats-section">
-    <div class="stats-container">
-        <div class="stat-item">
-            <div class="stat-number">100,000+</div>
-            <div class="stat-label">Experienced tutors</div>
+<section class="section section--services" id="services">
+    <div class="section-inner">
+        <div class="km-section-head">
+            <p class="km-eyebrow">Our services</p>
+            <h2>What we provide</h2>
+            <p class="section-lead">Everything families need for structured, joyful language learning—online, on your schedule.</p>
         </div>
-        <div class="stat-item">
-            <div class="stat-number">300,000+</div>
-            <div class="stat-label">5-star tutor reviews</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number">110+</div>
-            <div class="stat-label">Subjects taught</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number">180+</div>
-            <div class="stat-label">Tutor nationalities</div>
-        </div>
-        <div class="rating">
-            <div class="rating-number">4.8</div>
-            <div class="stars">★★★★★</div>
+        <div class="km-services-grid">
+            <article class="km-service-card">
+                <img class="km-service-card__img" src="{{ asset('img/services/tutor.jpg') }}" alt="Tutor supporting a young learner during a session" width="640" height="800" loading="lazy" decoding="async" />
+                <div class="km-service-card__overlay" aria-hidden="true"></div>
+                <div class="km-service-card__body">
+                    <h3 class="km-service-card__title">Live tutoring</h3>
+                    <div class="km-service-card__reveal">
+                        <p class="km-service-card__text">One-to-one sessions with tutors who adapt pace, topics, and activities to your child.</p>
+                        <a class="km-service-card__link" href="#how-it-works">See how it works</a>
+                    </div>
+                </div>
+            </article>
+            <article class="km-service-card">
+                <img class="km-service-card__img" src="{{ asset('img/services/plan.jpg') }}" alt="Planning learning goals and lesson notes" width="640" height="800" loading="lazy" decoding="async" />
+                <div class="km-service-card__overlay" aria-hidden="true"></div>
+                <div class="km-service-card__body">
+                    <h3 class="km-service-card__title">Goal-based plans</h3>
+                    <div class="km-service-card__reveal">
+                        <p class="km-service-card__text">Homework help, fluency, or exam prep—clear goals and feedback after every lesson.</p>
+                        <a class="km-service-card__link" href="#benefits">Why families choose us</a>
+                    </div>
+                </div>
+            </article>
+            <article class="km-service-card">
+                <img class="km-service-card__img" src="{{ asset('img/services/parent.jpg') }}" alt="Parent and child learning together at home" width="640" height="800" loading="lazy" decoding="async" />
+                <div class="km-service-card__overlay" aria-hidden="true"></div>
+                <div class="km-service-card__body">
+                    <h3 class="km-service-card__title">Parent partnership</h3>
+                    <div class="km-service-card__reveal">
+                        <p class="km-service-card__text">Stay informed with simple updates so you know what was practiced and what’s next.</p>
+                        <a class="km-service-card__link" href="{{ path('app_contact') }}">Contact us</a>
+                    </div>
+                </div>
+            </article>
         </div>
     </div>
 </section>
+
+<section class="section alt section--about-preview" id="about-teach">
+    <div class="section-inner km-about-split">
+        <div class="km-about-split__media">
+            <img src="{{ asset('img/studon.png') }}" alt="Children learning together in a bright, welcoming space" width="800" height="600" loading="lazy" decoding="async" />
+        </div>
+        <div class="km-about-split__content">
+            <div class="km-section-head km-section-head--left">
+                <p class="km-eyebrow">About us</p>
+                <h2 class="km-title">Get special care for your learner</h2>
+                <p class="section-lead">Teach Me connects families with tutors who make language practice feel structured, encouraging, and fun—whether your child is shy, curious, or ready for a challenge.</p>
+                <a class="km-link-btn" href="{{ path('app_about') }}">Explore more</a>
+            </div>
+            {% include 'partials/_home_platform_stats.html.twig' with { variant: 'about_inline' } %}
+        </div>
+    </div>
+</section>
+
+<section class="section section--offerings" id="offerings">
+    <div class="section-inner">
+        <div class="km-section-head">
+            <p class="km-eyebrow">Learning paths</p>
+            <h2>Get the best classes with us</h2>
+            <p class="section-lead">Popular focus areas—your tutor tailors content to your child’s age and level.</p>
+        </div>
+        <div class="km-offerings-grid">
+            <article class="km-offering-card">
+                <div class="km-offering-card__thumb km-offering-card__thumb--img" aria-hidden="true">
+                    <img src="{{ asset('img/paths/speak.png') }}" alt="" width="640" height="440" loading="lazy" decoding="async" />
+                </div>
+                <div class="km-offering-card__body">
+                    <h3 class="km-offering-card__title">Speaking &amp; listening</h3>
+                    <p class="km-offering-card__text">Conversation games, pronunciation, and confidence in real-life topics.</p>
+                    <ul class="km-offering-card__meta">
+                        <li>Ages: 6–14</li>
+                        <li>Flexible scheduling</li>
+                    </ul>
+                </div>
+            </article>
+            <article class="km-offering-card">
+                <div class="km-offering-card__thumb km-offering-card__thumb--img" aria-hidden="true">
+                    <img src="{{ asset('img/paths/read.png') }}" alt="" width="640" height="440" loading="lazy" decoding="async" />
+                </div>
+                <div class="km-offering-card__body">
+                    <h3 class="km-offering-card__title">Reading &amp; writing</h3>
+                    <p class="km-offering-card__text">Comprehension, vocabulary, and short writing with gentle feedback.</p>
+                    <ul class="km-offering-card__meta">
+                        <li>Ages: 6–14</li>
+                        <li>Aligned to school goals</li>
+                    </ul>
+                </div>
+            </article>
+            <article class="km-offering-card">
+                <div class="km-offering-card__thumb km-offering-card__thumb--img" aria-hidden="true">
+                    <img src="{{ asset('img/paths/exam.png') }}" alt="" width="640" height="440" loading="lazy" decoding="async" />
+                </div>
+                <div class="km-offering-card__body">
+                    <h3 class="km-offering-card__title">Exam prep</h3>
+                    <p class="km-offering-card__text">Structured drills and strategies for tests without burning out.</p>
+                    <ul class="km-offering-card__meta">
+                        <li>Grades 4–10</li>
+                        <li>Practice + review</li>
+                    </ul>
+                </div>
+            </article>
+            <article class="km-offering-card">
+                <div class="km-offering-card__thumb km-offering-card__thumb--img" aria-hidden="true">
+                    <img src="{{ asset('img/paths/beginner.png') }}" alt="" width="640" height="440" loading="lazy" decoding="async" />
+                </div>
+                <div class="km-offering-card__body">
+                    <h3 class="km-offering-card__title">Beginner friendly</h3>
+                    <p class="km-offering-card__text">Patient tutors who build basics with games, stories, and repetition.</p>
+                    <ul class="km-offering-card__meta">
+                        <li>First-time learners</li>
+                        <li>Low-pressure pace</li>
+                    </ul>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="section section--how-it-works" id="how-it-works">
+    <div class="how-it-works-split">
+        <div class="how-it-works-split__panel">
+            <svg class="how-it-works-split__deco how-it-works-split__deco--balloons" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 100" fill="none" aria-hidden="true">
+                <path stroke="rgba(237, 100, 166, 0.35)" stroke-width="1.5" d="M20 88c8-18 12-32 8-48M35 90c4-14 6-28 2-42M50 92c2-10 4-22 0-36"/>
+                <ellipse cx="22" cy="28" rx="14" ry="18" stroke="rgba(197, 54, 120, 0.38)" stroke-width="1.5"/>
+                <ellipse cx="48" cy="22" rx="12" ry="15" stroke="rgba(237, 100, 166, 0.32)" stroke-width="1.5"/>
+            </svg>
+            <svg class="how-it-works-split__deco how-it-works-split__deco--cloud" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 60" fill="none" aria-hidden="true">
+                <path stroke="rgba(197, 54, 120, 0.28)" stroke-width="1.5" d="M10 42c0-8 6-14 14-14h4c2-10 12-16 22-12 4-8 14-12 22-8 8 4 12 14 8 22 6 2 10 8 8 14-2 8-10 12-18 10H18c-6 0-10-4-8-12z"/>
+                <circle cx="38" cy="38" r="3" stroke="rgba(237, 100, 166, 0.4)" stroke-width="1.2"/>
+                <circle cx="48" cy="38" r="3" stroke="rgba(237, 100, 166, 0.4)" stroke-width="1.2"/>
+                <path stroke="rgba(237, 100, 166, 0.35)" stroke-width="1.2" d="M36 46h14"/>
+            </svg>
+            <p class="how-it-works-split__eyebrow">How it works</p>
+            <h2 class="how-it-works-split__title">See our steps to success</h2>
+            <ol class="how-it-works-split__steps">
+                <li class="how-it-works-split__step">
+                    <span class="how-it-works-split__num" aria-hidden="true">01</span>
+                    <div class="how-it-works-split__step-copy">
+                        <h3 class="how-it-works-split__step-title">Expert tutors</h3>
+                        <p class="how-it-works-split__step-text">Share your child’s goals and level—we match you with a specialist who fits your schedule and teaching style.</p>
+                    </div>
+                </li>
+                <li class="how-it-works-split__step">
+                    <span class="how-it-works-split__num" aria-hidden="true">02</span>
+                    <div class="how-it-works-split__step-copy">
+                        <h3 class="how-it-works-split__step-title">Clear plan</h3>
+                        <p class="how-it-works-split__step-text">Every session has a purpose: skills to practice, feedback you can act on, and a simple view of what’s next.</p>
+                    </div>
+                </li>
+                <li class="how-it-works-split__step">
+                    <span class="how-it-works-split__num" aria-hidden="true">03</span>
+                    <div class="how-it-works-split__step-copy">
+                        <h3 class="how-it-works-split__step-title">Confident progress</h3>
+                        <p class="how-it-works-split__step-text">Short, engaging lessons build habits—so kids stay motivated and families see real improvement over time.</p>
+                    </div>
+                </li>
+            </ol>
+        </div>
+        <div class="how-it-works-split__visual">
+            <img
+                src="{{ asset('img/chldrens.jpg') }}"
+                alt="Children learning and playing in a bright, friendly space"
+                width="960"
+                height="720"
+                loading="lazy"
+                decoding="async"
+                class="how-it-works-split__img"
+            />
+            <a href="#top" class="how-it-works-split__top" aria-label="Back to top">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="section section--our-tutors" id="our-tutors">
+    <div class="section-inner">
+        <div class="km-section-head">
+            <p class="km-eyebrow our-tutors__eyebrow">Our tutors</p>
+            <h2 class="our-tutors__title">Our expert tutors</h2>
+            <p class="our-tutors__intro section-lead">A snapshot of the educators families work with—specialties and availability are confirmed when you book.</p>
+        </div>
+        <div class="our-tutors__grid">
+            <article class="tutor-card">
+                <div class="tutor-card__banner" style="--tutor-banner: #B5A5DB">
+                    <div class="tutor-card__share-wrap">
+                        <button type="button" class="tutor-card__share" aria-label="Share profile" aria-haspopup="true">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C53678" stroke-width="2" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg>
+                        </button>
+                        <div class="tutor-card__share-menu" aria-label="Teacher social links">
+                            <a class="tutor-card__share-link" href="https://www.facebook.com/michael.dacquiado.155523" aria-label="Facebook" title="Facebook">
+                                <span class="tutor-card__share-ico" aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'facebook' }) }}</span>
+                            </a>
+                            <a class="tutor-card__share-link" href="https://www.instagram.com/itsyowboyy_mikey/" aria-label="Instagram" title="Instagram">
+                                <span class="tutor-card__share-ico" aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'instagram' }) }}</span>
+                            </a>
+                            <a class="tutor-card__share-link" href="#" aria-label="WhatsApp" title="WhatsApp">
+                                <span class="tutor-card__share-ico" aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'whatsapp' }) }}</span>
+                            </a>
+                        </div>
+                    </div>
+                    {% include 'partials/_tutor_card_photo.html.twig' with { label: 'Mohammad Bin Razali', src: asset('img/tutors/mayk.png') } only %}
+                    <svg class="tutor-card__wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 40" preserveAspectRatio="none" aria-hidden="true"><path fill="#fff" d="M0,18 C80,4 120,32 200,16 S320,2 400,14 L400,40 L0,40 Z"/></svg>
+                </div>
+                <div class="tutor-card__body">
+                    <h3 class="tutor-card__name">Mohammad Bin Razali</h3>
+                    <p class="tutor-card__role">English Tutor</p>
+                    <div class="tutor-card__stars" aria-label="5 out of 5 stars"><span class="tutor-card__star tutor-card__star--on">★</span><span class="tutor-card__star tutor-card__star--on">★</span><span class="tutor-card__star tutor-card__star--on">★</span><span class="tutor-card__star tutor-card__star--on">★</span><span class="tutor-card__star tutor-card__star--on">★</span></div>
+                    <span class="tutor-card__badge">Reading &amp; Writing</span>
+                </div>
+            </article>
+            <article class="tutor-card">
+                <div class="tutor-card__banner" style="--tutor-banner: #5BC0DE">
+                    <div class="tutor-card__share-wrap">
+                        <button type="button" class="tutor-card__share" aria-label="Share profile" aria-haspopup="true">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C53678" stroke-width="2" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg>
+                        </button>
+                        <div class="tutor-card__share-menu" aria-label="Teacher social links">
+                            <a class="tutor-card__share-link" href="https://www.facebook.com/rain.miggyyy" aria-label="Facebook" title="Facebook">
+                                <span class="tutor-card__share-ico" aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'facebook' }) }}</span>
+                            </a>
+                            <a class="tutor-card__share-link" href="https://www.instagram.com/rain.miggyyy/" aria-label="Instagram" title="Instagram">
+                                <span class="tutor-card__share-ico" aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'instagram' }) }}</span>
+                            </a>
+                            <a class="tutor-card__share-link" href="#" aria-label="WhatsApp" title="WhatsApp">
+                                <span class="tutor-card__share-ico" aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'whatsapp' }) }}</span>
+                            </a>
+                        </div>
+                    </div>
+                    {% include 'partials/_tutor_card_photo.html.twig' with { label: 'Rainier Kintanilla', src: asset('img/tutors/rain.png') } only %}
+                    <svg class="tutor-card__wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 40" preserveAspectRatio="none" aria-hidden="true"><path fill="#fff" d="M0,18 C80,4 120,32 200,16 S320,2 400,14 L400,40 L0,40 Z"/></svg>
+                </div>
+                <div class="tutor-card__body">
+                    <h3 class="tutor-card__name">Rainier Kintanilla</h3>
+                    <p class="tutor-card__role">English Tutor</p>
+                    <div class="tutor-card__stars" aria-label="5 out of 5 stars"><span class="tutor-card__star tutor-card__star--on">★</span><span class="tutor-card__star tutor-card__star--on">★</span><span class="tutor-card__star tutor-card__star--on">★</span><span class="tutor-card__star tutor-card__star--on">★</span><span class="tutor-card__star tutor-card__star--on">★</span></div>
+                    <span class="tutor-card__badge">Speaking &amp; Listening</span>
+                </div>
+            </article>
+            
+            <article class="tutor-card">
+                <div class="tutor-card__banner" style="--tutor-banner: #F09B93">
+                    <div class="tutor-card__share-wrap">
+                        <button type="button" class="tutor-card__share" aria-label="Share profile" aria-haspopup="true">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C53678" stroke-width="2" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg>
+                        </button>
+                        <div class="tutor-card__share-menu" aria-label="Teacher social links">
+                            <a class="tutor-card__share-link" href="https://www.facebook.com/jellyan.fulmaran" aria-label="Facebook" title="Facebook">
+                                <span class="tutor-card__share-ico" aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'facebook' }) }}</span>
+                            </a>
+                            <a class="tutor-card__share-link" href="https://www.instagram.com/__yanihae__/" aria-label="Instagram" title="Instagram">
+                                <span class="tutor-card__share-ico" aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'instagram' }) }}</span>
+                            </a>
+                            <a class="tutor-card__share-link" href="#" aria-label="WhatsApp" title="WhatsApp">
+                                <span class="tutor-card__share-ico" aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'whatsapp' }) }}</span>
+                            </a>
+                        </div>
+                    </div>
+                    {% include 'partials/_tutor_card_photo.html.twig' with { label: 'Jellian Fulmaran', src: asset('img/tutors/jell.png') } only %}
+                    <svg class="tutor-card__wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 40" preserveAspectRatio="none" aria-hidden="true"><path fill="#fff" d="M0,18 C80,4 120,32 200,16 S320,2 400,14 L400,40 L0,40 Z"/></svg>
+                </div>
+                <div class="tutor-card__body">
+                    <h3 class="tutor-card__name">Jellian Fulmaran</h3>
+                    <p class="tutor-card__role">English Tutor</p>
+                    <div class="tutor-card__stars" aria-label="5 out of 5 stars"><span class="tutor-card__star tutor-card__star--on">★</span><span class="tutor-card__star tutor-card__star--on">★</span><span class="tutor-card__star tutor-card__star--on">★</span><span class="tutor-card__star tutor-card__star--on">★</span><span class="tutor-card__star tutor-card__star--on">★</span></div>
+                    <span class="tutor-card__badge">Grammar</span>
+                </div>
+            </article>
+            <article class="tutor-card">
+                <div class="tutor-card__banner" style="--tutor-banner: #87C9BF">
+                    <div class="tutor-card__share-wrap">
+                        <button type="button" class="tutor-card__share" aria-label="Share profile" aria-haspopup="true">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C53678" stroke-width="2" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg>
+                        </button>
+                        <div class="tutor-card__share-menu" aria-label="Teacher social links">
+                            <a class="tutor-card__share-link" href="https://www.facebook.com/khricia.divino.5" aria-label="Facebook" title="Facebook">
+                                <span class="tutor-card__share-ico" aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'facebook' }) }}</span>
+                            </a>
+                            <a class="tutor-card__share-link" href="https://www.instagram.com/khrrryyyyy/" aria-label="Instagram" title="Instagram">
+                                <span class="tutor-card__share-ico" aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'instagram' }) }}</span>
+                            </a>
+                            <a class="tutor-card__share-link" href="#" aria-label="WhatsApp" title="WhatsApp">
+                                <span class="tutor-card__share-ico" aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'whatsapp' }) }}</span>
+                            </a>
+                        </div>
+                    </div>
+                    {% include 'partials/_tutor_card_photo.html.twig' with { label: 'Khricia Divino', src: asset('img/tutors/kring.png') } only %}
+                    <svg class="tutor-card__wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 40" preserveAspectRatio="none" aria-hidden="true"><path fill="#fff" d="M0,18 C80,4 120,32 200,16 S320,2 400,14 L400,40 L0,40 Z"/></svg>
+                </div>
+                <div class="tutor-card__body">
+                    <h3 class="tutor-card__name">Khricia Divino</h3>
+                    <p class="tutor-card__role">English Tutor</p>
+                    <div class="tutor-card__stars" aria-label="5 out of 5 stars"><span class="tutor-card__star tutor-card__star--on">★</span><span class="tutor-card__star tutor-card__star--on">★</span><span class="tutor-card__star tutor-card__star--on">★</span><span class="tutor-card__star tutor-card__star--on">★</span><span class="tutor-card__star tutor-card__star--on">★</span></div>
+                    <span class="tutor-card__badge">Beginner English</span>
+                </div>
+            </article>
+            <article class="tutor-card">
+                <div class="tutor-card__banner" style="--tutor-banner: #D4B5E8">
+                    <div class="tutor-card__share-wrap">
+                        <button type="button" class="tutor-card__share" aria-label="Share profile" aria-haspopup="true">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C53678" stroke-width="2" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/></svg>
+                        </button>
+                        <div class="tutor-card__share-menu" aria-label="Teacher social links">
+                            <a class="tutor-card__share-link" href="https://www.facebook.com/nimcel.abelloner" aria-label="Facebook" title="Facebook">
+                                <span class="tutor-card__share-ico" aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'facebook' }) }}</span>
+                            </a>
+                            <a class="tutor-card__share-link" href="https://www.instagram.com/nimabellon/" aria-label="Instagram" title="Instagram">
+                                <span class="tutor-card__share-ico" aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'instagram' }) }}</span>
+                            </a>
+                            <a class="tutor-card__share-link" href="#" aria-label="WhatsApp" title="WhatsApp">
+                                <span class="tutor-card__share-ico" aria-hidden="true">{{ include('partials/_footer_icon.svg.twig', { name: 'whatsapp' }) }}</span>
+                            </a>
+                        </div>
+                    </div>
+                    {% include 'partials/_tutor_card_photo.html.twig' with { label: 'Anna Park', src: asset('img/tutors/anna.png') } only %}
+                    <svg class="tutor-card__wave" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 40" preserveAspectRatio="none" aria-hidden="true"><path fill="#fff" d="M0,18 C80,4 120,32 200,16 S320,2 400,14 L400,40 L0,40 Z"/></svg>
+                </div>
+                <div class="tutor-card__body">
+                    <h3 class="tutor-card__name">Anna Park</h3>
+                    <p class="tutor-card__role">English Tutor</p>
+                    <div class="tutor-card__stars" aria-label="5 out of 5 stars"><span class="tutor-card__star tutor-card__star--on">★</span><span class="tutor-card__star tutor-card__star--on">★</span><span class="tutor-card__star tutor-card__star--on">★</span><span class="tutor-card__star tutor-card__star--on">★</span><span class="tutor-card__star tutor-card__star--on">★</span></div>
+                    <span class="tutor-card__badge">Exam Prep</span>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<section class="section section--benefits" id="benefits">
+    <div class="section-inner">
+        <div class="km-section-head">
+            <p class="km-eyebrow">Why Teach Me</p>
+            <h2>Why families choose us</h2>
+            <p class="section-lead">Three benefits that are easy to explain—and easy to experience.</p>
+        </div>
+        <div class="grid-3 benefit-cards">
+            <div class="card benefit-card">
+                <h3>Personalized learning</h3>
+                <div class="muted">Lessons match your child’s level and goals, with a clear plan you can follow between sessions.</div>
+            </div>
+            <div class="card benefit-card">
+                <h3>Trusted tutors</h3>
+                <div class="muted">Structured, engaging sessions with educators who focus on confidence—not just correctness.</div>
+            </div>
+            <div class="card benefit-card">
+                <h3>Progress you can see</h3>
+                <div class="muted">Short lessons, simple feedback, and milestones that show what improved and what’s next.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include 'partials/_tm_testimonial_section.html.twig' %}
+
+<section class="section alt" id="faq">
+    <div class="section-inner">
+        <div class="km-section-head">
+            <p class="km-eyebrow">FAQ</p>
+            <h2>Questions &amp; answers</h2>
+            <p class="section-lead">Quick answers to the most common questions.</p>
+        </div>
+        <div class="faq">
+            <details>
+                <summary>How do lessons work?</summary>
+                <div class="muted faq-detail-text">Lessons are scheduled sessions with a tutor. Each includes practice, feedback, and a clear next step.</div>
+            </details>
+            <details>
+                <summary>Is it okay for beginners?</summary>
+                <div class="muted faq-detail-text">Yes—tutors can start from the basics and build up with age-appropriate activities.</div>
+            </details>
+            <details>
+                <summary>Can I switch tutors?</summary>
+                <div class="muted faq-detail-text">Absolutely. You can try different tutors to find the best match.</div>
+            </details>
+            <details>
+                <summary>Do you offer support?</summary>
+                <div class="muted faq-detail-text">Yes. If you need help, use the Contact page and we’ll respond as soon as possible.</div>
+            </details>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="cta">
+    <div class="section-inner">
+        <div class="cta">
+            <div>
+                <h2>Ready to start learning?</h2>
+                <p>Sign up, pick a tutor, and book your first session.</p>
+            </div>
+            <div class="cta-actions">
+                <a class="btn btn-ghost cta-on-gradient" href="{{ path('app_about') }}">Meet the team</a>
+                <a class="btn btn-primary cta-on-gradient" href="{{ path('app_register') }}">Create account</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% include 'partials/_home_platform_stats.html.twig' with { variant: 'stats_bar' } %}
+
+{% include 'partials/_public_footer.html.twig' %}
+</div>
 {% endblock %}

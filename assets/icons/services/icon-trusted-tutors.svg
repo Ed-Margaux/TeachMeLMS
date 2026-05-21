@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+  <!-- Video call frame -->
+  <rect x="10" y="14" width="44" height="34" rx="6" stroke="#C53678" stroke-width="1.75" fill="rgba(255,88,65,0.06)"/>
+  <path d="M10 26h44" stroke="#ED64A6" stroke-width="1.25" opacity="0.45"/>
+  <!-- Tutor avatar -->
+  <circle cx="24" cy="36" r="8" stroke="#C53678" stroke-width="1.75" fill="rgba(237,100,166,0.15)"/>
+  <circle cx="24" cy="34" r="3" fill="#718096" opacity="0.5"/>
+  <path d="M18 42c1.5-3 4-4.5 6-4.5s4.5 1.5 6 4.5" stroke="#718096" stroke-width="1.25" stroke-linecap="round" fill="none" opacity="0.65"/>
+  <!-- Child avatar -->
+  <circle cx="40" cy="36" r="8" stroke="#FF5841" stroke-width="1.75" fill="rgba(255,88,65,0.1)"/>
+  <circle cx="40" cy="34" r="2.8" fill="#FF5841" opacity="0.55"/>
+  <path d="M35 41.5c1.2-2.5 3.2-4 5-4s3.8 1.5 5 4" stroke="#FF5841" stroke-width="1.25" stroke-linecap="round" fill="none" opacity="0.65"/>
+  <!-- Friendly link / wave between -->
+  <path d="M30 36 Q32 33 34 36" stroke="#ED64A6" stroke-width="1.25" stroke-linecap="round" fill="none"/>
+</svg>

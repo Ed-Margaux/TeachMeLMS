@@ -4,13 +4,17 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    # Raw HTML for embedded third-party form (e.g. Google Forms iframe). Falls back to legacy BREVO_FORM_EMBED.
+    app.contact_form_embed_legacy: '%env(default::BREVO_FORM_EMBED)%'
+    app.contact_form_embed: '%env(default:app.contact_form_embed_legacy:CONTACT_FORM_EMBED)%'
 
 services:
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-
+    my_google_user_provider:
+        class: App\Security\GoogleUserProvider
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:
@@ -22,3 +26,11 @@ services:
     App\Security\AuthenticationSuccessHandler:
         arguments:
             $urlGenerator: '@router.default'
+
+    App\Service\EmailVerificationService:
+        arguments:
+            $mailerFrom: '%env(MAILER_FROM)%'
+
+    App\Service\GoogleIdentityTokenVerifier:
+        arguments:
+            $googleOAuthClientId: '%env(GOOGLE_OAUTH_CLIENT_ID)%'

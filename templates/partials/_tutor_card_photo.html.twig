@@ -1,0 +1,5 @@
+{# Shared tutor portrait — swap asset per tutor when you have unique photos #}
+{% set src = src|default(asset('img/tutors/tutor-default.png')) %}
+<div class="tutor-card__avatar">
+    <img class="tutor-card__photo" src="{{ src }}" alt="{{ label|default('Tutor portrait') }}" loading="lazy" decoding="async" width="160" height="200" />
+</div>
