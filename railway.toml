@@ -1,0 +1,9 @@
+# Railway config — ensures Composer deps exist before the app starts.
+# https://docs.railway.com/guides/symfony
+
+[build]
+buildCommand = "composer install --no-dev --optimize-autoloader --no-interaction"
+
+[deploy]
+startCommand = "php -S 0.0.0.0:$PORT -t public public/index.php"
+releaseCommand = "php bin/console doctrine:migrations:migrate --no-interaction"
