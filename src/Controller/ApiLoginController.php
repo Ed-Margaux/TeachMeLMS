@@ -46,11 +46,23 @@ class ApiLoginController extends AbstractController
             );
         }
 
+        try {
+            $appToken = $jwtManager->create($user);
+        } catch (\Throwable $e) {
+            return MobileApiResponse::json(
+                false,
+                'Server could not create a login session (JWT keys). Run: php bin/console lexik:jwt:generate-keypair --overwrite',
+                null,
+                ['jwt' => $e->getMessage()],
+                JsonResponse::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
+
         return MobileApiResponse::json(
             true,
             'Login successful.',
             [
-                'token' => $jwtManager->create($user),
+                'token' => $appToken,
                 'user' => [
                     'email' => $user->getEmail(),
                     'firstName' => $user->getFirstName(),
@@ -106,12 +118,30 @@ class ApiLoginController extends AbstractController
                 JsonResponse::HTTP_BAD_REQUEST
             );
         } catch (\Throwable $e) {
+            $detail = $e->getMessage();
+            $message = str_contains($detail, 'encode the JWT token') ||
+                str_contains($detail, 'private key')
+                ? 'Server could not create a login session (JWT keys). Run: php bin/console lexik:jwt:generate-keypair --overwrite'
+                : 'Failed to verify Google sign-in.';
+
             return MobileApiResponse::json(
                 false,
-                'Failed to verify Google sign-in.',
+                $message,
                 null,
-                ['google' => $e->getMessage()],
+                ['google' => $detail],
                 JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        try {
+            $appToken = $jwtManager->create($user);
+        } catch (\Throwable $e) {
+            return MobileApiResponse::json(
+                false,
+                'Server could not create a login session (JWT keys). Run: php bin/console lexik:jwt:generate-keypair --overwrite',
+                null,
+                ['jwt' => $e->getMessage()],
+                JsonResponse::HTTP_INTERNAL_SERVER_ERROR
             );
         }
 
@@ -119,7 +149,7 @@ class ApiLoginController extends AbstractController
             true,
             'Google login successful.',
             [
-                'token' => $jwtManager->create($user),
+                'token' => $appToken,
                 'user' => [
                     'email' => $user->getEmail(),
                     'name' => trim($user->getFirstName().' '.$user->getLastName()),
