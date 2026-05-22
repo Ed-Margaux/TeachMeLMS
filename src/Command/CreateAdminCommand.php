@@ -45,9 +45,13 @@ class CreateAdminCommand extends Command
             $io->info('Updating existing admin user...');
         }
 
-        // Always ensure admin role and active status
+        // Always ensure admin role and active status (no email-verification gate)
         $user->setStatus('active');
         $user->setRoles(['ROLE_ADMIN']);
+        $user->setIsEmailVerified(true);
+        $user->setEmailVerifiedAt(new \DateTimeImmutable());
+        $user->setEmailVerificationToken(null);
+        $user->setEmailVerificationTokenExpiresAt(null);
 
         // Hash and set password
         $hashedPassword = $this->passwordHasher->hashPassword($user, $password);
