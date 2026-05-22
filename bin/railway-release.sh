@@ -14,7 +14,19 @@ user_table_exists() {
 
 if user_table_exists; then
     echo '[railway-release] user table found — running migrations.'
-    php bin/console doctrine:migrations:migrate --no-interaction
+    php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration
+
+    echo '[railway-release] Validating schema against entities...'
+    if ! php bin/console doctrine:schema:validate --no-interaction; then
+        echo '[railway-release] Schema drift detected — updating database to match entities.'
+        php bin/console doctrine:schema:update --force --complete --no-interaction
+    fi
+
+    echo '[railway-release] Ensuring default admin user (marga@test.com)...'
+    php bin/console app:create-admin --no-interaction
+
+    echo '[railway-release] ORM smoke test...'
+    php bin/console doctrine:query:sql "SELECT COUNT(*) FROM \`user\`" --no-interaction
 
     exit 0
 fi

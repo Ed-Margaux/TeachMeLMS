@@ -7,11 +7,17 @@ cd "$(dirname "$0")/.."
 # OAuth keys empty; write .env.prod.local so Dotenv picks them up in prod.
 : > .env.prod.local
 
+_redirect_uri="${GOOGLE_OAUTH_REDIRECT_URI:-https://teachmelms-production.up.railway.app/connect/google/check}"
+_public_url="${APP_PUBLIC_URL:-https://teachmelms-production.up.railway.app}"
+{
+    printf 'GOOGLE_OAUTH_REDIRECT_URI=%s\n' "$_redirect_uri"
+    printf 'APP_PUBLIC_URL=%s\n' "$_public_url"
+} >> .env.prod.local
+
 if [ -n "${GOOGLE_OAUTH_CLIENT_ID:-}" ]; then
     {
         printf 'GOOGLE_OAUTH_CLIENT_ID=%s\n' "$GOOGLE_OAUTH_CLIENT_ID"
         printf 'GOOGLE_OAUTH_CLIENT_SECRET=%s\n' "${GOOGLE_OAUTH_CLIENT_SECRET:-}"
-        printf 'GOOGLE_OAUTH_REDIRECT_URI=%s\n' "${GOOGLE_OAUTH_REDIRECT_URI:-https://teachmelms-production.up.railway.app/connect/google/check}"
     } >> .env.prod.local
     echo "[railway-start] OAuth env written to .env.prod.local (client id length: ${#GOOGLE_OAUTH_CLIENT_ID})"
 else
@@ -19,21 +25,19 @@ else
     echo "[railway-start] Add GOOGLE_OAUTH_* on the TeachMeLMS web service in Railway, then redeploy." >&2
 fi
 
-# Database: Railway MySQL plugin exposes MYSQL_URL; web service must reference it as DATABASE_URL.
-DB_URL="${DATABASE_URL:-${MYSQL_URL:-${MYSQL_PUBLIC_URL:-}}}"
-if [ -n "$DB_URL" ]; then
-    printf 'DATABASE_URL=%s\n' "$DB_URL" >> .env.prod.local
-    echo "[railway-start] DATABASE_URL written to .env.prod.local"
-else
-    echo "[railway-start] WARNING: DATABASE_URL / MYSQL_URL not set — app will fail DB requests (500)." >&2
-    echo "[railway-start] On TeachMeLMS service add: DATABASE_URL=\${{MySQL.MYSQL_URL}} (reference your MySQL service)." >&2
-fi
-
 # PEM files are generated during build; Railway JWT_PUBLIC_KEY/JWT_SECRET_KEY vars break Lexik if set to raw key text.
 {
     echo 'JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem'
     echo 'JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem'
 } >> .env.prod.local
+
+# Committed .env points at localhost; Railway DATABASE_URL must override for prod.
+if [ -n "${DATABASE_URL:-}" ]; then
+    printf 'DATABASE_URL=%s\n' "$DATABASE_URL" >> .env.prod.local
+    echo "[railway-start] DATABASE_URL written to .env.prod.local"
+else
+    echo "[railway-start] WARNING: DATABASE_URL is not set — app will use .env (localhost) and DB routes will fail." >&2
+fi
 
 export APP_ENV=prod
 export APP_DEBUG=0

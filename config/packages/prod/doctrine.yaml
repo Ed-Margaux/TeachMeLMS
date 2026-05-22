@@ -1,0 +1,4 @@
+# Railway: avoid stale/missing ORM proxies after deploy (build no longer warms cache).
+doctrine:
+    orm:
+        auto_generate_proxy_classes: true

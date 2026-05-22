@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use App\Config\GoogleOAuthEnv;
 use App\Http\MobileApiResponse;
+use App\Repository\UserRepository;
 use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -16,7 +17,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class HealthApiController extends AbstractController
 {
     #[Route('/api/health', name: 'api_health', methods: ['GET', 'HEAD'])]
-    public function __invoke(Request $request, Connection $connection): JsonResponse
+    public function __invoke(Request $request, Connection $connection, UserRepository $userRepository): JsonResponse
     {
         $googleClientId = GoogleOAuthEnv::clientId();
         $envProdLocal = dirname(__DIR__, 3).'/.env.prod.local';
@@ -25,6 +26,8 @@ final class HealthApiController extends AbstractController
 
         $databaseReady = false;
         $databaseError = null;
+        $ormReady = false;
+        $ormError = null;
         try {
             $connection->executeQuery(
                 "SELECT 1 FROM information_schema.tables WHERE table_schema = DATABASE() AND table_name = 'user' LIMIT 1"
@@ -34,13 +37,37 @@ final class HealthApiController extends AbstractController
             $databaseError = $e->getMessage();
         }
 
+        if ($databaseReady) {
+            try {
+                $userRepository->createQueryBuilder('u')
+                    ->select('u.id')
+                    ->setMaxResults(1)
+                    ->getQuery()
+                    ->getOneOrResult();
+                $ormReady = true;
+            } catch (\Throwable $e) {
+                $ormError = $e->getMessage();
+            }
+        }
+
+        $databaseUrl = $_ENV['DATABASE_URL'] ?? $_SERVER['DATABASE_URL'] ?? getenv('DATABASE_URL') ?: '';
+        $databaseHost = '';
+        if (is_string($databaseUrl) && $databaseUrl !== '') {
+            $parts = parse_url($databaseUrl);
+            $databaseHost = is_array($parts) ? (string) ($parts['host'] ?? '') : '';
+        }
+
         $data = [
             'status' => 'ok',
             'time' => (new \DateTimeImmutable('now', new \DateTimeZone('UTC')))->format(DATE_ATOM),
             'google_oauth_configured' => $googleClientId !== '',
             'google_oauth_login_button' => $googleClientId !== '',
+            'google_oauth_redirect_uri' => GoogleOAuthEnv::redirectUri(),
             'google_oauth_env_prod_local' => $fileHasGoogle,
             'database_ready' => $databaseReady,
+            'orm_ready' => $ormReady,
+            'database_host' => $databaseHost,
+            'database_looks_local' => in_array($databaseHost, ['127.0.0.1', 'localhost', '::1'], true),
             'railway_runtime' => isset($_ENV['RAILWAY_ENVIRONMENT']) || isset($_SERVER['RAILWAY_ENVIRONMENT']),
         ];
 
@@ -48,13 +75,8 @@ final class HealthApiController extends AbstractController
             if ($databaseError !== null) {
                 $data['database_error'] = $databaseError;
             }
-            $dbUrl = $_ENV['DATABASE_URL'] ?? $_SERVER['DATABASE_URL'] ?? getenv('DATABASE_URL') ?: '';
-            if (\is_string($dbUrl) && $dbUrl !== '') {
-                $parts = parse_url($dbUrl);
-                $data['database_host'] = $parts['host'] ?? '(unknown)';
-                $data['database_looks_local'] = in_array($parts['host'] ?? '', ['127.0.0.1', 'localhost'], true);
-            } else {
-                $data['database_host'] = '(DATABASE_URL not set)';
+            if ($ormError !== null) {
+                $data['orm_error'] = $ormError;
             }
         }
 
