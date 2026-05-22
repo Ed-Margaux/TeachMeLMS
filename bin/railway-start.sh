@@ -28,6 +28,20 @@ fi
 export APP_ENV=prod
 export APP_DEBUG=0
 
+# Load OAuth into the shell so cache warmup inlines real client_id for HWI (not empty from .env).
+if [ -f .env.prod.local ]; then
+    set -a
+    # shellcheck disable=SC1091
+    . ./.env.prod.local
+    set +a
+fi
+
+if [ -z "${GOOGLE_OAUTH_CLIENT_ID:-}" ]; then
+    echo "[railway-start] WARNING: GOOGLE_OAUTH_CLIENT_ID still empty after .env.prod.local — Google redirect will fail." >&2
+else
+    echo "[railway-start] GOOGLE_OAUTH_CLIENT_ID available for cache warmup (length: ${#GOOGLE_OAUTH_CLIENT_ID})"
+fi
+
 php bin/console cache:clear --no-interaction
 php bin/console cache:warmup --no-interaction
 

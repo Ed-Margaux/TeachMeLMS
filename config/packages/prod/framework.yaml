@@ -1,4 +1,8 @@
-# Railway / reverse proxy: generate https URLs for OAuth redirects.
+# Railway / reverse proxy: HTTPS URLs, session cookies, and CSRF origin checks.
 framework:
-    trusted_proxies: 'REMOTE_ADDR'
+    trusted_proxies: 'private_ranges'
     trusted_headers: ['x-forwarded-for', 'x-forwarded-host', 'x-forwarded-proto', 'x-forwarded-port']
+    session:
+        cookie_secure: true
+        cookie_samesite: lax
+        save_path: '%kernel.project_dir%/var/sessions'

@@ -7,4 +7,6 @@ framework:
     csrf_protection:
         stateless_token_ids:
             - submit
-            # authenticate and logout use stateful (session-based) CSRF tokens for better security
+            # Login on Railway: session cookies are unreliable behind php -S; use cookie-based CSRF.
+            - authenticate
+            - logout
