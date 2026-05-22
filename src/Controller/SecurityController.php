@@ -24,7 +24,15 @@ class SecurityController extends AbstractController
         return $this->render('security/login.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
+            'google_oauth_client_id' => $this->resolveGoogleOAuthClientId(),
         ]);
+    }
+
+    private function resolveGoogleOAuthClientId(): string
+    {
+        $id = $_ENV['GOOGLE_OAUTH_CLIENT_ID'] ?? $_SERVER['GOOGLE_OAUTH_CLIENT_ID'] ?? getenv('GOOGLE_OAUTH_CLIENT_ID');
+
+        return is_string($id) ? trim($id, " \t\n\r\0\x0B\"") : '';
     }
 
     #[Route(path: '/logout', name: 'app_logout')]
