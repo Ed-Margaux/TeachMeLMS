@@ -56,6 +56,14 @@ else
     echo "[railway-start] GOOGLE_OAUTH_CLIENT_ID available for cache warmup (length: ${#GOOGLE_OAUTH_CLIENT_ID})"
 fi
 
+# Keys are created at build with empty JWT_PASSPHRASE from .env; regenerate when Railway sets a passphrase.
+if [ -n "${JWT_PASSPHRASE:-}" ]; then
+    echo "[railway-start] Regenerating JWT keypair for configured JWT_PASSPHRASE..."
+    php bin/console lexik:jwt:generate-keypair --overwrite --no-interaction
+else
+    php bin/console lexik:jwt:generate-keypair --skip-if-exists --no-interaction
+fi
+
 php bin/console cache:clear --no-interaction
 php bin/console cache:warmup --no-interaction
 
