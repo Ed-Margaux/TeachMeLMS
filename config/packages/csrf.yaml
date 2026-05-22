@@ -1,12 +1,10 @@
-# Enable stateless CSRF protection for forms and logins/logouts
+# Stateless CSRF is for cacheable forms (submit). Login uses session CSRF (see prod session + index.php HTTPS).
 framework:
     form:
         csrf_protection:
             token_id: submit
 
     csrf_protection:
+        check_header: false
         stateless_token_ids:
             - submit
-            # Login on Railway: session cookies are unreliable behind php -S; use cookie-based CSRF.
-            - authenticate
-            - logout

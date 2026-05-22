@@ -1,4 +1,4 @@
-# Enable stateless CSRF protection for forms and logins/logouts
+# Login/register use classic session CSRF (_csrf_token); Turbo forms can use submit token id.
 framework:
     csrf_protection:
-        check_header: true
+        check_header: false

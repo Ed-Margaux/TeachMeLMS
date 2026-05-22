@@ -4,6 +4,16 @@ use App\Kernel;
 
 require_once dirname(__DIR__).'/vendor/autoload_runtime.php';
 
+// Railway / reverse proxy: PHP built-in server sees HTTP; Google OAuth needs https redirect_uri.
+if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
+    $forwardedProto = strtolower((string) $_SERVER['HTTP_X_FORWARDED_PROTO']);
+    if (str_contains($forwardedProto, 'https')) {
+        $_SERVER['HTTPS'] = 'on';
+        $_SERVER['SERVER_PORT'] = '443';
+        $_SERVER['REQUEST_SCHEME'] = 'https';
+    }
+}
+
 return function (array $context) {
     // Prefer real environment (Railway Variables, shell) over .env defaults in $context.
     $env = $_SERVER['APP_ENV'] ?? $_ENV['APP_ENV'] ?? $context['APP_ENV'] ?? 'prod';
