@@ -19,6 +19,16 @@ else
     echo "[railway-start] Add GOOGLE_OAUTH_* on the TeachMeLMS web service in Railway, then redeploy." >&2
 fi
 
+# Database: Railway MySQL plugin exposes MYSQL_URL; web service must reference it as DATABASE_URL.
+DB_URL="${DATABASE_URL:-${MYSQL_URL:-${MYSQL_PUBLIC_URL:-}}}"
+if [ -n "$DB_URL" ]; then
+    printf 'DATABASE_URL=%s\n' "$DB_URL" >> .env.prod.local
+    echo "[railway-start] DATABASE_URL written to .env.prod.local"
+else
+    echo "[railway-start] WARNING: DATABASE_URL / MYSQL_URL not set — app will fail DB requests (500)." >&2
+    echo "[railway-start] On TeachMeLMS service add: DATABASE_URL=\${{MySQL.MYSQL_URL}} (reference your MySQL service)." >&2
+fi
+
 # PEM files are generated during build; Railway JWT_PUBLIC_KEY/JWT_SECRET_KEY vars break Lexik if set to raw key text.
 {
     echo 'JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem'

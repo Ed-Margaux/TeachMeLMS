@@ -44,8 +44,18 @@ final class HealthApiController extends AbstractController
             'railway_runtime' => isset($_ENV['RAILWAY_ENVIRONMENT']) || isset($_SERVER['RAILWAY_ENVIRONMENT']),
         ];
 
-        if ($request->query->getBoolean('debug') && $databaseError !== null) {
-            $data['database_error'] = $databaseError;
+        if ($request->query->getBoolean('debug')) {
+            if ($databaseError !== null) {
+                $data['database_error'] = $databaseError;
+            }
+            $dbUrl = $_ENV['DATABASE_URL'] ?? $_SERVER['DATABASE_URL'] ?? getenv('DATABASE_URL') ?: '';
+            if (\is_string($dbUrl) && $dbUrl !== '') {
+                $parts = parse_url($dbUrl);
+                $data['database_host'] = $parts['host'] ?? '(unknown)';
+                $data['database_looks_local'] = in_array($parts['host'] ?? '', ['127.0.0.1', 'localhost'], true);
+            } else {
+                $data['database_host'] = '(DATABASE_URL not set)';
+            }
         }
 
         return MobileApiResponse::json(
