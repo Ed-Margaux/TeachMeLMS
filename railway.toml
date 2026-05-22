@@ -3,9 +3,9 @@
 
 [build]
 # Force prod during install so post-install scripts do not assume dev.
-buildCommand = "APP_ENV=prod APP_DEBUG=0 composer install --no-dev --optimize-autoloader --no-interaction && APP_ENV=prod APP_DEBUG=0 php bin/console asset-map:compile"
+buildCommand = "APP_ENV=prod APP_DEBUG=0 composer install --no-dev --optimize-autoloader --no-interaction && APP_ENV=prod APP_DEBUG=0 php bin/console asset-map:compile --no-interaction && APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear --no-interaction && APP_ENV=prod APP_DEBUG=0 php bin/console cache:warmup --no-interaction && test -f public/assets/manifest.json"
 
 [deploy]
-# Force prod at runtime (.env defaults to APP_ENV=dev if Railway vars are missing).
-startCommand = "APP_ENV=prod APP_DEBUG=0 php -S 0.0.0.0:$PORT -t public public/index.php"
+# router.php serves /assets/* CSS/JS as static files; other URLs go to Symfony.
+startCommand = "APP_ENV=prod APP_DEBUG=0 php -S 0.0.0.0:$PORT -t public public/router.php"
 releaseCommand = "APP_ENV=prod APP_DEBUG=0 php bin/console doctrine:migrations:migrate --no-interaction"
