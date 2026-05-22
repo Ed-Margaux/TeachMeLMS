@@ -13,7 +13,7 @@ return function (array $context) {
     );
 
     // Railway/production: composer install --no-dev does not ship DebugBundle.
-    if ('dev' === $env && !class_exists(\Symfony\Bundle\DebugBundle\DebugBundle::class, false)) {
+    if ('dev' === $env && !class_exists(\Symfony\Bundle\DebugBundle\DebugBundle::class)) {
         $env = 'prod';
         $debug = false;
     }
