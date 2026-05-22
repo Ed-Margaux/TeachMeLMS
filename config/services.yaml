@@ -7,6 +7,8 @@ parameters:
     # Raw HTML for embedded third-party form (e.g. Google Forms iframe). Falls back to legacy BREVO_FORM_EMBED.
     app.contact_form_embed_legacy: '%env(default::BREVO_FORM_EMBED)%'
     app.contact_form_embed: '%env(default:app.contact_form_embed_legacy:CONTACT_FORM_EMBED)%'
+    google_oauth_client_id: '%env(default::GOOGLE_OAUTH_CLIENT_ID)%'
+    google_oauth_client_secret: '%env(default::GOOGLE_OAUTH_CLIENT_SECRET)%'
 
 services:
     # default configuration for services in *this* file
@@ -33,4 +35,4 @@ services:
 
     App\Service\GoogleIdentityTokenVerifier:
         arguments:
-            $googleOAuthClientId: '%env(GOOGLE_OAUTH_CLIENT_ID)%'
+            $googleOAuthClientId: '%google_oauth_client_id%'

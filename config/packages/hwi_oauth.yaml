@@ -4,6 +4,6 @@ hwi_oauth:
     resource_owners:
         google:
             type: google
-            client_id: '%env(GOOGLE_OAUTH_CLIENT_ID)%'
-            client_secret: '%env(GOOGLE_OAUTH_CLIENT_SECRET)%'
+            client_id: '%google_oauth_client_id%'
+            client_secret: '%google_oauth_client_secret%'
             scope: "email profile"
