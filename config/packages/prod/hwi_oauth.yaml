@@ -1,6 +1,0 @@
-# Must match Google Cloud Console → Authorized redirect URIs exactly (character for character).
-hwi_oauth:
-    resource_owners:
-        google:
-            options:
-                redirect_uri: '%env(GOOGLE_OAUTH_REDIRECT_URI)%'
