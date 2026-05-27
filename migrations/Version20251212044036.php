@@ -19,6 +19,13 @@ final class Version20251212044036 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
+        // Fresh database (e.g. new Railway MySQL): no legacy tables — use doctrine:schema:create instead.
+        if (!$this->connection->createSchemaManager()->tablesExist(['user'])) {
+            $this->write('Skipping: fresh database (no legacy schema). Run doctrine:schema:create, then migrations:version --add --all.');
+
+            return;
+        }
+
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE session DROP FOREIGN KEY FK_D044D5D4208F64F1');
         $this->addSql('ALTER TABLE session DROP FOREIGN KEY FK_D044D5D4CB944F1A');

@@ -6,9 +6,8 @@ hwi_oauth_connect:
     resource: "@HWIOAuthBundle/Resources/config/routing/connect.php"
     prefix:   /connect
 
-hwi_oauth_login:
-    resource: "@HWIOAuthBundle/Resources/config/routing/login.php"
-    prefix:   /login
+# Do not mount login.php at /login/ — it replaces the real sign-in page (app_login at /login).
+# Google sign-in uses hwi_oauth_service_redirect → /connect/google
 
 # Callback URL registered in Google Cloud Console (handled by the oauth firewall authenticator)
 hwi_oauth_google_check:

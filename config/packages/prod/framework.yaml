@@ -1,0 +1,10 @@
+# Railway / reverse proxy: HTTPS URLs, session cookies, and CSRF origin checks.
+framework:
+    # Railway edge proxy IP varies; trust forwarded proto/host for https URL generation.
+    trusted_proxies: '0.0.0.0/0'
+    trusted_headers: ['x-forwarded-for', 'x-forwarded-host', 'x-forwarded-proto', 'x-forwarded-port']
+    session:
+        cookie_secure: auto
+        cookie_samesite: lax
+        save_path: '%kernel.project_dir%/var/sessions'
+        cookie_lifetime: 0

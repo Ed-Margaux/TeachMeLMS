@@ -1,0 +1,5 @@
+# Nixpacks reads ext-* from composer.json; this pins the public docroot for Symfony.
+# https://nixpacks.com/docs/providers/php
+
+[variables]
+NIXPACKS_PHP_ROOT_DIR = "/app/public"

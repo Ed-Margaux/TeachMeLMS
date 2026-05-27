@@ -1,0 +1,4 @@
+# Ensure OAuth URLs use HTTPS + the public Railway host (not http:// from php -S).
+framework:
+    router:
+        default_uri: '%env(APP_PUBLIC_URL)%'

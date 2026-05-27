@@ -23,45 +23,67 @@ class ApiLoginController extends AbstractController
         JWTTokenManagerInterface $jwtManager
     ): JsonResponse
     {
-        $data = json_decode($request->getContent(), true);
+        try {
+            $data = json_decode($request->getContent(), true);
 
-        if (!is_array($data) || empty($data['email']) || empty($data['password'])) {
+            if (!is_array($data) || empty($data['email']) || empty($data['password'])) {
+                return MobileApiResponse::json(
+                    false,
+                    'Email and password are required.',
+                    null,
+                    ['email' => 'required', 'password' => 'required'],
+                    JsonResponse::HTTP_BAD_REQUEST
+                );
+            }
+
+            $user = $userRepository->findOneBy(['email' => $data['email']]);
+            if (!$user || !$passwordHasher->isPasswordValid($user, $data['password'])) {
+                return MobileApiResponse::json(
+                    false,
+                    'Invalid credentials.',
+                    null,
+                    ['credentials' => 'invalid'],
+                    JsonResponse::HTTP_UNAUTHORIZED
+                );
+            }
+
+            try {
+                $appToken = $jwtManager->create($user);
+            } catch (\Throwable $e) {
+                return MobileApiResponse::json(
+                    false,
+                    'Server could not create a login session (JWT keys). Run: php bin/console lexik:jwt:generate-keypair --overwrite',
+                    null,
+                    ['jwt' => $e->getMessage()],
+                    JsonResponse::HTTP_INTERNAL_SERVER_ERROR
+                );
+            }
+
             return MobileApiResponse::json(
-                false,
-                'Email and password are required.',
-                null,
-                ['email' => 'required', 'password' => 'required'],
-                JsonResponse::HTTP_BAD_REQUEST
-            );
-        }
-
-        $user = $userRepository->findOneBy(['email' => $data['email']]);
-        if (!$user || !$passwordHasher->isPasswordValid($user, $data['password'])) {
-            return MobileApiResponse::json(
-                false,
-                'Invalid credentials.',
-                null,
-                ['credentials' => 'invalid'],
-                JsonResponse::HTTP_UNAUTHORIZED
-            );
-        }
-
-        return MobileApiResponse::json(
-            true,
-            'Login successful.',
-            [
-                'token' => $jwtManager->create($user),
-                'user' => [
-                    'email' => $user->getEmail(),
-                    'firstName' => $user->getFirstName(),
-                    'lastName' => $user->getLastName(),
-                    'name' => trim($user->getFirstName().' '.$user->getLastName()),
-                    'roles' => $user->getRoles(),
-                    'verified' => $user->isEmailVerified(),
+                true,
+                'Login successful.',
+                [
+                    'token' => $appToken,
+                    'user' => [
+                        'email' => $user->getEmail(),
+                        'firstName' => $user->getFirstName(),
+                        'lastName' => $user->getLastName(),
+                        'name' => trim($user->getFirstName().' '.$user->getLastName()),
+                        'roles' => $user->getRoles(),
+                        'verified' => $user->isEmailVerified(),
+                    ],
                 ],
-            ],
-            []
-        );
+                []
+            );
+        } catch (\Throwable $e) {
+            return MobileApiResponse::json(
+                false,
+                'Database error while loading user. Run migrations on Railway (release phase) or check /api/health?debug=1.',
+                null,
+                ['database' => $e->getMessage()],
+                JsonResponse::HTTP_INTERNAL_SERVER_ERROR
+            );
+        }
     }
 
     #[Route('/api/login/google', name: 'api_login_google', methods: ['POST'])]
@@ -106,12 +128,30 @@ class ApiLoginController extends AbstractController
                 JsonResponse::HTTP_BAD_REQUEST
             );
         } catch (\Throwable $e) {
+            $detail = $e->getMessage();
+            $message = str_contains($detail, 'encode the JWT token') ||
+                str_contains($detail, 'private key')
+                ? 'Server could not create a login session (JWT keys). Run: php bin/console lexik:jwt:generate-keypair --overwrite'
+                : 'Failed to verify Google sign-in.';
+
             return MobileApiResponse::json(
                 false,
-                'Failed to verify Google sign-in.',
+                $message,
                 null,
-                ['google' => $e->getMessage()],
+                ['google' => $detail],
                 JsonResponse::HTTP_BAD_REQUEST
+            );
+        }
+
+        try {
+            $appToken = $jwtManager->create($user);
+        } catch (\Throwable $e) {
+            return MobileApiResponse::json(
+                false,
+                'Server could not create a login session (JWT keys). Run: php bin/console lexik:jwt:generate-keypair --overwrite',
+                null,
+                ['jwt' => $e->getMessage()],
+                JsonResponse::HTTP_INTERNAL_SERVER_ERROR
             );
         }
 
@@ -119,7 +159,7 @@ class ApiLoginController extends AbstractController
             true,
             'Google login successful.',
             [
-                'token' => $jwtManager->create($user),
+                'token' => $appToken,
                 'user' => [
                     'email' => $user->getEmail(),
                     'name' => trim($user->getFirstName().' '.$user->getLastName()),

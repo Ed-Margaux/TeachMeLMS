@@ -2,18 +2,26 @@
 
 namespace App\Controller;
 
+use App\Config\GoogleOAuthEnv;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    #[Route(path: '/login', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    #[Route(path: ['/login', '/login/'], name: 'app_login')]
+    public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
             return $this->redirectToRoute('app_admin_dashboard');
+        }
+
+        // Ensure session exists before rendering CSRF field (required for form_login on Railway).
+        $session = $request->getSession();
+        if (!$session->isStarted()) {
+            $session->start();
         }
 
         // get the login error if there is one
@@ -24,6 +32,7 @@ class SecurityController extends AbstractController
         return $this->render('security/login.html.twig', [
             'last_username' => $lastUsername,
             'error' => $error,
+            'google_oauth_client_id' => GoogleOAuthEnv::clientId(),
         ]);
     }
 

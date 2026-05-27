@@ -1,10 +1,10 @@
-# Enable stateless CSRF protection for forms and logins/logouts
+# Stateless CSRF is for cacheable forms (submit). Login uses session CSRF (see prod session + index.php HTTPS).
 framework:
     form:
         csrf_protection:
             token_id: submit
 
     csrf_protection:
+        check_header: false
         stateless_token_ids:
             - submit
-            # authenticate and logout use stateful (session-based) CSRF tokens for better security
