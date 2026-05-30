@@ -29,6 +29,11 @@ fi
 {
     echo 'JWT_SECRET_KEY=%kernel.project_dir%/config/jwt/private.pem'
     echo 'JWT_PUBLIC_KEY=%kernel.project_dir%/config/jwt/public.pem'
+    if [ -n "${JWT_PASSPHRASE:-}" ]; then
+        printf 'JWT_PASSPHRASE=%s\n' "$JWT_PASSPHRASE"
+    else
+        echo 'JWT_PASSPHRASE='
+    fi
 } >> .env.prod.local
 
 # Committed .env points at localhost; Railway DATABASE_URL must override for prod.
@@ -41,6 +46,9 @@ fi
 
 export APP_ENV=prod
 export APP_DEBUG=0
+
+# Railway Variables may set JWT_* to raw PEM text — that overrides .env.prod.local and breaks Lexik file keys.
+unset JWT_SECRET_KEY JWT_PUBLIC_KEY JWT_PASSPHRASE 2>/dev/null || true
 
 # Load OAuth into the shell so cache warmup inlines real client_id for HWI (not empty from .env).
 if [ -f .env.prod.local ]; then
@@ -56,13 +64,15 @@ else
     echo "[railway-start] GOOGLE_OAUTH_CLIENT_ID available for cache warmup (length: ${#GOOGLE_OAUTH_CLIENT_ID})"
 fi
 
-# Keys are created at build with empty JWT_PASSPHRASE from .env; regenerate when Railway sets a passphrase.
-if [ -n "${JWT_PASSPHRASE:-}" ]; then
-    echo "[railway-start] Regenerating JWT keypair for configured JWT_PASSPHRASE..."
-    php bin/console lexik:jwt:generate-keypair --overwrite --no-interaction
-else
-    php bin/console lexik:jwt:generate-keypair --skip-if-exists --no-interaction
+# Always regenerate JWT keys on boot so passphrase + file paths stay in sync (SSH/manual keys often mismatch).
+mkdir -p config/jwt
+echo "[railway-start] Generating JWT keypair..."
+php bin/console lexik:jwt:generate-keypair --overwrite --no-interaction
+if [ ! -f config/jwt/private.pem ] || [ ! -f config/jwt/public.pem ]; then
+    echo "[railway-start] ERROR: JWT key files missing after generate-keypair." >&2
+    exit 1
 fi
+echo "[railway-start] JWT keys OK (config/jwt/private.pem, public.pem)"
 
 php bin/console cache:clear --no-interaction
 php bin/console cache:warmup --no-interaction

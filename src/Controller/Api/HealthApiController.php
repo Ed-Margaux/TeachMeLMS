@@ -16,6 +16,11 @@ use Symfony\Component\Routing\Attribute\Route;
  */
 final class HealthApiController extends AbstractController
 {
+    public function __construct(
+        private readonly int $websocketPort,
+    ) {
+    }
+
     #[Route('/api/health', name: 'api_health', methods: ['GET', 'HEAD'])]
     public function __invoke(Request $request, Connection $connection, UserRepository $userRepository): JsonResponse
     {
@@ -43,7 +48,7 @@ final class HealthApiController extends AbstractController
                     ->select('u.id')
                     ->setMaxResults(1)
                     ->getQuery()
-                    ->getOneOrResult();
+                    ->getOneOrNullResult();
                 $ormReady = true;
             } catch (\Throwable $e) {
                 $ormError = $e->getMessage();
@@ -57,6 +62,10 @@ final class HealthApiController extends AbstractController
             $databaseHost = is_array($parts) ? (string) ($parts['host'] ?? '') : '';
         }
 
+        $jwtPrivatePath = $this->getParameter('kernel.project_dir').'/config/jwt/private.pem';
+        $jwtPublicPath = $this->getParameter('kernel.project_dir').'/config/jwt/public.pem';
+        $jwtKeysExist = is_readable($jwtPrivatePath) && is_readable($jwtPublicPath);
+
         $data = [
             'status' => 'ok',
             'time' => (new \DateTimeImmutable('now', new \DateTimeZone('UTC')))->format(DATE_ATOM),
@@ -66,9 +75,12 @@ final class HealthApiController extends AbstractController
             'google_oauth_env_prod_local' => $fileHasGoogle,
             'database_ready' => $databaseReady,
             'orm_ready' => $ormReady,
+            'jwt_keys_ready' => $jwtKeysExist,
             'database_host' => $databaseHost,
             'database_looks_local' => in_array($databaseHost, ['127.0.0.1', 'localhost', '::1'], true),
             'railway_runtime' => isset($_ENV['RAILWAY_ENVIRONMENT']) || isset($_SERVER['RAILWAY_ENVIRONMENT']),
+            'websocket_port' => $this->websocketPort,
+            'websocket_discovery' => '/api/ws',
         ];
 
         if ($request->query->getBoolean('debug')) {
@@ -78,6 +90,8 @@ final class HealthApiController extends AbstractController
             if ($ormError !== null) {
                 $data['orm_error'] = $ormError;
             }
+            $data['jwt_private_readable'] = is_readable($jwtPrivatePath);
+            $data['jwt_public_readable'] = is_readable($jwtPublicPath);
         }
 
         return MobileApiResponse::json(
