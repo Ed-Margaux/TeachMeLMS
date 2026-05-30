@@ -5,7 +5,7 @@
 # Force prod during install so post-install scripts do not assume dev.
 # Do not cache:warmup at build — OAuth vars are not available yet; railway-start warms after writing .env.prod.local.
 # No cache:clear at build — prod routing needs APP_PUBLIC_URL; real values come from .env.prod.local at start.
-buildCommand = "APP_ENV=prod APP_DEBUG=0 composer install --no-dev --optimize-autoloader --no-interaction && mkdir -p var/cache var/log var/sessions config/jwt && APP_ENV=prod APP_DEBUG=0 php bin/console lexik:jwt:generate-keypair --skip-if-exists --no-interaction && APP_ENV=prod APP_DEBUG=0 php bin/console asset-map:compile --no-interaction && test -f public/assets/manifest.json"
+buildCommand = "APP_ENV=prod APP_DEBUG=0 composer install --no-dev --optimize-autoloader --no-interaction && mkdir -p var/cache var/log var/sessions config/jwt && APP_ENV=prod APP_DEBUG=0 JWT_PASSPHRASE= php bin/console lexik:jwt:generate-keypair --overwrite --no-interaction && APP_ENV=prod APP_DEBUG=0 php bin/console asset-map:compile --no-interaction && test -f public/assets/manifest.json"
 
 [deploy]
 # Rebuild prod cache at start so Railway Variables (OAuth, etc.) are visible — build-time warmup may run before they exist.
