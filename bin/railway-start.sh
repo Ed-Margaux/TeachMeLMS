@@ -64,15 +64,17 @@ else
     echo "[railway-start] GOOGLE_OAUTH_CLIENT_ID available for cache warmup (length: ${#GOOGLE_OAUTH_CLIENT_ID})"
 fi
 
-# Always regenerate JWT keys on boot so passphrase + file paths stay in sync (SSH/manual keys often mismatch).
+# Use committed config/jwt/*.pem (empty JWT_PASSPHRASE). Regenerate only if missing.
 mkdir -p config/jwt
-echo "[railway-start] Generating JWT keypair..."
-php bin/console lexik:jwt:generate-keypair --overwrite --no-interaction
 if [ ! -f config/jwt/private.pem ] || [ ! -f config/jwt/public.pem ]; then
-    echo "[railway-start] ERROR: JWT key files missing after generate-keypair." >&2
+    echo "[railway-start] JWT keys missing — generating..."
+    php bin/console lexik:jwt:generate-keypair --overwrite --no-interaction
+fi
+if [ ! -f config/jwt/private.pem ] || [ ! -f config/jwt/public.pem ]; then
+    echo "[railway-start] ERROR: JWT key files missing." >&2
     exit 1
 fi
-echo "[railway-start] JWT keys OK (config/jwt/private.pem, public.pem)"
+echo "[railway-start] JWT keys OK"
 
 php bin/console cache:clear --no-interaction
 php bin/console cache:warmup --no-interaction
